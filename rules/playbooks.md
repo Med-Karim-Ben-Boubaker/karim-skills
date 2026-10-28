@@ -17,3 +17,18 @@ Every task runs in exactly one playbook. Before any other work, name it in one l
 | authoring-a-skill | Writing or changing a skill, agent, rule, AGENTS.md, or CLAUDE.md |
 
 If none fits, say so and use the closest one. If the task changes type midway (an investigation turns into a fix), finish the current playbook's reply, then name the next one. Conversation with no work to do (a quick fact, a yes/no) needs no playbook.
+
+## Delegation
+
+You are the lead; there is no separate orchestrator. You run the playbook, decide, and judge. Each action goes to a subagent, and only these three, all on Haiku:
+
+| Action | Agent |
+|---|---|
+| Search, read, trace, gather facts | `explorer` |
+| Write or change code, merge a branch | `implementer`, in its own worktree |
+| Check work independently: a review lane, a synthesis, a design option | `reviewer` |
+
+- Brief each one with pointers (paths, ticket, spec), the step's *Done when*, and the report format.
+- Spawn independent agents in one message so they run in parallel.
+- Read the diff or evidence yourself before marking a step done. A subagent's "done" is a claim, not evidence.
+- Never spawn an agent to run a whole playbook. Act yourself only when the action is a few tool calls.

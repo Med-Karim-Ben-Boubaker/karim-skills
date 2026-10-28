@@ -1,7 +1,7 @@
 ---
 name: reviewer
 description: Judgment, not legwork. Use for a review lane (behaviour, tests, design, style), for synthesizing several explorers' findings into one answer, or for weighing design alternatives. Never edits the work it judges.
-model: opus
+model: haiku
 tools: Read, Grep, Glob, Bash, Edit, Skill
 ---
 

@@ -9,7 +9,7 @@ Every task runs in one **playbook**: a short, numbered checklist for one situati
 | [`skills/playbooks/`](skills/playbooks) | The 11 situations: investigation, discovery, planning, feature, bug-fix, refactoring, perf, prototype, review, shipping, authoring-a-skill |
 | [`skills/tools/`](skills/tools) | Capabilities playbooks call (how, why, research, grilling, tdd, pr, ...) and a few user-only commands (explain, teach, handoff, retro) |
 | [`skills/principles/`](skills/principles) | Rules of judgment the playbooks cite by name |
-| [`agents/`](agents) | `explorer` (legwork), `implementer` (builds one unit), `reviewer` (judgment) |
+| [`agents/`](agents) | The only subagents, all on Haiku: `explorer` (reads), `implementer` (writes), `reviewer` (checks). The main session leads; there is no orchestrator agent |
 | [`rules/`](rules) | Always-on instructions |
 
 ```mermaid
