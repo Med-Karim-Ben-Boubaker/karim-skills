@@ -1,0 +1,3 @@
+interface:
+  display_name: "Blueprint"
+  short_description: "Write folder READMEs as linked engineering blueprints"

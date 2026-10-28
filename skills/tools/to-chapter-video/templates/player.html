@@ -1,0 +1,240 @@
+<title>__TITLE__</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a viewing desk. Player and transcript on the left, the chapter rail on the right; one column on phones. */
+:root {
+  --bg: #F4F5F1;
+  --surface: #FBFBF8;
+  --ink: #17201C;
+  --muted: #5B6862;
+  --rule: #D9DED9;
+  --accent: #1F6B52;
+  --accent-soft: #E3EFE9;
+  --warn: #9A4512;
+  --stage: #101614;
+  --f-display: "Source Serif 4", Georgia, serif;
+  --f-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111614; --surface: #18201C; --ink: #E4EAE6; --muted: #9AA8A1; --rule: #2B3530;
+    --accent: #6CC59A; --accent-soft: #1E3329; --warn: #E9A27C; --stage: #050807; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111614; --surface: #18201C; --ink: #E4EAE6; --muted: #9AA8A1; --rule: #2B3530;
+  --accent: #6CC59A; --accent-soft: #1E3329; --warn: #E9A27C; --stage: #050807; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font: 15px/1.55 var(--f-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 56px;
+}
+.wrap { max-width: 1340px; margin: 0 auto; display: grid; gap: 22px; }
+header { display: grid; gap: 6px; }
+.eyebrow { font: 500 12px/1.2 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+h1 { font: 600 clamp(26px, 4vw, 38px)/1.1 var(--f-display); margin: 0; text-wrap: balance; }
+.meta { color: var(--muted); margin: 0; max-width: 72ch; }
+.desk { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 24px; align-items: start; }
+@media (max-width: 980px) { .desk { grid-template-columns: minmax(0, 1fr); } }
+.main { display: grid; gap: 14px; min-width: 0; }
+.stage { background: var(--stage); border-radius: 10px; overflow: hidden; aspect-ratio: 16 / 9; max-width: 100%; }
+video { display: block; width: 100%; height: 100%; background: var(--stage); }
+.now { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+.now .titles { flex: 1 1 320px; min-width: 0; }
+.kicker { font: 500 12px/1.2 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h2 { font: 600 24px/1.2 var(--f-display); margin: 2px 0 0; text-wrap: balance; }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+button, select { font: 500 13px/1 var(--f-body); color: var(--ink); background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 8px 12px; cursor: pointer; }
+button:hover, select:hover { border-color: var(--accent); }
+button:focus-visible, select:focus-visible, label:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+button:disabled { opacity: .45; cursor: default; }
+label.toggle { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; color: var(--muted); cursor: pointer; border-radius: 6px; padding: 4px; }
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; }
+.transcript { display: grid; }
+.transcript .head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--rule); }
+.transcript .head span { font: 500 12px var(--f-mono); color: var(--muted); }
+#cues { max-height: 260px; overflow-y: auto; padding: 8px; display: grid; gap: 2px; }
+.cue { text-align: left; background: transparent; border: 0; border-radius: 6px; padding: 7px 10px; font: 400 15px/1.5 var(--f-body); color: var(--muted); display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 10px; }
+.cue .t { font: 400 12px/1.9 var(--f-mono); font-variant-numeric: tabular-nums; color: var(--muted); }
+.cue.on { background: var(--accent-soft); color: var(--ink); }
+.cue:hover { color: var(--ink); }
+aside.rail { display: grid; gap: 14px; min-width: 0; }
+.group h3 { font: 500 12px/1.2 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; }
+.group ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.chap { width: 100%; display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 12px; align-items: center; text-align: left; padding: 6px; border-radius: 8px; background: var(--surface); }
+.chap img { width: 104px; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 5px; display: block; border: 1px solid var(--rule); }
+.chap .k { font: 500 11px/1.2 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); display: flex; gap: 8px; justify-content: space-between; }
+.chap .k .dur { font-variant-numeric: tabular-nums; }
+.chap .n { font: 500 14px/1.3 var(--f-body); color: var(--ink); margin-top: 3px; }
+.chap.cur { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.chap .done { color: var(--accent); font-weight: 600; }
+.foot { color: var(--muted); font-size: 13px; margin: 0; }
+@media (prefers-reduced-motion: reduce) { #cues { scroll-behavior: auto; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">__EYEBROW__</div>
+    <h1>__TITLE__</h1>
+    <p class="meta" id="meta">__META__</p>
+  </header>
+
+  <div class="desk">
+    <section class="main" aria-label="Player">
+      <div class="stage"><video id="v" controls playsinline preload="metadata"></video></div>
+      <div class="now">
+        <div class="titles">
+          <div class="kicker" id="kicker">Chapter 1</div>
+          <h2 id="title"></h2>
+        </div>
+        <div class="controls">
+          <button type="button" id="prev">Previous</button>
+          <button type="button" id="next">Next chapter</button>
+          <select id="speed" aria-label="Playback speed">
+            <option value="0.9">0.9×</option>
+            <option value="1" selected>1×</option>
+            <option value="1.25">1.25×</option>
+            <option value="1.5">1.5×</option>
+          </select>
+          <label class="toggle"><input type="checkbox" id="subs" checked> Subtitles</label>
+          <label class="toggle"><input type="checkbox" id="auto" checked> Play next</label>
+        </div>
+      </div>
+      <div class="panel transcript">
+        <div class="head"><strong>Transcript</strong><span>Select a line to jump there</span></div>
+        <div id="cues" role="list"></div>
+      </div>
+    </section>
+
+    <aside class="rail" id="rail" aria-label="Chapters"></aside>
+  </div>
+  <p class="foot">__FOOT__</p>
+</div>
+
+<script>
+const CH = __CHAPTERS__;
+const GROUPS = __GROUPS__;
+const $ = id => document.getElementById(id);
+const v = $("v");
+let cur = 0, lastSave = 0;
+
+const store = {
+  read() { try { return JSON.parse(localStorage.getItem("__STORE_KEY__") || "{}"); } catch (e) { return {}; } },
+  write(d) { try { localStorage.setItem("__STORE_KEY__", JSON.stringify(d)); } catch (e) {} },
+};
+let state = store.read();
+state.done = state.done || [];
+
+const mmss = s => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, "0")}`;
+const total = CH.reduce((a, c) => a + c.seconds, 0);
+$("meta").textContent = `${CH.length} chapters · ${Math.round(total / 60)} minutes. ` + $("meta").textContent.replace(/^15 chapters\. /, "");
+
+function renderRail() {
+  const rail = $("rail");
+  rail.textContent = "";
+  for (const [name, nums] of GROUPS) {
+    const g = document.createElement("div");
+    g.className = "group";
+    g.innerHTML = `<h3>${name}</h3>`;
+    const ol = document.createElement("ol");
+    for (const n of nums) {
+      const c = CH[n - 1];
+      const li = document.createElement("li");
+      const done = state.done.includes(c.id);
+      li.innerHTML = `<button type="button" class="chap${n - 1 === cur ? " cur" : ""}" data-i="${n - 1}" aria-current="${n - 1 === cur}">
+        <img src="media/${c.id}.jpg" alt="" loading="lazy">
+        <span><span class="k"><span>${n}. ${c.kicker}</span><span class="dur">${done ? '<span class="done">✓ </span>' : ""}${mmss(c.seconds)}</span></span>
+        <span class="n">${c.title}</span></span></button>`;
+      ol.appendChild(li);
+    }
+    g.appendChild(ol);
+    rail.appendChild(g);
+  }
+  rail.querySelectorAll(".chap").forEach(b => b.addEventListener("click", () => load(+b.dataset.i, { play: true })));
+}
+
+function renderCues() {
+  const box = $("cues");
+  box.textContent = "";
+  CH[cur].cues.forEach((c, k) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "cue";
+    b.setAttribute("role", "listitem");
+    b.dataset.k = k;
+    b.innerHTML = `<span class="t">${mmss(c.start)}</span><span></span>`;
+    b.lastChild.textContent = c.text;
+    b.addEventListener("click", () => { v.currentTime = c.start + 0.01; v.play().catch(() => {}); });
+    box.appendChild(b);
+  });
+  box.scrollTop = 0;
+}
+
+const subsTrack = v.addTextTrack("captions", "English", "en");
+function setTrack() {
+  for (const c of [...(subsTrack.cues || [])]) subsTrack.removeCue(c);
+  for (const c of CH[cur].cues) subsTrack.addCue(new VTTCue(c.start, c.end, c.text));
+  applySubs();
+}
+function applySubs() { subsTrack.mode = $("subs").checked ? "showing" : "hidden"; }
+
+function load(i, { play = false, at = 0 } = {}) {
+  cur = Math.max(0, Math.min(CH.length - 1, i));
+  const c = CH[cur];
+  v.src = `media/${c.id}.mp4`;
+  v.poster = `media/${c.id}.jpg`;
+  v.playbackRate = +$("speed").value;
+  setTrack();
+  $("kicker").textContent = `Chapter ${c.n} of ${CH.length} · ${c.kicker}`;
+  $("title").textContent = c.title;
+  $("prev").disabled = cur === 0;
+  $("next").disabled = cur === CH.length - 1;
+  renderCues();
+  renderRail();
+  try { history.replaceState(null, "", "#" + c.id); } catch (e) {}
+  if (at) v.addEventListener("loadedmetadata", () => { v.currentTime = at; }, { once: true });
+  if (play) v.play().catch(() => {});
+  state.last = { i: cur, t: at };
+  store.write(state);
+}
+
+v.addEventListener("ratechange", () => {});
+v.addEventListener("loadedmetadata", () => { v.playbackRate = +$("speed").value; });
+v.addEventListener("timeupdate", () => {
+  const t = v.currentTime, cues = CH[cur].cues;
+  const k = cues.findIndex(c => t >= c.start && t < c.end);
+  const box = $("cues");
+  box.querySelectorAll(".cue.on").forEach(e => { if (+e.dataset.k !== k) e.classList.remove("on"); });
+  if (k >= 0) {
+    const el = box.children[k];
+    if (el && !el.classList.contains("on")) {
+      el.classList.add("on");
+      const top = el.offsetTop - box.offsetTop - box.clientHeight / 3;
+      box.scrollTo({ top, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    }
+  }
+  if (Date.now() - lastSave > 3000) { lastSave = Date.now(); state.last = { i: cur, t }; store.write(state); }
+});
+v.addEventListener("ended", () => {
+  const id = CH[cur].id;
+  if (!state.done.includes(id)) state.done.push(id);
+  store.write(state);
+  if ($("auto").checked && cur < CH.length - 1) load(cur + 1, { play: true });
+  else renderRail();
+});
+$("prev").addEventListener("click", () => load(cur - 1, { play: true }));
+$("next").addEventListener("click", () => load(cur + 1, { play: true }));
+$("speed").addEventListener("change", () => { v.playbackRate = +$("speed").value; });
+$("subs").addEventListener("change", applySubs);
+
+const fromHash = CH.findIndex(c => "#" + c.id === location.hash);
+if (fromHash >= 0) load(fromHash);
+else if (state.last && Number.isInteger(state.last.i)) load(state.last.i, { at: state.last.t || 0 });
+else load(0);
+</script>
