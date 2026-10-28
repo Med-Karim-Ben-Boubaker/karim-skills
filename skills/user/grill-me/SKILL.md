@@ -5,4 +5,6 @@ argument-hint: "The plan, decision, or idea to grill"
 disable-model-invocation: true
 ---
 
-Call the Skill tool with "grilling" and follow it.
+Before the first round, read the repo's domain docs: `GLOSSARY.md` (or the one `GLOSSARY-MAP.md` points to) and the ADRs in `docs/adr/` that touch the topic. Ground every question in them, and flag where the plan contradicts a recorded decision.
+
+Then call the Skill tool with "grilling" and follow it. As each term or decision settles, call the Skill tool with "domain-modeling" to update `GLOSSARY.md`, or record a new ADR when the decision is hard to reverse.
