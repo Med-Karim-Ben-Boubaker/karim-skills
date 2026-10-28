@@ -6,7 +6,9 @@ user-invocable: false
 
 # Tickets
 
-A spec is just the **parent ticket**. Small work is one ticket; bigger work is a parent plus child tickets. The tracker is configured in `docs/agents/issue-tracker.md`; if not, call the Skill tool with "setup-repo" first. Use `GLOSSARY.md` terms and respect ADRs. No file paths or code snippets, except a prototype snippet that states a decision more precisely than prose.
+A spec is just the **parent ticket**. Small work is one ticket; bigger work is a parent plus child tickets. The tracker is configured in `docs/agents/issue-tracker.md`; if not, call the Skill tool with "setup-repo" first. Follow its labels and commands exactly. Use `GLOSSARY.md` terms and respect ADRs.
+
+**The repo's issue template wins.** Look for `.github/ISSUE_TEMPLATE/*.md` and `.gitlab/issue_templates/*.md` (`Default.md` first). If one exists, every ticket uses its headings exactly, in its order, with its comments followed as instructions and deleted. The references below are the fallback; for a parent ticket, add their sections that the repo template has no place for (user stories, decisions, seams) below the template's headings. No file paths or code snippets, except a prototype snippet that states a decision more precisely than prose.
 
 1. **Write the parent** from [references/parent.md](references/parent.md). Don't interview: synthesize what's already settled. Every feature must earn its place, the rest goes to Out of Scope (**principle-experience-first**). Name the seams where the behaviour is tested, as few and as high as possible (**principle-test-behavior-not-implementation**). For changes to existing code, describe the design as if the requirement had always existed (**principle-redesign-from-first-principles**).
 2. **Decide if it needs children.** One fresh agent session can build and verify it → publish the parent alone, with acceptance criteria. Otherwise continue.

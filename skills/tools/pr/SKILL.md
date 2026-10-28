@@ -1,6 +1,6 @@
 ---
 name: pr
-description: "Use when writing a PR body."
+description: "Write a PR or MR body in the repo's own template, or this skill's template when the repo has none. Use when writing a PR or MR body."
 metadata:
   credits:
     skill: show-me
@@ -10,7 +10,9 @@ metadata:
 user-invocable: false
 ---
 
-Use this template for writing the PR body:
+**The repo's template wins.** Look for `.github/PULL_REQUEST_TEMPLATE.md`, `.github/PULL_REQUEST_TEMPLATE/*.md`, `.gitlab/merge_request_templates/*.md` (`Default.md` first), and the PR rules in `docs/agents/issue-tracker.md`. If one exists, use its headings exactly, in its order, and fill each one; follow its comments as instructions and delete them. Use the guidance below only to fill those headings well. The template below is the fallback when the repo has none.
+
+Fallback template:
 
 ```markdown
 ## Summary

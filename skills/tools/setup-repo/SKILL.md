@@ -11,8 +11,9 @@ Write the per-repo config the other skills read. Explore first, then ask one sec
 1. **Explore.** `git remote -v`; `CLAUDE.md` / `AGENTS.md` and any `## Agent skills` block; `GLOSSARY.md`, `GLOSSARY-MAP.md`, `docs/adr/`; `docs/agents/`; `.scratch/`; monorepo signals (`pnpm-workspace.yaml`, `workspaces` in `package.json`, a populated `packages/*`).
 2. **Issue tracker.** Propose GitHub or GitLab from the remote; otherwise offer local markdown (`.scratch/features/<feature>/`, wayfinder maps under `.scratch/maps/<effort>/`) or "other" (record the user's one-paragraph description). Seed `docs/agents/issue-tracker.md` from [issue-tracker-github.md](issue-tracker-github.md), [issue-tracker-gitlab.md](issue-tracker-gitlab.md), or [issue-tracker-local.md](issue-tracker-local.md).
 3. **Domain docs.** Single-context (one `GLOSSARY.md` + `docs/adr/` at the root) without asking. Offer multi-context (`GLOSSARY-MAP.md` pointing to per-context glossaries) only when exploration found monorepo signals. Seed `docs/agents/domain.md` from [domain.md](domain.md).
-4. **Blueprints.** If the repo has CI or a pre-commit config, offer to copy the "blueprint" skill's `scripts/check_readmes.py` into the repo's `scripts/` and run it there.
-5. **Confirm, then write.** Show the drafts and let the user edit. Edit `CLAUDE.md` if it exists, else `AGENTS.md`; if neither, ask which to create. Add or update one block in place:
+4. **Templates.** Look for PR/MR and issue templates (`.github/PULL_REQUEST_TEMPLATE.md`, `.github/ISSUE_TEMPLATE/`, `.gitlab/merge_request_templates/`, `.gitlab/issue_templates/`). The "pr" and "tickets" skills follow them. If either is missing, offer to create it in the forge's location from the fallback in the "pr" skill or the "tickets" skill's `references/`, so people and agents share one format. Record any extra rules the user states (required labels, title format, closing keyword) in `docs/agents/issue-tracker.md`.
+5. **Blueprints.** If the repo has CI or a pre-commit config, offer to copy the "blueprint" skill's `scripts/check_readmes.py` into the repo's `scripts/` and run it there.
+6. **Confirm, then write.** Show the drafts and let the user edit. Edit `CLAUDE.md` if it exists, else `AGENTS.md`; if neither, ask which to create. Add or update one block in place:
 
 ```markdown
 ## Agent skills
