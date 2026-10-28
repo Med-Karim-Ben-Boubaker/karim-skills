@@ -1,10 +1,12 @@
 ---
 name: grilling
-description: Grill the user relentlessly about a plan, decision, or idea. Use when the user wants to stress-test their thinking, or uses any 'grill' trigger phrases.
+description: "Grill the user about a plan, decision, or idea at the system level (components, interfaces, contracts), surfacing unknown unknowns and removing ambiguity; implementation details are decided, not asked. Use to stress-test thinking or settle a design before building."
 user-invocable: false
 ---
 
 Interview the user relentlessly until you reach a shared understanding. Map this as a **design tree**: every decision branches into the decisions that hang off it.
+
+Grilling has two jobs: surface what the user may not know they need to decide (the unknown unknowns), and remove the ambiguity that would make you guess. Ask only at the **system level**: components, their responsibilities, interfaces and contracts, data that crosses a boundary, behaviour users see, and one-way doors. Implementation details are yours: naming, internal structure, libraries behind a seam, algorithms, test layout. Decide those yourself and list them under **Decided without asking** at the end. A question earns its place only if a different answer would change a contract or what the user experiences.
 
 Work the tree in **rounds**. The **frontier** is every decision whose prerequisites are already settled: the questions you can ask _now_ without guessing at answers you haven't heard yet. Ask the whole frontier in one round: number each question and give your recommended answer. Then wait for the user's answers before the next round.
 
