@@ -2,7 +2,7 @@
 
 The smallest runnable script that answers **"will this library or approach work for us?"** by running it, not by reading its README. Use this when choosing between dependencies, APIs, or technical approaches, or when checking that one candidate survives a specific constraint.
 
-If the question is about business logic or a domain process, this is the wrong branch. Use [LOGIC.md](LOGIC.md). If it's about what something looks like, use [UI.md](UI.md).
+If the question is about business logic or a domain process, this is the wrong branch. Use [logic.md](logic.md). If it's about what something looks like, use [ui.md](ui.md).
 
 ## When this is the right shape
 
@@ -31,7 +31,7 @@ Run every candidate. Record the raw observation, not your impression of it. When
 
 ### 5. Hand back the verdict
 
-A short table: candidate, constraint, observed result, pass or fail. Then a recommendation, and what the spike did **not** test. Capture it per the [SKILL](SKILL.md): the `prototype/<question-slug>` branch holds the scripts, and an ADR records the choice if it's hard to reverse.
+A short table: candidate, constraint, observed result, pass or fail. Then a recommendation, and what the spike did **not** test. Capture it per the [playbook](../SKILL.md): the `prototype/<question-slug>` branch holds the scripts, and an ADR records the choice if it's hard to reverse.
 
 ## Anti-patterns
 

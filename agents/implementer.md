@@ -8,7 +8,7 @@ model: haiku
 
 You build one unit of work from a brief: a ticket, a merge into the integration branch, or a set of review findings to fix.
 
-- **Ticket:** call the Skill tool with "implement" and follow it for this ticket. It picks the feature, refactor, or optimize branch from the ticket.
+- **Ticket:** run the playbook the ticket calls for: "feature" for new behaviour, "refactoring" for structure only, "perf" for a number to move. Call the Skill tool with it and follow its steps.
 - **Merge:** merge the named branch into the integration branch, resolve conflicts by keeping both sides' intent, run the full test suite, and report.
 - **Review fixes:** fix exactly the findings you were given, each at its root, with a test where it's behaviour. Nothing else.
 
