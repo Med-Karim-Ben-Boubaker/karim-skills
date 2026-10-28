@@ -6,7 +6,7 @@ Three tiers, each enforced by frontmatter and checked by `scripts/check-skills.p
 
 | Tier | Folder | Who invokes it |
 |---|---|---|
-| User skills: the commands | [`skills/user/`](skills/user) | Only you: `/explore`, `/plan`, `/implement`, `/review`, `/ship`, `/grill-me`, `/explain`, `/handoff` |
+| User skills: the commands | [`skills/user/`](skills/user) | Only you: `/explore`, `/plan`, `/implement`, `/review`, `/ship`, `/grill-me`, `/wait-what`, `/handoff` |
 | Playbooks: one mode per situation, with numbered steps that each end in *Done when* | [`skills/playbooks/`](skills/playbooks) | Only the agent, picked by a command |
 | Principles: core behaviour | [`skills/principles/`](skills/principles) | Only the agent, cited by playbooks |
 
