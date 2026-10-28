@@ -19,7 +19,7 @@ description: "Playbook for reviewing the changes since a fixed point (commit, br
    | Style | [references/style.md](references/style.md), `isolation: "worktree"` | Always |
 
 4. **Judge.** Read [references/judging.md](references/judging.md). Merge duplicates, check doubtful findings yourself, bucket each as **Act on**, **Consider**, **Noted**, or **Dismissed** with a one-line reason. *Done when:* every finding has a bucket.
-5. **Give the verdict per level.** `FAIL` = any **Act on**, or a missing lane. `PASS+NOTES` = only **Consider**. `PASS` = nothing above **Noted**. Overall = the worst level, for the head SHA only.
+5. **Give the verdict per level.** `FAIL` = any **Act on**, or a missing lane. `PASS+NOTES` = only **Consider**. `PASS` = nothing above **Noted**. Overall = the worst level, for the head SHA only. *Done when:* every level has a verdict and the overall verdict names the head SHA.
 
 **Reply:**
 

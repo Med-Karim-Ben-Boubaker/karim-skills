@@ -17,6 +17,6 @@ If the input is a spec with a ticket graph, follow [references/ticket-graph.md](
 6. **Update blueprints.** If a folder's modules, interface, or data flow changed, call the Skill tool with "blueprint". *Done when:* the README matches the code, or `skip: no structural change`.
 7. **Commit in small green units** (**principle-sequence-verifiable-units**): scaffold or types, then each slice with its test. Then run the **review** playbook. *Done when:* every commit passes on its own and review returned a verdict.
 
-Decide reversible choices yourself and list them in the reply (**principle-never-block-on-the-human**). Ask only about product calls and one-way doors. If the work mixes behaviour change with restructuring, land the **refactoring** first.
+Steps only a human can do (credentials, a third-party dashboard, a cutover) get a script from the "wizard" skill. Decide reversible choices yourself and list them in the reply (**principle-never-block-on-the-human**). Ask only about product calls and one-way doors. If the work mixes behaviour change with restructuring, land the **refactoring** first.
 
 **Reply:** what you built, the shape you chose and why, the choices you made alone, the real-surface evidence, the review verdict.

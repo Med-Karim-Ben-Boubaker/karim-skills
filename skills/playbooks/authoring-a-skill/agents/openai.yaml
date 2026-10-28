@@ -1,0 +1,3 @@
+interface:
+  display_name: "Authoring a Skill"
+  short_description: "Write or change a skill, agent or rule"
