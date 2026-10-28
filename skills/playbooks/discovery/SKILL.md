@@ -17,7 +17,6 @@ description: "Playbook for learning something new before building: a domain, a c
    | Names and rules the team should share | the "domain-modeling" skill |
    | An answer only the client or an expert has | the "to-questionnaire" skill |
    | Stress-testing a view the user already holds | the "grilling" skill |
-   | Teaching the result to others as a narrated video | the "to-chapter-video" skill |
 
 3. **Write it down.** Findings live in the repo: `research/`, `GLOSSARY.md`, `docs/adr/`, `prototype/<slug>` branches. *Done when:* each answer points to a file, not only to the chat.
 
