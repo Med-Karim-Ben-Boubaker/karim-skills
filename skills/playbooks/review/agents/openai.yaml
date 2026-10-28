@@ -1,3 +1,3 @@
 interface:
-  display_name: "Code Review"
-  short_description: "Multi-level review: gates, behaviour, design, style"
+  display_name: "Review"
+  short_description: "Gates, then independent behaviour, tests, design and style lanes"

@@ -5,7 +5,7 @@ description: Investigate a question against high-trust primary sources and captu
 
 Spin up a background `explorer` agent to do the research, so you keep working while it reads.
 
-For a broad question (a whole domain, "how does e-invoicing work in the EU", a library landscape), split it into 2 to 4 distinct angles and spawn one `explorer` per angle in a single message, then one `analyst` agent to synthesize their findings into the file. For a narrow question, one `explorer` does both. If you can't spawn agents (you are already a subagent), do the job yourself.
+For a broad question (a whole domain, "how does e-invoicing work in the EU", a library landscape), split it into 2 to 4 distinct angles and spawn one `explorer` per angle in a single message, then one `reviewer` agent to synthesize their findings into the file. For a narrow question, one `explorer` does both. If you can't spawn agents (you are already a subagent), do the job yourself.
 
 Its job:
 

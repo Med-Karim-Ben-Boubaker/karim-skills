@@ -1,1 +1,0 @@
-../../../../agents/comment-sicko.md

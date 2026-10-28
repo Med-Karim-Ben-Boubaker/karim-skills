@@ -7,7 +7,7 @@ description: "Use for \"how does X work\", code walkthroughs before changing som
 
 Explore the codebase to answer "how does X work?" questions. Produce architectural explanations at the level of a senior engineer onboarding onto a subsystem, enough to build a working mental model, not so much that it reads like annotated source code.
 
-Explorers are `explorer` agents and the explainer is an `analyst` agent (`Agent` with that `subagent_type`); each agent's file sets its model. Every spawn is read-only: it reads and searches, never edits. If you can't spawn subagents (you are already a subagent, or the harness has none), run each role yourself, one after another, with the same prompts.
+Explorers are `explorer` agents and the explainer is a `reviewer` agent (`Agent` with that `subagent_type`); each agent's file sets its model. Every spawn is read-only: it reads and searches, never edits. If you can't spawn subagents (you are already a subagent, or the harness has none), run each role yourself, one after another, with the same prompts.
 
 ## 0. Read the blueprints
 

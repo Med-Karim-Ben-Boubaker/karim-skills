@@ -7,7 +7,7 @@ description: "Use for 'why does X work this way', 'why we picked Y', design rati
 
 Investigate the motivation and intent behind code. The companion `how` skill answers what the code does and how it works. `why` answers what forces led to its shape.
 
-Investigators are `explorer` agents and the synthesizer is an `analyst` agent (`Agent` with that `subagent_type`); each agent's file sets its model. If you can't spawn subagents (you are already a subagent, or the harness has none), run each investigator yourself, one after another, then the synthesizer.
+Investigators are `explorer` agents and the synthesizer is a `reviewer` agent (`Agent` with that `subagent_type`); each agent's file sets its model. If you can't spawn subagents (you are already a subagent, or the harness has none), run each investigator yourself, one after another, then the synthesizer.
 
 Both agents keep MCP access. Investigators still don't write anything.
 
