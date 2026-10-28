@@ -9,8 +9,7 @@ description: "Playbook for turning an idea or a request into buildable work: set
 
 1. **Size it.** One session can build it → continue. Too big for one session (many unknowns, many weeks) → call the Skill tool with "wayfinder" and follow it instead. *Done when:* the size is stated.
 2. **Settle the decisions.** Call the Skill tool with "grilling". Questions it can't answer route through the **discovery** playbook's tools. *Done when:* the user confirms every branch of the design tree is settled.
-3. **Write the spec.** Call the Skill tool with "to-spec". *Done when:* the spec is on the tracker and its link is in your todo list.
-4. **Cut the tickets.** Call the Skill tool with "to-tickets". *Done when:* every ticket has acceptance criteria and its blocking edges, and the first frontier is named.
+3. **Write the tickets.** Call the Skill tool with "tickets": a parent ticket (the spec), split into child tickets only when one session can't build it. *Done when:* the parent is on the tracker, and every child has acceptance criteria, a seam, and its blocking edges, with the first frontier named.
 
 The tracker should be configured; if not, run the "setup-repo" skill first.
 

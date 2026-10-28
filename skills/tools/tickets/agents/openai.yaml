@@ -1,0 +1,3 @@
+interface:
+  display_name: "Tickets"
+  short_description: "Parent ticket (spec) plus child tickets with blocking edges"
