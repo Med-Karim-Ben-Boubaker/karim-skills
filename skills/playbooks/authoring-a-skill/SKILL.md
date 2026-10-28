@@ -1,6 +1,7 @@
 ---
 name: authoring-a-skill
 description: "Playbook for writing or changing a skill, playbook, agent, or rule in this repo, or an AGENTS.md / CLAUDE.md. Use when the user wants a new skill, a skill changed, or a recurring correction turned into instructions."
+user-invocable: false
 ---
 
 # Authoring a skill

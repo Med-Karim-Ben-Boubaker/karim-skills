@@ -1,6 +1,7 @@
 ---
 name: principle-deep-modules
 description: "Apply when designing or reviewing a module's interface, deciding where a seam goes, or about to add a layer, wrapper, or port. Put a lot of behaviour behind a small interface; test through that interface."
+user-invocable: false
 ---
 
 # Deep Modules

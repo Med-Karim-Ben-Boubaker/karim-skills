@@ -1,6 +1,7 @@
 ---
 name: to-questionnaire
 description: Turn a decision you can't fully answer into a questionnaire for someone else to fill in. Use when a question can only be answered by the client, a stakeholder, or a domain expert (legal, medical, process owner), or when the user says "I don't know, ask them" or wants questions to send before a meeting.
+user-invocable: false
 ---
 
 Turn something the user can't answer alone into a **questionnaire**: a Markdown document they hand to one person to fill in async, or fill out together over a meeting. The recipient holds knowledge the user lacks; the questionnaire pulls it out of them.

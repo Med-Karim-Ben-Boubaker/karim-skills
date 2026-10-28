@@ -1,6 +1,7 @@
 ---
-name: review
+name: reviewing
 description: "Playbook for reviewing the changes since a fixed point (commit, branch, tag, PR): gates, then behaviour, tests, design, and style lanes in independent reviewers, then a judged verdict. Use to review a branch, a PR, or work in progress, or when another playbook hands off to review."
+user-invocable: false
 ---
 
 # Review

@@ -1,6 +1,7 @@
 ---
 name: shipping
 description: "Playbook for landing finished work: clean commits, a PR body with evidence, push. Use when the user says ship it, open a PR, commit and push, or at the end of a code playbook once review passed."
+user-invocable: false
 ---
 
 # Shipping

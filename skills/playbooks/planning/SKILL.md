@@ -1,6 +1,7 @@
 ---
 name: planning
 description: "Playbook for turning an idea or a request into buildable work: settle the decisions, write the spec, cut it into tickets. Use when the user wants to plan a feature, write a spec, break work into tickets, or map out work too big for one session."
+user-invocable: false
 ---
 
 # Planning

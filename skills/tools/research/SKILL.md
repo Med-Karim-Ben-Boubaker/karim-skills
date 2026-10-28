@@ -1,6 +1,7 @@
 ---
 name: research
 description: Investigate a question against high-trust primary sources and capture the findings as a Markdown file in the repo. Use when the user wants a topic researched, a new domain explored (processes, legal or medical terminology, standards), libraries compared, docs or API facts gathered, client requirements traced through the team's records, or reading legwork delegated to a background agent.
+user-invocable: false
 ---
 
 Spin up a background `explorer` agent to do the research, so you keep working while it reads.

@@ -1,6 +1,7 @@
 ---
 name: bug-fix
 description: "Playbook for something broken, throwing, failing, or newly slow: reproduce, find the root cause with evidence, fix it test-first. Use when the user reports a bug or a regression, or says 'debug' or 'diagnose'."
+user-invocable: false
 ---
 
 # Bug fix
@@ -12,6 +13,6 @@ description: "Playbook for something broken, throwing, failing, or newly slow: r
 3. **Rank 3–5 hypotheses.** Seed them with the "how" skill over the area and, for a regression, the "why" skill on what changed. Each states a prediction: "if X is the cause, changing Y makes it disappear". Show the list to the user and continue without waiting. *Done when:* the list is written.
 4. **Test them, one variable at a time.** Debugger first, then targeted logs tagged `[DEBUG-xxxx]`. For perf regressions, measure and bisect instead of logging. *Done when:* one hypothesis survives with runtime evidence (**principle-fix-root-causes**). Two failed fixes on one premise: test the premise (**principle-attack-the-premise**).
 5. **Fix test-first.** Turn the minimal repro into a failing test at a seam that reproduces the real pattern (the "tdd" skill). Watch it fail, fix at the root, watch it pass, rerun the original loop. *Done when:* the failing test lands before the fix in history. If no correct seam exists, say so: that is a finding.
-6. **Clean up and review.** Remove every `[DEBUG-` line (grep for it) and throwaway harnesses. Run the **review** playbook. *Done when:* grep finds nothing and review returned a verdict.
+6. **Clean up and review.** Remove every `[DEBUG-` line (grep for it) and throwaway harnesses. Run the **reviewing** playbook. *Done when:* grep finds nothing and review returned a verdict.
 
 **Reply:** what was broken, the root cause, the fix, and the failing-then-passing loop output, verbatim.

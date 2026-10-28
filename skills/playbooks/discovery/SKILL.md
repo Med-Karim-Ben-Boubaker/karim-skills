@@ -1,6 +1,7 @@
 ---
 name: discovery
 description: "Playbook for learning something new before building: a domain, a client's needs, a standard, a library landscape. A toolbox with no fixed order. Use when the user is exploring a topic they don't know yet, or wants a new domain, process, or set of options mapped out."
+user-invocable: false
 ---
 
 # Discovery

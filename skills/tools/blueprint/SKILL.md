@@ -1,6 +1,7 @@
 ---
 name: blueprint
 description: "Write or update a folder's README.md as an engineering blueprint: Mermaid diagrams (C4, data flow, sequence, class, state), minimal text, facts, assumptions, ADR links, and up/down links tying parent and child READMEs into one tree. Use when creating or editing a README.md in a codebase, or after a change alters a folder's modules, interface, or data flow. For AGENTS.md, CLAUDE.md, or skills, use writing-for-agents."
+user-invocable: false
 ---
 
 # Blueprint

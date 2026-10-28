@@ -1,6 +1,7 @@
 ---
 name: setup-repo
 description: "Configure a repo for these skills: its issue tracker, its domain doc layout, and README blueprint checks. Use when a skill needs the tracker or domain docs and the repo has no docs/agents/ yet."
+user-invocable: false
 ---
 
 # Setup repo

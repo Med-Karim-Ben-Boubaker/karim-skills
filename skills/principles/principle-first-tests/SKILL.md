@@ -1,6 +1,7 @@
 ---
 name: principle-first-tests
 description: "Apply when writing or changing unit tests, or investigating slow or flaky tests. Use FIRST to keep test feedback fast, independent, repeatable, self-validating, and timely."
+user-invocable: false
 ---
 
 # FIRST Tests

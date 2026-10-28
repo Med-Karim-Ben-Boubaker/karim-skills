@@ -3,13 +3,15 @@
 
 Exits 1 and lists every problem when:
 - a SKILL.md lacks a name or description, or its name differs from its folder;
+- a skill sits in the wrong tier: skills/user/ must be user-only
+  (`disable-model-invocation: true`), every other skill agent-only
+  (`user-invocable: false`);
 - a skill or agent named in any document does not exist;
 - a document calls a user-only skill through the Skill tool;
 - a relative Markdown link points to a missing file;
 - a playbook step has no "Done when", or a playbook has no "Reply:" line;
 - rules/playbooks.md and skills/playbooks/ list different playbooks;
-- a tool or principle is reachable from no playbook (user-only skills,
-  marked `disable-model-invocation: true`, are exempt).
+- a playbook, tool, or principle is reachable from no user skill.
 """
 
 import re
@@ -28,6 +30,7 @@ SKILL_REF = [
     re.compile(r'\*\*([a-z0-9-]+)\*\* playbook'),
     re.compile(r'\*\*(principle-[a-z0-9-]+)\*\*'),
     re.compile(r'"(feature|refactoring|perf)" for'),
+    re.compile(r'\| \*\*([a-z-]+)\*\* \|$', re.M),
 ]
 AGENT_REF = re.compile(r'`([a-z-]+)` agents?\b')
 LINK = re.compile(r'\]\(([^)#\s]+)(?:#[^)]*)?\)')
@@ -61,11 +64,14 @@ def main():
             errors.append(f"{path.relative_to(REPO)}: name '{name}' differs from folder '{folder.name}'")
         if name in skills:
             errors.append(f"duplicate skill name '{name}'")
-        skills[name] = {
-            "folder": folder,
-            "kind": folder.relative_to(SKILLS).parts[0],
-            "user_only": meta.get("disable-model-invocation") == "true",
-        }
+        kind = folder.relative_to(SKILLS).parts[0]
+        user_only = meta.get("disable-model-invocation") == "true"
+        agent_only = meta.get("user-invocable") == "false"
+        if kind == "user" and (not user_only or agent_only):
+            errors.append(f"{path.relative_to(REPO)}: user skill must set only disable-model-invocation: true")
+        if kind != "user" and (user_only or not agent_only):
+            errors.append(f"{path.relative_to(REPO)}: {kind} skill must set only user-invocable: false")
+        skills[name] = {"folder": folder, "kind": kind, "user_only": user_only}
     agents = {p.stem for p in AGENTS.glob("*.md")}
 
     docs = [p for p in REPO.glob("skills/**/*.md")] + list(AGENTS.glob("*.md")) + list(RULES.glob("*.md"))
@@ -111,19 +117,20 @@ def main():
     for name in sorted(listed - playbooks):
         errors.append(f"rules/playbooks.md: '{name}' is not a playbook")
 
-    reached, frontier = set(playbooks), list(playbooks)
+    roots = {n for n, s in skills.items() if s["kind"] == "user"}
+    reached, frontier = set(roots), list(roots)
     while frontier:
         for ref in edges[frontier.pop()]:
             if ref not in reached:
                 reached.add(ref)
                 frontier.append(ref)
     for name, skill in sorted(skills.items()):
-        if name not in reached and not skill["user_only"]:
-            errors.append(f"skill '{name}' is reachable from no playbook")
+        if name not in reached:
+            errors.append(f"skill '{name}' is reachable from no user skill")
 
     for error in errors:
         print(error)
-    print(f"{len(skills)} skills ({len(playbooks)} playbooks), {len(agents)} agents: "
+    print(f"{len(skills)} skills ({len(roots)} user, {len(playbooks)} playbooks), {len(agents)} agents: "
           f"{len(errors)} problem(s)")
     return 1 if errors else 0
 

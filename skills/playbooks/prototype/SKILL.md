@@ -1,6 +1,7 @@
 ---
 name: prototype
 description: "Playbook for throwaway code that settles a design question: does this logic or state model hold up, what should this UI look like, will this library or approach work. Use for 'prototype', 'sketch it', 'spike', 'mock it up', or any fork running something would answer better than asking."
+user-invocable: false
 ---
 
 # Prototype

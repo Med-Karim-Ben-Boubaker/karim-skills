@@ -1,26 +1,26 @@
 # Playbooks
 
-Every task runs in exactly one playbook. Before any other work, name it in one line (`Playbook: bug-fix`), call the Skill tool with its name, and copy its numbered steps into your todo list verbatim. A step you skip stays in the list as `skip: <reason>`. A step is done only when its *Done when* holds, and the reply shows the evidence for each step.
+The user drives work with commands (`/explore`, `/plan`, `/implement`, `/review`, `/ship`, `/grill-me`); each one picks a playbook. For a free-form request with no command, pick the playbook the matching command would pick, and write it in one line (`Playbook: bug-fix`) before any other work.
 
 | Playbook | When |
 |---|---|
-| investigation | Read-only question: how or why X works, what a change could break, which option to pick |
+| investigation | How or why code works, what a change could break, a bug's cause without a fix, which option to pick |
 | discovery | Learning a new domain, client need, standard, or library landscape |
-| planning | Turning an idea into decisions, a spec, and tickets |
+| prototype | Throwaway code to settle a design question |
+| planning | Turning an idea into decisions and tickets |
 | feature | New or changed behaviour |
 | bug-fix | Something broken, throwing, failing, or newly slow |
 | refactoring | Structure changes, behaviour doesn't |
 | perf | One number must move against a baseline |
-| prototype | Throwaway code to settle a design question |
-| review | Reviewing a diff, branch, or PR |
-| shipping | Commits, PR, push |
 | authoring-a-skill | Writing or changing a skill, agent, rule, AGENTS.md, or CLAUDE.md |
+| reviewing | Reviewing a diff, branch, or PR |
+| shipping | Commits, PR, push |
 
-If none fits, say so and use the closest one. If the task changes type midway (an investigation turns into a fix), finish the current playbook's reply, then name the next one. Conversation with no work to do (a quick fact, a yes/no) needs no playbook.
+Copy the playbook's numbered steps into your todo list verbatim. A skipped step stays as `skip: <reason>`. A step is done only when its *Done when* holds, and the reply shows each step's evidence. If none fits, say so and use the closest. A quick fact or yes/no needs no playbook.
 
 ## Delegation
 
-You are the lead; there is no separate orchestrator. You run the playbook, decide, and judge. Each action goes to a subagent, and only these three, all on Haiku:
+You are the lead; there is no orchestrator agent. You run the playbook, decide, and judge. Each action goes to one of three subagents:
 
 | Action | Agent |
 |---|---|
@@ -28,7 +28,7 @@ You are the lead; there is no separate orchestrator. You run the playbook, decid
 | Write or change code, merge a branch | `implementer`, in its own worktree |
 | Check work independently: a review lane, a synthesis, a design option | `reviewer` |
 
-- Brief each one with pointers (paths, ticket, spec), the step's *Done when*, and the report format.
+- Brief each with pointers (paths, ticket, spec), the step's *Done when*, and the report format.
 - Spawn independent agents in one message so they run in parallel.
 - Read the diff or evidence yourself before marking a step done. A subagent's "done" is a claim, not evidence.
 - Never spawn an agent to run a whole playbook. Act yourself only when the action is a few tool calls.

@@ -1,6 +1,7 @@
 ---
 name: refactoring
 description: "Playbook for a change to structure while behaviour stays fixed: rename, extract, inline, dedupe, move, deepen a module, migrate callers, port to a new component. Use when the code should look different but do the same thing."
+user-invocable: false
 ---
 
 # Refactoring
@@ -13,7 +14,7 @@ description: "Playbook for a change to structure while behaviour stays fixed: re
 4. **Move in small green steps** (**principle-sequence-verifiable-units**). Wide mechanical edits get a codemod or script (**principle-build-the-lever**). API reshapes migrate every caller and delete the old API in the same wave, no shims (**principle-migrate-callers-then-delete-legacy-apis**). *Done when:* the pin is green after every step, and renames are spot-checked in strings and docs.
 5. **Prove equivalence** (**principle-prove-it-works**). *Done when:* the pin passes and, for larger reshapes, the old-vs-new comparison shows no difference.
 6. **Keep it only if it's better** (**principle-keep-it-simple**). *Done when:* you can name where reader load dropped. If you can't, revert.
-7. **Review.** Commits in order: pin, subtraction, reshape. Update blueprints with the "blueprint" skill if structure changed. Run the **review** playbook. *Done when:* review returned a verdict.
+7. **Review.** Commits in order: pin, subtraction, reshape. Update blueprints with the "blueprint" skill if structure changed. Run the **reviewing** playbook. *Done when:* review returned a verdict.
 
 Never edit the pin to make it pass: that means it pinned the implementation.
 
