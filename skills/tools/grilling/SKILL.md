@@ -23,6 +23,8 @@ Format a round like so:
 
 Word each question so "yes" accepts your recommended answer.
 
+If the plan touches existing code, call the Skill tool with "how" over that area before the first round, and surface every place the plan contradicts the code. When a decision settles a term or passes the ADR bar, call the Skill tool with "domain-modeling" and record it as it lands.
+
 In the first round, call the Skill tool with "principle-attack-the-premise" and include at least one question that tests whether the plan solves the right problem. When the tree reaches the domain's states, rules, or what must never happen, call the Skill tool with "principle-model-the-domain" to shape those questions.
 
 Each round the user answers reshapes the tree: settled decisions push the frontier outward and unblock questions that depended on them. Recompute the frontier and ask the next round. A question whose answer depends on another question still open in this round belongs to a _later_ round, not this one.
