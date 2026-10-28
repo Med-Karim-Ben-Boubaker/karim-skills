@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Links every skill in skills/<stage>/<name>/ into the local skill directories:
+# Links every skill in skills/<group>/<name>/ into the local skill directories:
 #   - ~/.claude/skills: Claude Code
 #   - ~/.agents/skills: Codex and other Agent Skills-compatible harnesses
 # Also links every subagent in agents/<name>.md into ~/.claude/agents, and
 # every rule in rules/<name>.md into ~/.claude/rules.
 # Each entry is a symlink into this repo, so edits here are live everywhere.
-# Stage folders are flattened, so skill names must be unique across the repo.
+# Group folders are flattened, so skill names must be unique across the repo.
 
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
 DESTS=("$HOME/.claude/skills" "$HOME/.agents/skills")
