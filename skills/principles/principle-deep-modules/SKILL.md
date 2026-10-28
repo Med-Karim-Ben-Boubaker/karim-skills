@@ -35,4 +35,4 @@ How a deep module is tested across its seam depends on what it depends on: see [
 - **Return results, don't produce side effects.** `calculateDiscount(cart): Discount`, not `applyDiscount(cart): void` mutating the cart.
 - **Small surface.** Fewer entry points and parameters mean fewer tests and simpler setup.
 
-The reader-side view of the same rule is the **minimize-reader-load** principle skill: collapse shallow layers. Tests at the seam follow the **test-behavior-not-implementation** principle skill.
+The reader-side view of the same rule is the **principle-keep-it-simple** principle skill: collapse shallow layers. Tests at the seam follow the **test-behavior-not-implementation** principle skill.

@@ -1,7 +1,7 @@
 # Slicing children
 
 - **Vertical, not horizontal.** Each child cuts a narrow but complete path through every layer (schema, API, UI, tests) and is verifiable on its own (**principle-sequence-verifiable-units**).
-- **Subtract and prefactor first.** Removal and prefactor tickets come first; the rest are blocked by them (**principle-subtract-before-you-add**).
+- **Subtract and prefactor first.** Removal and prefactor tickets come first; the rest are blocked by them (**principle-keep-it-simple**).
 - **Walking skeleton.** If the repo has no test runner or CI, child 01 is the thinnest end-to-end path through real infrastructure, and blocks everything else (**principle-foundational-thinking**).
 - **Shared seams.** Reuse the parent's seams; the fewer, the better.
 - **No shared writes.** Two children that would write the same module either get split so they don't, or get a blocking edge (**principle-separate-before-serializing-shared-state**).

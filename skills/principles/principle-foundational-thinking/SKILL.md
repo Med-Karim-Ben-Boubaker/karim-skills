@@ -9,7 +9,7 @@ description: "Apply before writing logic: choosing core types and data structure
 
 **Data structures first.** Get the data shape right before writing logic. Define core types early, trace every access pattern, and choose structures that match the dominant paths.
 
-At code level, DRY the structure, not every line. Types and data models should converge. Three similar statements still beat a premature abstraction. Prefer explicit over clever. Test behavior and edge cases, not line counts.
+At code level, DRY the structure, not every line: types and data models should converge. Code-level simplicity follows **principle-keep-it-simple**.
 
 **Concurrency corollary.** Before sharing state between actors, ask "what happens if another actor modifies this concurrently?" If not "nothing", isolate.
 
@@ -17,4 +17,3 @@ At code level, DRY the structure, not every line. Types and data models should c
 
 Each increment should land a coherent abstraction or deepen one that exists. Do not spread a new capability across callers as special-case coordination.
 
-Subtraction comes before scaffolding. Remove dead code first, then lay foundations.
