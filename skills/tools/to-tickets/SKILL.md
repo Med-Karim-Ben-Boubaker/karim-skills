@@ -7,7 +7,7 @@ description: Break a plan, spec, or the current conversation into a set of trace
 
 Break a plan, spec, or conversation into a set of **tickets**: tracer-bullet vertical slices, each declaring the tickets that **block** it.
 
-The issue tracker and triage label vocabulary should have been provided to you. If not, tell the user to run `/setup-repo`.
+The issue tracker should be configured in `docs/agents/issue-tracker.md`. If not, call the Skill tool with "setup-repo" first.
 
 ## Process
 

@@ -5,7 +5,7 @@ description: "Turn the current conversation into a spec and publish it to the pr
 
 This skill takes the current conversation context and codebase understanding and produces a spec. Do NOT interview the user; just synthesize what you already know.
 
-The issue tracker and triage label vocabulary should have been provided to you. If not, tell the user to run `/setup-repo`.
+The issue tracker should be configured in `docs/agents/issue-tracker.md`. If not, call the Skill tool with "setup-repo" first.
 
 ## Process
 
@@ -17,7 +17,7 @@ Check with the user that these seams match their expectations.
 
 When the feature changes existing code, call the Skill tool with "principle-redesign-from-first-principles" before writing Implementation Decisions: describe the design as if the requirement had always been there, not bolted on.
 
-3. Write the spec using the template below, then publish it to the project issue tracker. Apply the `ready-for-agent` triage label - no need for additional triage.
+3. Write the spec using the template below, then publish it to the project issue tracker.
 
 <spec-template>
 

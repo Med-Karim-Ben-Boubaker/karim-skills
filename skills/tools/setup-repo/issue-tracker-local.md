@@ -8,7 +8,6 @@ Issues and specs for this repo live as markdown files in `.scratch/`.
 - The spec is `.scratch/features/<feature-slug>/spec.md`
 - Implementation issues are one file per ticket at `.scratch/features/<feature-slug>/issues/<NN>-<slug>.md`, numbered from `01`, never a single combined tickets file
 - Wayfinder maps live apart from features, under `.scratch/maps/<effort>/` (see Wayfinding operations), so decision tickets and build tickets never share a folder
-- Triage state is recorded as a `Status:` line near the top of each issue file (see `triage-labels.md` for the role strings)
 - Comments and conversation history append to the bottom of the file under a `## Comments` heading
 
 ## When a skill says "publish to the issue tracker"
