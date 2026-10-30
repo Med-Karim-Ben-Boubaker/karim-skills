@@ -18,3 +18,5 @@ Model- or user-reachable (rich trigger phrasing so the model can reach for them)
 
 - **[grill](./grill/SKILL.md)**: Interview the user relentlessly about a plan, decision, or idea until every branch of the design tree is resolved.
 - **[write-for-agents](./write-for-agents/SKILL.md)**: Writing documents for agents: skills, AGENTS.md/CLAUDE.md, and any doc an agent reaches by a pointer.
+- **[design-patterns](./design-patterns/SKILL.md)**: The 22 classic design patterns as a lookup from a signal in the code to the pattern it earns, simplest form first (a function, dict, generator or module before a class hierarchy).
+- **[codebase-design](./codebase-design/SKILL.md)**: Shared discipline and vocabulary for designing deep modules: small interfaces, clean seams, testable through the interface.

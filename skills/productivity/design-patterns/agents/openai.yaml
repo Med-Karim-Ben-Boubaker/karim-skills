@@ -1,0 +1,3 @@
+interface:
+  display_name: "Design Patterns"
+  short_description: "Find the pattern a code smell earns, simplest form first"

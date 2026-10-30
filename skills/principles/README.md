@@ -15,4 +15,4 @@ Rules of judgment the agent applies while it works. Each answers one question, s
 | [`measure-before-optimizing`](principle-measure-before-optimizing/SKILL.md) | Is it actually slow, and what limits it? |
 | [`fix-root-causes`](principle-fix-root-causes/SKILL.md) | Where did it first go wrong? |
 
-Covered by other skills, so no principle: deep modules and seams (`codebase-design`), testing behaviour through interfaces (`tdd`), the project's vocabulary (`model-domain`), the debugging loop (`diagnose-bug`), turning recurring corrections into checks (`run-retro`).
+Covered by other skills, so no principle: deep modules and seams (`codebase-design`), design patterns (`design-patterns`), testing behaviour through interfaces (`tdd`), the project's vocabulary (`model-domain`), the debugging loop (`diagnose-bug`), turning recurring corrections into checks (`run-retro`).
