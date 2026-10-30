@@ -1,0 +1,3 @@
+interface:
+  display_name: "Write Issue"
+  short_description: "File and move issues by kind and stage"

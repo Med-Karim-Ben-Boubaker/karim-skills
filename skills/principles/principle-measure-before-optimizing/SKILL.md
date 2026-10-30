@@ -1,6 +1,6 @@
 ---
 name: principle-measure-before-optimizing
-description: "Optimises only what measurement shows matters: estimates first, profiles to name the bottleneck, reports percentiles with spread, and rules out what else a number could be measuring. Use when something is slow, when optimising, benchmarking or load testing, or before reporting or acting on a speedup, latency, throughput, cost or eval score. For a regression from a known-good baseline, use diagnosing-bugs."
+description: "Optimises only what measurement shows matters: estimates first, profiles to name the bottleneck, reports percentiles with spread, and rules out what else a number could be measuring. Use when something is slow, when optimising, benchmarking or load testing, or before reporting or acting on a speedup, latency, throughput, cost or eval score. For a regression from a known-good baseline, use diagnose-bug."
 ---
 
 # Measure Before Optimizing

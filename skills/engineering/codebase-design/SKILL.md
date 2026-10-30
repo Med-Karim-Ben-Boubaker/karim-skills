@@ -1,6 +1,6 @@
 ---
 name: codebase-design
-description: "Shared vocabulary and tests for deep modules: module, interface, depth, seam, adapter, leverage, locality, the deletion test, and designing an interface twice. Use when designing or improving a module's interface, finding deepening opportunities, deciding where a seam goes, making code more testable or AI-navigable, or when another skill needs this vocabulary. For dependency direction between core and edge, use principle-dependency-rule."
+description: "Shared vocabulary and tests for deep modules: module, interface, depth, seam, adapter, leverage, locality, the deletion test, and designing an interface twice. Use when designing or improving a module's interface, finding deepening opportunities, deciding where a seam goes, making code more testable or AI-navigable, or when another skill needs this vocabulary. For dependency direction between core and edge, use principle-point-dependencies-inward."
 ---
 
 # Codebase Design

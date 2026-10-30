@@ -1,6 +1,6 @@
 ---
 name: principle-keep-it-simple
-description: "KISS and YAGNI: decides whether a feature, command, flag, option, config key, dependency, abstraction, layer or design pattern should exist at all, using a need test, and presents the minimal version first with a list of what was cut. Use whenever proposing, designing, scoping, implementing or reviewing anything new, especially when a request asks for something flexible, complete, future-proof or 'best practice'. For how to write the code that stays, use principle-obvious-code."
+description: "KISS and YAGNI: decides whether a feature, command, flag, option, config key, dependency, abstraction, layer or design pattern should exist at all, using a need test, and presents the minimal version first with a list of what was cut. Use whenever proposing, designing, scoping, implementing or reviewing anything new, especially when a request asks for something flexible, complete, future-proof or 'best practice'. For how to write the code that stays, use principle-write-obvious-code."
 ---
 
 # Keep It Simple
@@ -30,7 +30,7 @@ For what survives, build **the simplest thing that could possibly work**: the si
 - **Every changed line traces to the request.** A reasonable next step, a nearby refactor or an extra test is still unrequested: name it under **Noticed, not done** in the reply and keep it out of the diff.
 - **Fix the shape first.** Before writing, name the files, functions and dependencies the change needs. A new file, layer or dependency needs its own reason.
 - **Reuse before you write:** existing code, then the standard library, then an installed dependency, then new code.
-- **Guard only states that can happen.** Unexpected failures surface loudly (**principle-crash-only**) instead of being caught or silently replaced by a fallback.
+- **Guard only states that can happen.** Unexpected failures surface loudly (**principle-design-for-crashes**) instead of being caught or silently replaced by a fallback.
 - **Delete pass before handing back.** Reread the diff, remove every line the task does not need, and report the line count before and after.
 
 ## Why

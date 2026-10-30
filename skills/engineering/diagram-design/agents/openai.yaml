@@ -1,5 +1,0 @@
-interface:
-  display_name: "Diagram Design"
-  short_description: "Turn code into linked HTML diagrams"
-policy:
-  allow_implicit_invocation: false

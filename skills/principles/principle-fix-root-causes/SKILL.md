@@ -1,6 +1,6 @@
 ---
 name: principle-fix-root-causes
-description: "Fixes wrong behaviour at its cause instead of duct-taping the symptom (symptom-fixing, special-case coding): corrects the data model, schema or algorithm where the system first went wrong, rather than adding an if for the failing input, a null check, a fallback value, a hardcoded number, a swallowed exception or a retry where the failure showed. Use when fixing a bug, failing test, error, regression or an edge case the code gets wrong, before adding any guard, special case or fallback, and after two fixes in a row fail the same check. For the reproduce-hypothesise-instrument loop, use diagnosing-bugs."
+description: "Fixes wrong behaviour at its cause instead of duct-taping the symptom (symptom-fixing, special-case coding): corrects the data model, schema or algorithm where the system first went wrong, rather than adding an if for the failing input, a null check, a fallback value, a hardcoded number, a swallowed exception or a retry where the failure showed. Use when fixing a bug, failing test, error, regression or an edge case the code gets wrong, before adding any guard, special case or fallback, and after two fixes in a row fail the same check. For the reproduce-hypothesise-instrument loop, use diagnose-bug."
 ---
 
 # Fix Root Causes

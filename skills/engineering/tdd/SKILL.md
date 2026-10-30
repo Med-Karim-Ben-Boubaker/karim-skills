@@ -1,6 +1,6 @@
 ---
 name: tdd
-description: "Test-driven development in vertical slices: one failing test through a public interface, the minimum code to pass, refactor, repeat. Use when the user wants to build features or fix bugs test-first, mentions red-green-refactor, or wants integration tests, and when writing tests that must survive refactoring. For pacing and proving multi-step work in general, use principle-small-verified-steps."
+description: "Test-driven development in vertical slices: one failing test through a public interface, the minimum code to pass, refactor, repeat. Use when the user wants to build features or fix bugs test-first, mentions red-green-refactor, or wants integration tests, and when writing tests that must survive refactoring. For pacing and proving multi-step work in general, use principle-take-small-verified-steps."
 ---
 
 # Test-Driven Development
@@ -35,4 +35,4 @@ When the shape of that interface is itself in question (how deep the module is, 
 
 - **Red before green.** Write the failing test first, then only enough code to pass it. Don't anticipate future tests or add speculative features.
 - **One slice at a time.** One seam, one test, one minimal implementation per cycle.
-- **Refactoring is not part of the loop.** It belongs to the review stage (see the `code-review` skill), not the red → green implementation cycle.
+- **Refactoring is not part of the loop.** It belongs to the review stage (see the `review-code` skill), not the red → green implementation cycle.

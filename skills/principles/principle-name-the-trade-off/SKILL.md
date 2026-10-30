@@ -1,6 +1,6 @@
 ---
 name: principle-name-the-trade-off
-description: "Makes architecture decisions explicit: picks at most three driving architecture characteristics, names what each option buys and costs, scales design effort to how hard the decision is to undo, and records the why in an ADR. Use when choosing between designs, technologies, architecture styles, data models or datastores, defining nonfunctional requirements, or writing the design part of a spec. For whether to build it at all, use principle-keep-it-simple; for where code lives, use principle-dependency-rule."
+description: "Makes architecture decisions explicit: picks at most three driving architecture characteristics, names what each option buys and costs, scales design effort to how hard the decision is to undo, and records the why in an ADR. Use when choosing between designs, technologies, architecture styles, data models or datastores, defining nonfunctional requirements, or writing the design part of a spec. For whether to build it at all, use principle-keep-it-simple; for where code lives, use principle-point-dependencies-inward."
 ---
 
 # Name the Trade-off
@@ -10,7 +10,7 @@ Everything in software architecture is a trade-off (the **First Law of Software 
 1. **Pick the driving characteristics.** From the requirements, name at most three **architecture characteristics** (the "-ilities") that decide the design: performance, scalability, availability, reliability, consistency, evolvability, testability, cost, time to market. Make each measurable ("p99 under 200 ms at 50 req/s", not "fast").
 2. **Name what each option buys and gives up** against those characteristics. Write the cost down next to the choice.
 3. **Spend design effort by reversibility.** **One-way doors** (public APIs, wire and storage formats, schemas, data ownership, the datastore) earn **design it twice**: compare two or more radically different options (`codebase-design` DESIGN-IT-TWICE.md, or the `prototype` skill). **Two-way doors** get the simplest option now. Decide at the **last responsible moment**, and keep details (database, framework, transport) swappable so they can wait.
-4. **Record the why** in an **ADR**: context, decision, consequences, rejected options (`domain-modeling` ADR-FORMAT.md). Why matters more than how (the **Second Law**).
+4. **Record the why** in an **ADR**: context, decision, consequences, rejected options (`model-domain` ADR-FORMAT.md). Why matters more than how (the **Second Law**).
 5. **Name the revisit trigger**: the measurable condition that reopens the decision, so the choice can stay simple today without becoming permanent.
 
 **Decide what matters**: spend design attention and complexity on the few things that are important; give everything else the plain default.
