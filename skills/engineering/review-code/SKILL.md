@@ -35,7 +35,7 @@ Look for the originating spec, in this order:
 
 Search the repo for every file that documents how code should be written. When `CODING_STANDARDS.md` or `CONTRIBUTING.md` exists, it must be on the list.
 
-On top of whatever the repo documents, the Standards axis always carries the **smell baseline** below: a fixed set of Fowler code smells (_Refactoring_, ch.3) that applies even when a repo documents nothing. Two rules bind it:
+On top of whatever the repo documents, the Standards axis always carries the **smell baseline** below: a fixed set of Fowler code smells (_Refactoring_, ch.3), plus a stricter Comments smell, that applies even when a repo documents nothing. Two rules bind it:
 
 - **The repo overrides.** A documented repo standard always wins; where it endorses something the baseline would flag, suppress the smell.
 - **Always a judgement call.** Each smell is a labelled heuristic ("possible Feature Envy"), never a hard violation. Like any standard here, skip anything tooling already enforces.
@@ -54,6 +54,7 @@ Each smell reads *what it is* → *how to fix*; match it against the diff:
 - **Message Chains**: long `a.b().c().d()` navigation the caller shouldn't depend on. → hide the walk behind one method on the first object.
 - **Middle Man**: a class or function that mostly just delegates onward. → cut it, call the real target direct.
 - **Refused Bequest**: a subclass or implementer that ignores or overrides most of what it inherits. → drop the inheritance, use composition.
+- **Comments**: any comment, docstring or commented-out code in the diff outside the keep-list of the `remove-comments` skill (license headers, docstrings on public functions and APIs, constraints we can't change, tool directives). A comment that explains our own code covers for a name, type or shape. → run `remove-comments`; it deletes them and fixes what they covered for.
 
 ### 4. Spawn both sub-agents in parallel
 

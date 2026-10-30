@@ -36,7 +36,7 @@ Communication to and from subagents should be sparse. Communicate primarily thro
 
 6. Close the merged ticket as done, with a comment naming the integration branch: it merged there, not into the default branch, so no keyword closes it, and its blocked tickets wait for it to close. Then re-read the frontier from the tracker. Kick off more **implementer subagents** for any new tickets on it. This allows for maximum concurrency.
 
-7. Once all tickets are complete, call the Skill tool with `review-code` on the integration branch. Fix all issues raised by the code review in a single fresh **implementer subagent**.
+7. Once all tickets are complete, call the Skill tool with `remove-comments` on the integration branch's diff, then with `review-code` on the integration branch. Fix all issues raised by the code review in a single fresh **implementer subagent**.
 
 8. When the tests pass on the integration branch and the review's findings are fixed, call the Skill tool with `write-pr` to write the draft PR's body, with evidence for every child's acceptance criteria, and mark it ready for review; its merge closes the parent. Without a PR, close the parent once every child is closed. After the merge, check the parent and every child are closed, and report the integration branch.
 

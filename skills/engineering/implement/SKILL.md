@@ -12,7 +12,7 @@ Call the Skill tool with "tdd" where possible, at pre-agreed seams.
 
 Run typechecking regularly, single test files regularly, and the full test suite once at the end.
 
-Once done, call the Skill tool with "review-code" to review the work. When the full suite passes and the review's findings are fixed, call the Skill tool with "write-pr" to write the merge request's body and evidence, and mark it ready.
+Once done, call the Skill tool with "remove-comments" on the work, then with "review-code" to review it. When the full suite passes and the review's findings are fixed, call the Skill tool with "write-pr" to write the merge request's body and evidence, and mark it ready.
 
 ## Commit
 

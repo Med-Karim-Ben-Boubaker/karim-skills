@@ -1,6 +1,6 @@
 ---
 name: principle-write-obvious-code
-description: "Keeps code readable and changeable in one place: names, function size, comments, consistency, locality, coupling and state scope, judged by change amplification, cognitive load and unknown unknowns. Use when writing or reviewing code, or when code is hard to follow, one change needs edits in many places, or special cases pile up. For whether code should exist, use principle-keep-it-simple; for module interfaces and seams, use codebase-design."
+description: "Keeps code readable and changeable in one place: names, function size, no comments, consistency, locality, coupling and state scope, judged by change amplification, cognitive load and unknown unknowns. Use when writing or reviewing code, or when code is hard to follow, one change needs edits in many places, or special cases pile up. For whether code should exist, use principle-keep-it-simple; for module interfaces and seams, use codebase-design."
 ---
 
 # Obvious Code
@@ -10,7 +10,7 @@ description: "Keeps code readable and changeable in one place: names, function s
 - **Four Rules of Simple Design**, in priority order: fits the people who will maintain it, communicates every idea the code needs, holds no duplication, has the fewest elements. Cut elements only within the first three.
 - **Names.** A name says what a thing is or holds, in the domain's words (**ubiquitous language**: the repo's `GLOSSARY.md` when it has one). When no precise name comes, the design is murky: fix the design. One concept, one name, everywhere.
 - **Functions.** Each does one thing at one level of abstraction. Extract a piece only when it is simpler to use than what it hides; a chain of tiny pass-through functions raises cognitive load.
-- **Comments.** Explain *why*, and what an interface promises: units, preconditions, invariants, side effects. The code already says *what*.
+- **No comments.** Say it in a name, a type or a test, not a comment. Only these keep one: a docstring on a public function or API stating its contract (units, preconditions, errors), a constraint from outside the code we can't change with its issue link, a license header, a tool directive.
 - **Locality.** Keep what changes together in one place (**cohesion**, the **Common Closure Principle**). Each piece of knowledge has one source of truth (**DRY** is about knowledge, not identical lines: two identical lines that encode different rules stay separate, because the rules change for different reasons). Keep a definition next to its use.
 - **Consistency.** Do things the way the codebase already does them. A second way to do the same thing is complexity.
 - **Smallest state scope.** Pure functions over mutation, locals over fields, fields over globals. Derive values instead of keeping two copies in sync.
@@ -25,14 +25,14 @@ Code is read far more often than it is written, and every reader, human or agent
 ## Example
 
 ```python
-# Repeats what the code says:
-# add one to retries
-retries += 1
-
-# Says why, which the code cannot:
-# The provider limits calls per minute, so wait for the next window
-# instead of retrying at once and burning the quota.
+# The provider limits calls per minute, so wait for the next window.
 sleep(seconds_until_next_minute())
+```
+
+The name can carry the reason, so the comment goes:
+
+```python
+wait_for_next_rate_limit_window()
 ```
 
 **Terms:** Four Rules of Simple Design, intention-revealing code, change amplification, cognitive load, unknown unknowns, coupling, cohesion, Single Responsibility Principle (SRP), Common Closure Principle (CCP), DRY, ubiquitous language, levels of abstraction, principle of least astonishment, simple vs easy, Unix philosophy.

@@ -1,0 +1,3 @@
+interface:
+  display_name: "Remove Comments"
+  short_description: "Delete comments and fix the code they covered for"

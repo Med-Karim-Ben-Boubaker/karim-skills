@@ -25,6 +25,7 @@
     "./skills/engineering/research",
     "./skills/engineering/model-domain",
     "./skills/engineering/codebase-design",
+    "./skills/engineering/remove-comments",
     "./skills/engineering/review-code",
     "./skills/engineering/write-pr",
     "./skills/engineering/run-retro",
