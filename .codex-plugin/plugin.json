@@ -1,0 +1,16 @@
+{
+  "name": "karim-skills",
+  "version": "0.1.0",
+  "description": "Engineering and productivity skills, plus my principles.",
+  "author": {
+    "name": "Med-Karim-Ben-Boubaker"
+  },
+  "repository": "https://github.com/Med-Karim-Ben-Boubaker/karim-skills",
+  "license": "MIT",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Karim Skills",
+    "shortDescription": "Engineering and productivity skills, plus my principles",
+    "category": "Developer Tools"
+  }
+}
