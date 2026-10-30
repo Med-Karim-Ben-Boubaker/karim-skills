@@ -24,7 +24,7 @@ Big work is one **parent** issue, the spec, with **sub-issues** as its tickets a
 - **Open blockers of a child**: `gh api repos/{owner}/{repo}/issues/<child> --jq .issue_dependencies_summary.blocked_by` (open blockers only; 0 means startable).
 - **Frontier**: the open children with no assignee and 0 open blockers.
 - **Claim**: `gh issue edit <child> --add-assignee @me`, before any work.
-- **Finish**: each child closes through its PR (`Closes #<child>`); close the parent as done after its last child.
+- **Finish**: each child closes through the PR that merges it into the default branch (see **Pull requests**); close the parent as done after its last child.
 
 ## Explore
 
@@ -62,6 +62,23 @@ labels: ["kind: bug", "stage: needs-triage"]
 `gh issue create --body` does not apply templates: write the body from `/write-issue` and pass `--label`.
 
 File issues only into the user's own repo. Never file into the repo these skills come from unless the user owns it. In a fork, `gh` can default to the upstream parent, so before the first `gh issue create` of a session, check the target with `gh repo view --json nameWithOwner` and confirm it with the user if it is not their repo.
+
+## Pull requests
+
+- **Open**: `gh pr create --draft --title "..." --body "..." --base <branch>`, after the first push. The body starts with one `Closes #<ticket>` line per ticket (GitHub needs the keyword before each number); `/write-pr` writes the rest.
+- **Ready**: `gh pr ready <pr>` once the evidence is in.
+- **Upload a screenshot**: GitHub has no API for PR attachments, so keep images on an orphan `pr-assets` branch, in a folder per PR branch, and remove the worktree after:
+
+  ```bash
+  git fetch origin pr-assets && git worktree add /tmp/pr-assets pr-assets || git worktree add --orphan -b pr-assets /tmp/pr-assets
+  mkdir -p /tmp/pr-assets/<pr-branch> && cp before.png after.png /tmp/pr-assets/<pr-branch>/
+  git -C /tmp/pr-assets add . && git -C /tmp/pr-assets commit -m "Screenshots for <pr-branch>" && git -C /tmp/pr-assets push origin pr-assets
+  git worktree remove /tmp/pr-assets
+  ```
+
+  Embed as `![after](https://github.com/<owner>/<repo>/blob/pr-assets/<pr-branch>/after.png?raw=true)`; it renders for anyone who can read the repo.
+- **Auto-close**: always write `Closes`, never `Fixes` or `Resolves`. GitHub closes every `Closes` ticket when the PR merges into the **default branch**. Merging into another branch, or closing the PR unmerged, closes nothing; neither does closing the last sub-issue close its parent. Commits say `Refs #<n>`, so nothing closes early.
+- **After the merge**: check each ticket with `gh issue view <n> --json state`. Close any still `OPEN` as done with a comment linking the PR; close the parent after its last child.
 
 ## Pull requests as a triage surface
 

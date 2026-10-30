@@ -59,6 +59,10 @@ stage: needs-triage
 
 `.scratch/templates/bug.md`, `feature.md`, `chore.md`: each is the kind's template body under front matter with its `kind:` and `stage: needs-triage`. Copy one to file an issue by hand.
 
+## Pull requests
+
+None: work merges locally. After the merge, close each ticket it finished as done, with a comment naming the merge commit. Keep screenshots for the evidence in `.scratch/<feature-slug>/evidence/` and link them from the comment.
+
 ## When a skill says "publish to the issue tracker"
 
 Create a new file under `.scratch/<feature-slug>/`, or `.scratch/issues/` for an issue outside any feature (creating the directory if needed).

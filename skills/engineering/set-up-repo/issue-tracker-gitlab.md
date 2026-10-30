@@ -10,7 +10,7 @@ Issues and specs for this repo live as GitLab issues. Use the [`glab`](https://g
 - **Comment on an issue**: `glab issue note <number> --message "..."`. GitLab calls comments "notes".
 - **Apply / remove labels**: `glab issue update <number> --label "..."` / `--unlabel "..."`. Multiple labels can be comma-separated or by repeating the flag.
 - **Close**: `glab issue close <number>`. `glab issue close` does not accept a closing comment or reason, so post the explanation first (done or not planned, and why) with `glab issue note <number> --message "..."`, then close. For a duplicate, post `/duplicate #<original>` as a note instead: it links the original and closes the issue.
-- **Merge requests**: GitLab calls PRs "merge requests". Use `glab mr create`, `glab mr view`, `glab mr note`, etc., the same shape as `gh pr ...` with `mr` in place of `write-pr` and `note`/`--message` in place of `comment`/`--body`.
+- **Merge requests**: GitLab calls PRs "merge requests". Use `glab mr create`, `glab mr view`, `glab mr note`, etc., the same shape as `gh pr ...` with `mr` in place of `pr` and `note`/`--message` in place of `comment`/`--body`.
 
 Infer the repo from `git remote -v`; `glab` does this automatically when run inside a clone.
 
@@ -35,7 +35,7 @@ GitLab issues can't have child issues; an issue's native children are **tasks**.
 - **Open blockers of a child**: `glab api "projects/:id/issues/<child>/links" | jq '[.[] | select(.link_type == "is_blocked_by" and .state == "opened")] | length'` (0 means startable), or the open issues in its `Blocked by` line.
 - **Frontier**: the open children with no assignee and 0 open blockers.
 - **Claim**: `glab issue update <child> --assignee @me`, before any work.
-- **Finish**: each child closes through its MR (`Closes #<child>`); close the parent as done after its last child.
+- **Finish**: each child closes through the MR that merges it into the default branch (see **Merge requests**); close the parent as done after its last child.
 
 ## Explore
 
@@ -67,6 +67,19 @@ One Markdown file per kind in `.gitlab/issue_templates/`: `Bug.md`, `Feature.md`
 ```
 
 `glab issue create` does not apply templates: write the body from `/write-issue` and pass `--label`.
+
+## Merge requests
+
+- **Open**: `glab mr create --draft --title "..." --description "..." --target-branch <branch> --remove-source-branch --yes`, after the first push. The description starts with `Closes #<ticket>` lines (`Closes #12, #13` works); `/write-pr` writes the rest.
+- **Ready**: `glab mr update <mr> --ready` once the evidence is in.
+- **Upload a screenshot**: `glab api` can't send files, so use the API directly; the response's `markdown` field is the embed:
+
+  ```bash
+  curl -s --header "PRIVATE-TOKEN: $(glab config get token --host <host>)" --form "file=@after.png" "https://<host>/api/v4/projects/<url-encoded path>/uploads" | jq -r .markdown
+  ```
+
+- **Auto-close**: always write `Closes`, never `Fixes`, `Resolves` or `Implements`. GitLab closes every `Closes` ticket when the MR merges into the **default branch**, if the project setting *Auto-close referenced issues on default branch* is on (`glab api "projects/:id" | jq .autoclose_referenced_issues`). Merging into another branch, or closing the MR unmerged, closes nothing. Commits say `Refs #<n>`, so nothing closes early.
+- **After the merge**: check each ticket with `glab issue view <n> -F json | jq .state`. Close any still `opened` as done with a note linking the MR (child tasks may not auto-close); close the parent after its last child.
 
 ## Merge requests as a triage surface
 

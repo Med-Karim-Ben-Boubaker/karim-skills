@@ -24,7 +24,7 @@ Communication to and from subagents should be sparse. Communicate primarily thro
 
 2. (optional) Use an **exploration subagent** to conduct any exploration required by the tickets - relevant codebase files or external documentation. Ensure the exploration subagent can save files - it should save its markdown notes in a directory outside the repo, accessible by all future subagents. This lets **implementer subagents** focus on implementation rather than exploration.
 
-3. Create the integration branch. If the issue tracker closes work through PRs, or the user asks for one, open a draft PR after the first merge in step 5 (a branch with no commits ahead of main can't open one), marked as closing the spec and tickets.
+3. Create the integration branch. If the issue tracker closes work through PRs, or the user asks for one, open a draft PR into the default branch after the first merge in step 5 (a branch with no commits ahead of main can't open one), with only `Closes #<parent>` in its body.
 
 4. Claim each frontier ticket on the tracker (assign it) before starting its subagent, so no other run takes it. Use a fresh **implementer subagent** for each ticket, always in its **own git worktree** on its own branch off the integration branch, never in the main checkout: start it with worktree isolation, or create one with `git worktree add <path> -b <ticket-branch> <integration-branch>`. Record each worktree's path and branch. Each implementer subagent:
    - confirms its worktree is based on the integration branch before starting, and resets onto it if not;
@@ -34,11 +34,11 @@ Communication to and from subagents should be sparse. Communicate primarily thro
 
 5. Once an **implementer subagent** completes, merge its work to the integration branch with a **merger subagent**, and run the tests on the integration branch. When they pass, clean up that ticket at once: `git worktree remove <path>` and `git branch -d <ticket-branch>`. If the merge or the tests fail, keep the worktree and send a fresh implementer subagent into it to fix it.
 
-6. Close the merged ticket the way the tracker closes work, then re-read the frontier from the tracker. Kick off more **implementer subagents** for any new tickets on it. This allows for maximum concurrency.
+6. Close the merged ticket as done, with a comment naming the integration branch: it merged there, not into the default branch, so no keyword closes it, and its blocked tickets wait for it to close. Then re-read the frontier from the tracker. Kick off more **implementer subagents** for any new tickets on it. This allows for maximum concurrency.
 
 7. Once all tickets are complete, call the Skill tool with `review-code` on the integration branch. Fix all issues raised by the code review in a single fresh **implementer subagent**.
 
-8. If a draft PR exists, mark it ready for review. Close the parent issue once every child is closed, and report the integration branch.
+8. When the tests pass on the integration branch and the review's findings are fixed, call the Skill tool with `write-pr` to write the draft PR's body, with evidence for every child's acceptance criteria, and mark it ready for review; its merge closes the parent. Without a PR, close the parent once every child is closed. After the merge, check the parent and every child are closed, and report the integration branch.
 
 9. If the run stops before every ticket is done, unassign each claimed ticket that did not merge and comment where it stands, so the next run can take it.
 
