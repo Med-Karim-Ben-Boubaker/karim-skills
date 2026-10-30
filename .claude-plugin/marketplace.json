@@ -1,0 +1,14 @@
+{
+  "name": "karim-skills",
+  "owner": {
+    "name": "Med-Karim-Ben-Boubaker"
+  },
+  "description": "My agent skills as an installable Claude Code plugin.",
+  "plugins": [
+    {
+      "name": "karim-skills",
+      "source": "./",
+      "description": "Engineering and productivity skills, plus my principles."
+    }
+  ]
+}

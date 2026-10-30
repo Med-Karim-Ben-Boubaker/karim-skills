@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en" data-root="">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TITLE</title>
+<link rel="icon" href="data:," />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+/* ===== eraser.css: design tokens + components. Do not edit per page. ===== */
+:root {
+  --er-canvas: #ffffff;
+  --er-surface: #ffffff;
+  --er-page: #fafafa;
+  --er-text: #242424;
+  --er-line: #1c1c1c;
+  --er-shadow: #e8e8e8;
+  --er-muted: #737373;
+  --er-separator: #ebebeb;
+  --er-link: #457fe5;
+  --er-fill-mix: 16%;   /* node fill = identity colour mixed into surface */
+  --er-tint-mix: 4%;    /* group fill */
+  --er-stroke-mix: 100%;
+  /* identity colours */
+  --er-blue: #2866c4;
+  --er-green: #30a050;
+  --er-purple: #c43dcf;
+  --er-red: #bd413a;
+  --er-orange: #c38424;
+  --er-yellow: #a8aa12;
+  --er-gray: #3a3a3a;
+  --font: "Inter", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --er-canvas: #171717; --er-surface: #1f1f1f; --er-page: #111111;
+    --er-text: #e2e2e2; --er-line: #e9e9e9; --er-shadow: #3f3f3f;
+    --er-muted: #a3a3a3; --er-separator: #2e2e2e; --er-link: #68aaf2;
+    --er-fill-mix: 26%; --er-tint-mix: 7%; --er-stroke-mix: 70%;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --er-canvas: #171717; --er-surface: #1f1f1f; --er-page: #111111;
+  --er-text: #e2e2e2; --er-line: #e9e9e9; --er-shadow: #3f3f3f;
+  --er-muted: #a3a3a3; --er-separator: #2e2e2e; --er-link: #68aaf2;
+  --er-fill-mix: 26%; --er-tint-mix: 7%; --er-stroke-mix: 70%;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--er-page); color: var(--er-text); font: 400 15px/1.45 var(--font); -webkit-font-smoothing: antialiased; }
+a { color: var(--er-link); }
+code, .mono { font-family: var(--mono); font-size: 12px; }
+
+/* ----- page ----- */
+.page { max-width: 1200px; margin: 0 auto; padding: 32px 16px 64px; }
+.crumbs { display: flex; gap: 8px; flex-wrap: wrap; font: 500 12px var(--mono); color: var(--er-muted); }
+.crumbs a { color: var(--er-muted); text-decoration: none; }
+.crumbs a:hover { color: var(--er-link); }
+.page-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin: 8px 0 24px; }
+.page-head h1 { margin: 0; font-size: 26px; font-weight: 600; letter-spacing: -0.02em; }
+.page-head p { margin: 4px 0 0; color: var(--er-muted); }
+.theme-toggle { border: 1.2px solid var(--er-line); background: var(--er-surface); color: var(--er-text); border-radius: 8px; padding: 4px 10px; font: 500 12px var(--font); cursor: pointer; box-shadow: 2px 2px 0 var(--er-shadow); }
+
+/* ----- figure: one diagram ----- */
+.figure { background: var(--er-canvas); border: 1px solid var(--er-separator); border-radius: 12px; margin: 0 0 24px; }
+.figure > header { display: flex; align-items: baseline; gap: 12px; padding: 14px 20px 0; }
+.figure > header h2 { margin: 0; font-size: 16px; font-weight: 600; }
+.figure > header span { color: var(--er-muted); font-size: 13px; }
+.scroll { overflow-x: auto; padding: 20px; }
+.canvas { position: relative; margin: 0 auto; }   /* set width/height inline, multiples of 4 */
+.canvas > svg.edges { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.canvas > svg.edges .hit { pointer-events: stroke; cursor: pointer; }
+
+/* ----- legend ----- */
+.legend { display: flex; flex-wrap: wrap; gap: 8px 20px; padding: 12px 20px 16px; border-top: 1px solid var(--er-separator); font-size: 12px; color: var(--er-muted); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.swatch { width: 14px; height: 14px; border-radius: 4px; border: 1.2px solid var(--c, var(--er-line)); background: color-mix(in srgb, var(--c, var(--er-surface)) var(--er-fill-mix), var(--er-surface)); }
+.swatch.line { height: 0; border-radius: 0; border-width: 1.3px 0 0; width: 22px; background: none; }
+.swatch.dashed { border-top-style: dashed; }
+
+/* ----- colour identity: put data-color on any component ----- */
+[data-color="blue"]   { --c: var(--er-blue); }
+[data-color="green"]  { --c: var(--er-green); }
+[data-color="purple"] { --c: var(--er-purple); }
+[data-color="red"]    { --c: var(--er-red); }
+[data-color="orange"] { --c: var(--er-orange); }
+[data-color="yellow"] { --c: var(--er-yellow); }
+[data-color="gray"]   { --c: var(--er-gray); }
+
+/* ----- node: the box ----- */
+.node {
+  position: absolute; display: flex; align-items: center; gap: 10px; padding: 0 14px;
+  background: var(--er-surface); color: var(--er-text);
+  border: 1.2px solid var(--er-line); border-radius: 12px;
+  box-shadow: 4px 4px 0 0 var(--er-shadow);
+  transition: opacity .15s, transform .15s;
+}
+.node[data-color] { border-color: color-mix(in srgb, var(--c) var(--er-stroke-mix), #fff); background: color-mix(in srgb, var(--c) var(--er-fill-mix), var(--er-surface)); }
+.node.center { flex-direction: column; justify-content: center; gap: 2px; text-align: center; padding: 8px 12px; }
+.node.external { border-style: dashed; box-shadow: none; }
+.node .ico { flex: none; width: 24px; height: 24px; color: var(--er-text); }
+.node .txt { display: flex; flex-direction: column; min-width: 0; }
+.label { font-weight: 500; font-size: 15px; line-height: 1.2; letter-spacing: -0.01em; }
+.sub { font: 400 12px/1.3 var(--mono); color: var(--er-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.badge { position: absolute; top: -10px; right: 10px; padding: 1px 6px; border-radius: 5px; border: 1px solid var(--er-line); background: var(--er-surface); font: 500 11px var(--mono); }
+a.drill { position: absolute; bottom: -10px; right: 10px; padding: 1px 7px; border-radius: 5px; border: 1px solid var(--er-link); background: var(--er-surface); color: var(--er-link); font: 500 11px var(--font); text-decoration: none; }
+a.drill:hover { background: var(--er-link); color: #fff; }
+
+/* icon node: big glyph, caption below, no box (Eraser icon style) */
+.inode { position: absolute; display: flex; flex-direction: column; align-items: center; gap: 5px; text-align: center; transition: opacity .15s; }
+.inode .ico { width: 40px; height: 40px; padding: 6px; border-radius: 10px; color: var(--c, var(--er-text)); background: color-mix(in srgb, var(--c, var(--er-gray)) var(--er-fill-mix), var(--er-surface)); border: 1.2px solid color-mix(in srgb, var(--c, var(--er-line)) var(--er-stroke-mix), #fff); }
+.inode .label { font-size: 14px; }
+
+/* shapes */
+.node.pill { border-radius: 999px; }
+.node.db { border-radius: 12px / 16px; }
+.dot { position: absolute; width: 16px; height: 16px; border-radius: 50%; background: var(--er-line); }
+.dot.end { background: var(--er-canvas); border: 1.5px solid var(--er-line); box-shadow: inset 0 0 0 3px var(--er-canvas), inset 0 0 0 8px var(--er-line); }
+
+/* ----- group: container with a title chip ----- */
+.group {
+  position: absolute; border: 1.2px solid var(--er-line); border-radius: 6px;
+  background: color-mix(in srgb, var(--c, var(--er-gray)) var(--er-tint-mix), var(--er-canvas));
+}
+.group[data-color] { border-color: color-mix(in srgb, var(--c) var(--er-stroke-mix), #fff); }
+.group.dashed { border-style: dashed; }
+.group > .title {
+  position: absolute; top: -1.2px; left: -1.2px; display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border: 1.2px solid; border-color: inherit; border-radius: 6px 0 6px 0;
+  background: var(--er-surface); font-weight: 600; font-size: 13px;
+}
+.group > .title .ico { width: 16px; height: 16px; }
+.group > .title .sub { font-size: 11px; }
+
+/* ----- entity / class: header + rows (ER, UML) ----- */
+.entity { position: absolute; background: var(--er-surface); border: 1.8px solid var(--er-line); border-radius: 6px; box-shadow: 4px 4px 0 0 var(--er-shadow); overflow: hidden; transition: opacity .15s; }
+.entity[data-color] { border-color: color-mix(in srgb, var(--c) var(--er-stroke-mix), #fff); }
+.entity > .head { height: 40px; display: flex; flex-direction: column; justify-content: center; padding: 0 12px; font-weight: 600; font-size: 15px; background: color-mix(in srgb, var(--c, var(--er-gray)) var(--er-fill-mix), var(--er-surface)); border-bottom: 1.2px solid var(--er-separator); }
+.entity > .head .stereo { font: 400 11px var(--mono); color: var(--er-muted); }
+.entity > .row { height: 28px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 12px; font: 400 12px var(--mono); }
+.entity > .row + .row { border-top: 1px solid var(--er-separator); }
+.entity > .row .t { color: var(--er-muted); }
+.entity > .row.key { font-weight: 500; }
+.entity > .sep { border-top: 1.2px solid var(--er-line); }
+
+/* ----- sequence ----- */
+.lifeline { stroke: var(--er-muted); stroke-width: 1; stroke-dasharray: 4 4; fill: none; }
+.activation { position: absolute; width: 10px; margin-left: -5px; background: var(--er-surface); border: 1.2px solid var(--er-line); border-radius: 3px; }
+.frame { position: absolute; border: 1.2px solid var(--er-muted); border-radius: 6px; }
+.frame > .op { position: absolute; top: -1px; left: -1px; padding: 2px 8px; border: 1.2px solid var(--er-muted); border-radius: 6px 0 6px 0; background: var(--er-canvas); font: 600 11px var(--mono); text-transform: uppercase; }
+.frame > .guard { position: absolute; top: 4px; left: 56px; font: 400 12px var(--mono); color: var(--er-muted); }
+.frame > .divider { position: absolute; left: 0; right: 0; border-top: 1.2px dashed var(--er-muted); }
+
+/* ----- edges (SVG) ----- */
+.edge { fill: none; stroke: var(--er-line); stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; transition: opacity .15s, stroke-width .15s; }
+.edge.dashed { stroke-dasharray: 8 8.75; }
+.edge.dotted { stroke-dasharray: 1.5 6.75; }
+.edge[data-color] { stroke: color-mix(in srgb, var(--c) var(--er-stroke-mix), #fff); }
+.edge.thick { stroke-width: 2.2; }
+marker .fill { fill: var(--er-line); }
+marker .hollow { fill: var(--er-canvas); stroke: var(--er-line); stroke-width: 1.2; }
+marker .open { fill: none; stroke: var(--er-line); stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+marker .blue { fill: var(--er-blue); }
+.edge-label {
+  position: absolute; transform: translate(-50%, -50%); padding: 1px 4px; border-radius: 4px;
+  background: var(--er-canvas); font-size: 13px; line-height: 1.2; letter-spacing: -0.01em; white-space: nowrap;
+  transition: opacity .15s;
+}
+.edge-label.mono { font: 400 11px var(--mono); }
+.edge-label.card { font: 400 12px var(--mono); padding: 0 3px; }   /* cardinality: 1, N, 0..1 */
+
+/* ----- focus mode (view.js) ----- */
+.canvas.focusing .node, .canvas.focusing .inode, .canvas.focusing .entity, .canvas.focusing .edge-label, .canvas.focusing .edge { opacity: .22; }
+.canvas.focusing .lit { opacity: 1 !important; }
+.canvas.focusing .edge.lit { stroke-width: 2.2; }
+[data-src], [data-note] { cursor: pointer; }
+.node:focus-visible, .inode:focus-visible, .entity:focus-visible { outline: 2px solid var(--er-link); outline-offset: 3px; }
+
+/* ----- hover card + evidence panel ----- */
+.tip { position: fixed; z-index: 20; max-width: 340px; padding: 6px 10px; border-radius: 8px; border: 1.2px solid var(--er-line); background: var(--er-surface); box-shadow: 3px 3px 0 var(--er-shadow); font-size: 13px; pointer-events: none; opacity: 0; transition: opacity .1s; }
+.tip.on { opacity: 1; }
+.tip .src { display: block; font: 400 11px var(--mono); color: var(--er-muted); }
+.panel { position: fixed; z-index: 30; top: 0; right: 0; bottom: 0; width: min(400px, 100vw); padding: 24px; overflow-y: auto; background: var(--er-surface); border-left: 1.2px solid var(--er-line); box-shadow: -4px 0 0 var(--er-shadow); transform: translateX(105%); transition: transform .2s; }
+.panel.on { transform: none; }
+.panel h3 { margin: 0 0 4px; font-size: 18px; font-weight: 600; }
+.panel .kind { font: 500 11px var(--mono); color: var(--er-muted); text-transform: uppercase; letter-spacing: .06em; }
+.panel p { margin: 12px 0; }
+.panel ul { list-style: none; padding: 0; margin: 12px 0; display: grid; gap: 6px; }
+.panel li a, .panel li code { display: block; padding: 6px 8px; border: 1px solid var(--er-separator); border-radius: 6px; font: 400 12px var(--mono); text-decoration: none; overflow-wrap: anywhere; color: var(--er-text); }
+.panel li a:hover { border-color: var(--er-link); color: var(--er-link); }
+.panel .open { display: inline-block; margin-top: 8px; padding: 6px 12px; border: 1.2px solid var(--er-link); border-radius: 8px; color: var(--er-link); text-decoration: none; font-weight: 500; }
+.panel .close { position: absolute; top: 16px; right: 16px; border: 0; background: none; color: var(--er-muted); font-size: 20px; cursor: pointer; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <nav class="crumbs"><!-- CRUMBS: <a href="../ARCHITECTURE.html">↑ parent</a> <span>/ this</span>, or delete --></nav>
+  <header class="page-head">
+    <div>
+      <h1>TITLE</h1>
+      <p>ONE SENTENCE, OR DELETE</p>
+    </div>
+    <button class="theme-toggle" type="button" data-theme-toggle>Theme</button>
+  </header>
+
+  <!-- FIGURES: one <section class="figure"> per diagram, built from references/primitives.md -->
+
+</div>
+
+<aside class="panel" aria-live="polite"><button class="close" type="button" aria-label="Close">×</button><div class="panel-body"></div></aside>
+<div class="tip" role="tooltip"></div>
+
+<script>
+/* ===== view.js: hover focus, source cards, evidence panel, theme. Do not edit per page. ===== */
+(() => {
+  const root = document.documentElement;
+  const repo = (root.dataset.root || "").replace(/\/$/, "");
+  const tip = document.querySelector(".tip");
+  const panel = document.querySelector(".panel");
+  const body = panel.querySelector(".panel-body");
+  const PICK = ".node,.inode,.entity,.group,.edge-label,[data-src].edge,[data-note].edge";
+
+  const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+                  set(k, v) { try { localStorage.setItem(k, v); } catch {} } };
+  const saved = store.get("dd-theme");
+  if (saved) root.dataset.theme = saved;
+  document.querySelector("[data-theme-toggle]")?.addEventListener("click", () => {
+    const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+    root.dataset.theme = dark ? "light" : "dark";
+    store.set("dd-theme", root.dataset.theme);
+  });
+
+  // wide invisible hit area for every edge that carries information
+  document.querySelectorAll("svg.edges .edge[data-src], svg.edges .edge[data-note]").forEach(p => {
+    const hit = p.cloneNode(false);
+    hit.removeAttribute("marker-end"); hit.removeAttribute("marker-start");
+    hit.setAttribute("class", "hit"); hit.setAttribute("stroke", "transparent"); hit.setAttribute("stroke-width", "14"); hit.setAttribute("fill", "none");
+    hit.__edge = p;
+    p.after(hit);
+  });
+
+  const target = el => el.__edge || el;
+  const idOf = el => el.id || el.dataset.id;
+  const srcs = el => (el.dataset.src || "").split(/\s+/).filter(Boolean);
+  const nameOf = el => el.dataset.title || el.querySelector?.(".label,.head,.title")?.firstChild?.textContent?.trim() || el.textContent.trim().split("\n")[0];
+  const href = s => {
+    const [file, line] = s.split(":");
+    return repo ? `vscode://file/${repo}/${file}${line ? ":" + line : ""}` : null;
+  };
+
+  // focus: light up a node and everything wired to it
+  function focus(el, on) {
+    const canvas = el.closest(".canvas");
+    if (!canvas) return;
+    canvas.querySelectorAll(".lit").forEach(n => n.classList.remove("lit"));
+    canvas.classList.toggle("focusing", on);
+    if (!on) return;
+    el.classList.add("lit");
+    const id = idOf(el);
+    const edgeId = el.dataset.edge || (el.classList.contains("edge") && el.id);
+    canvas.querySelectorAll(".edge, .edge-label").forEach(e => {
+      const touches = id && (e.dataset.from === id || e.dataset.to === id);
+      const same = edgeId && (e.id === edgeId || e.dataset.edge === edgeId);
+      if (!touches && !same) return;
+      e.classList.add("lit");
+      [e.dataset.from, e.dataset.to].forEach(n => n && canvas.querySelector(`#${CSS.escape(n)},[data-id="${n}"]`)?.classList.add("lit"));
+      if (e.id) canvas.querySelectorAll(`[data-edge="${e.id}"]`).forEach(l => l.classList.add("lit"));
+    });
+  }
+
+  function showTip(el, x, y) {
+    const s = srcs(el);
+    if (!s.length && !el.dataset.note) return;
+    tip.innerHTML = `${el.dataset.note ? `<div>${el.dataset.note}</div>` : ""}${s.map(v => `<span class="src">${v}</span>`).join("")}`;
+    tip.style.left = Math.min(x + 14, innerWidth - 360) + "px";
+    tip.style.top = (y + 14) + "px";
+    tip.classList.add("on");
+  }
+
+  function open(el) {
+    const s = srcs(el);
+    const drill = el.dataset.href || el.querySelector?.("a.drill")?.getAttribute("href");
+    body.innerHTML = `
+      ${el.dataset.kind ? `<div class="kind">${el.dataset.kind}</div>` : ""}
+      <h3>${nameOf(el)}</h3>
+      ${el.dataset.note ? `<p>${el.dataset.note}</p>` : ""}
+      ${s.length ? `<ul>${s.map(v => href(v) ? `<li><a href="${href(v)}">${v}</a></li>` : `<li><code>${v}</code></li>`).join("")}</ul>` : ""}
+      ${drill ? `<a class="open" href="${drill}">Open ${nameOf(el)} →</a>` : ""}`;
+    panel.classList.add("on");
+  }
+
+  document.addEventListener("pointerover", e => {
+    const el = e.target.closest?.(PICK) || (e.target.classList?.contains("hit") && e.target);
+    if (!el) return;
+    const t = target(el);
+    focus(t, true);
+    showTip(t, e.clientX, e.clientY);
+  });
+  document.addEventListener("pointermove", e => { if (tip.classList.contains("on")) { tip.style.left = Math.min(e.clientX + 14, innerWidth - 360) + "px"; tip.style.top = (e.clientY + 14) + "px"; } });
+  document.addEventListener("pointerout", e => {
+    const el = e.target.closest?.(PICK) || (e.target.classList?.contains("hit") && e.target);
+    if (!el || el.contains(e.relatedTarget)) return;
+    focus(target(el), false);
+    tip.classList.remove("on");
+  });
+  document.addEventListener("click", e => {
+    if (e.target.closest("a")) return;
+    const el = e.target.closest?.(PICK) || (e.target.classList?.contains("hit") && e.target);
+    if (el) open(target(el));
+    else if (!e.target.closest(".panel")) panel.classList.remove("on");
+  });
+  document.querySelectorAll(".node[data-src],.inode[data-src],.entity[data-src],.node[data-note]").forEach(n => n.tabIndex = 0);
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") panel.classList.remove("on");
+    if (e.key === "Enter" && document.activeElement?.matches?.(PICK)) open(document.activeElement);
+  });
+  panel.querySelector(".close").addEventListener("click", () => panel.classList.remove("on"));
+})();
+</script>
+</body>
+</html>

@@ -1,3 +1,0 @@
-interface:
-  display_name: "Refactoring"
-  short_description: "Pin behaviour, subtract, reshape, prove equivalence"

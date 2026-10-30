@@ -1,27 +1,24 @@
 # karim-skills
 
-My personal agent skills for Claude Code and Agent Skills-compatible harnesses.
+My agent skills for Claude Code, shipped as one plugin.
 
-Three tiers, each enforced by frontmatter and checked by `scripts/check-skills.py`:
-
-| Tier | Folder | Who invokes it |
+| Folder | What | Source |
 |---|---|---|
-| User skills: the commands | [`skills/user/`](skills/user) | Only you: `/explore`, `/plan`, `/implement`, `/review`, `/ship`, `/grill-me`, `/wait-what`, `/handoff` |
-| Playbooks: one mode per situation, with numbered steps that each end in *Done when* | [`skills/playbooks/`](skills/playbooks) | Only the agent, picked by a command |
-| Principles: core behaviour | [`skills/principles/`](skills/principles) | Only the agent, cited by playbooks |
+| [`skills/engineering/`](skills/engineering) | Code work: grilling, spec and tickets, implement, TDD, code review, diagnosing bugs | Forked from [mattpocock/skills](https://github.com/mattpocock/skills) at `a496f55` |
+| [`skills/productivity/`](skills/productivity) | Grill-me, handoff, wait-what, teach, writing-for-agents | Forked from mattpocock/skills at `a496f55` |
+| [`skills/principles/`](skills/principles) | 10 rules of judgment the agent applies while it works, one question each | Mine, distilled from the books in `resources/` |
 
-[`skills/tools/`](skills/tools) holds capabilities playbooks call (how, why, research, tickets, tdd, pr, ...), also agent-only. [`agents/`](agents) holds the only subagents, all on Haiku: `explorer` (reads), `implementer` (writes), `reviewer` (checks); the main session leads, with no orchestrator agent. [`rules/playbooks.md`](rules/playbooks.md) is always loaded: it maps free-form requests to a playbook and sets the delegation rules.
+The forked skills keep upstream names and layout so upstream changes merge cleanly, except `ask-matt` (now `which-skill`) and `setup-matt-pocock-skills` (now `setup-repo`). They are MIT-licensed by Matt Pocock: see [`LICENSE-mattpocock`](LICENSE-mattpocock).
 
-```mermaid
-flowchart LR
-  user[user skill] --> pb[playbook]
-  pb --> principles
-  pb --> tools
-  pb --> agents
-  tools --> principles
+## Where to start
+
+Run `/which-skill` to find the skill or flow that fits. The main flow is `/grill-with-docs` → `/to-spec` → `/to-tickets` → `/implement` or `/implement-spec`, with `/code-review` at the end. Run `/setup-repo` once per repo first.
+
+## Install
+
+```bash
+claude plugin marketplace add Med-Karim-Ben-Boubaker/karim-skills
+claude plugin install karim-skills@karim-skills
 ```
 
-## Scripts
-
-- `scripts/link-skills.sh` symlinks skills, agents, and rules into `~/.claude/` and `~/.agents/skills`.
-- `scripts/check-skills.py` fails on unknown skill or agent names, broken links, playbook steps without *Done when*, skills in the wrong tier, and skills no user skill reaches. Run it after every skill change.
+Every skill must be listed in [`.claude-plugin/plugin.json`](.claude-plugin/plugin.json); bump its `version` so installs pick up changes.
