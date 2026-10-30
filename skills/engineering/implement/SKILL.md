@@ -10,9 +10,9 @@ If the user passes a ticket reference, fetch it from the issue tracker and state
 
 Call the Skill tool with "tdd" where possible, at pre-agreed seams.
 
-Run typechecking regularly, single test files regularly, and the full test suite once at the end.
+Run typechecking regularly, single test files regularly, and the full test suite once at the end. The commands are under `### Checks` in `AGENTS.md` or `CLAUDE.md`.
 
-Once done, call the Skill tool with "remove-comments" on the work, then with "review-code" to review it. When the full suite passes and the review's findings are fixed, call the Skill tool with "write-pr" to write the merge request's body and evidence, and mark it ready.
+Once done, call the Skill tool with "remove-comments" on the work, then with "review-code" to review it. When the review's findings are fixed, sync with the default branch (see **Commit**), then call the Skill tool with "write-pr" to write the merge request's body and evidence, and mark it ready.
 
 ## Commit
 
@@ -21,6 +21,7 @@ Once done, call the Skill tool with "remove-comments" on the work, then with "re
 - **One commit per verified step**, with refactors and behaviour changes in separate commits.
 - **Reference the ticket** in each commit (`Refs #123`), never `Closes`: the merge request closes it.
 - **Open the merge request as a draft** after the first push, with only the `Closes #123` line, so the ticket shows work in progress. Its body is written once the work is verified (see above).
+- **Sync before ready.** Before marking the merge request ready, merge the latest default branch into the work branch, resolve the conflicts, and run every check under `### Checks`, unit and e2e included, until all pass. If the default branch moves before the merge, sync and run them again.
 - **Never skip hooks** (`--no-verify`). When a hook rejects a commit, fix what it found.
 
 ## Finish

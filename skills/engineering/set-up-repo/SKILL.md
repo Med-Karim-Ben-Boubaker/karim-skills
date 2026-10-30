@@ -28,6 +28,7 @@ Look at the current repo to understand its starting state. Read whatever exists;
 - `.scratch/`: a sign that a local-markdown issue tracker convention is already in use
 - **Commit rules**: a commit convention in `AGENTS.md`/`CLAUDE.md`, `CONTRIBUTING.md`, a commitlint config or a commit-msg hook, and the shape of the last 30 titles (`git log --format=%s -30`).
 - **The tracker itself.** Once the remote tells you GitLab or GitHub (or `.scratch/` tells you local), run the **Explore** commands in that tracker's seed file: its labels (project and group), open issues and how they are labelled, issue templates, milestones, epics or projects. Count; don't read every issue. Note whether issues are enabled at all. This decides whether the repo is **new** (no tracker or no issues yet) or **established** (work already tracked).
+- **Checks**: the commands that typecheck, lint, and run the unit and e2e tests, from `AGENTS.md`/`CLAUDE.md`, `package.json` scripts, a `Makefile`, `justfile` or `pyproject.toml`, and the CI config (`.gitlab-ci.yml`, `.github/workflows/`). Note any the repo lacks.
 - Monorepo signals: a `pnpm-workspace.yaml`, a `workspaces` field in `package.json`, or a populated `packages/*` with its own `src/`. These are present only in a genuinely large multi-package repo; their absence means single-context, which is almost every repo.
 
 ### 2. Present findings and ask
@@ -123,6 +124,17 @@ Every issue gets one kind and one stage; `/write-issue` says how to choose them 
 |---|---|
 | bug | `<label>` |
 | … | … |
+
+### Checks
+
+| Check | Command |
+|---|---|
+| Typecheck | `<command>` |
+| Lint | `<command>` |
+| Unit tests | `<command>` |
+| E2E tests | `<command>` |
+
+[drop a row the repo has no command for, and say so; `/implement` runs all of them before a merge request is ready]
 
 ### Commits
 
