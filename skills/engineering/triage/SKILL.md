@@ -1,6 +1,6 @@
 ---
 name: triage
-description: "Sort issues and external PRs: give each one kind (bug, feature, task) and one stage (needs-triage, parked, needs-investigation, needs-input, ready), verify the claim, grill if needed, and write agent briefs."
+description: "Sort issues and external PRs: give each one kind (bug, feature, chore) and one stage (needs-triage, parked, needs-investigation, needs-input, ready), verify the claim, grill if needed, and write agent briefs."
 disable-model-invocation: true
 ---
 
@@ -23,7 +23,7 @@ Every comment or issue posted to the issue tracker during triage **must** start 
 
 ## Roles
 
-Every triaged issue carries exactly one **kind** (`bug`, `feature`, `task`) and one **stage** (`needs-triage`, `parked`, `needs-investigation`, `needs-input`, `ready`), or is closed as done, not planned or duplicate. Call the Skill tool with "write-issue" for what each means, how to choose, and what each stage adds to the description. If an issue carries two stages, flag it and ask the maintainer before doing anything else.
+Every triaged issue carries exactly one **kind** (`bug`, `feature`, `chore`) and one **stage** (`needs-triage`, `parked`, `needs-investigation`, `needs-input`, `ready`), or is closed as done, not planned or duplicate. Call the Skill tool with "write-issue" for what each means, how to choose, and what each stage adds to the description. If an issue carries two stages, flag it and ask the maintainer before doing anything else.
 
 For a PR, `ready` means the next step on the diff is known: assigned to an agent, it finishes the diff from the brief; assigned to a human, it is ready to merge.
 

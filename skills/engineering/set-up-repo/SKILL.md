@@ -1,6 +1,6 @@
 ---
 name: set-up-repo
-description: "Configure this repo for the engineering skills: set up its issue tracker, issue labels (kinds and stages), and domain doc layout. Run once before first use of the other engineering skills."
+description: "Configure a new or existing repo for the engineering skills: explore its GitLab, GitHub or local issues, labels and templates, propose how to organise them into kinds and stages, then set up the tracker, labels, issue templates and domain doc layout once the user agrees. Run once before first use of the other engineering skills, or again to reorganise."
 disable-model-invocation: true
 ---
 
@@ -26,6 +26,7 @@ Look at the current repo to understand its starting state. Read whatever exists;
 - `docs/adr/` and any `src/*/docs/adr/` directories
 - `docs/agents/`: does this skill's prior output already exist?
 - `.scratch/`: a sign that a local-markdown issue tracker convention is already in use
+- **The tracker itself.** Once the remote tells you GitLab or GitHub (or `.scratch/` tells you local), run the **Explore** commands in that tracker's seed file: its labels (project and group), open issues and how they are labelled, issue templates, milestones, epics or projects. Count; don't read every issue. Note whether issues are enabled at all. This decides whether the repo is **new** (no tracker or no issues yet) or **established** (work already tracked).
 - Monorepo signals: a `pnpm-workspace.yaml`, a `workspaces` field in `package.json`, or a populated `packages/*` with its own `src/`. These are present only in a genuinely large multi-package repo; their absence means single-context, which is almost every repo.
 
 ### 2. Present findings and ask
@@ -38,7 +39,7 @@ Lead each section with the recommended answer so the user can accept it in a wor
 
 > Explainer: The "issue tracker" is where issues live for this repo. Skills like `write-tickets`, `triage`, and `write-spec` read from and write to it. They need to know whether to call `gh issue create`, write a markdown file under `.scratch/`, or follow some other workflow you describe. Pick the place you actually track work for this repo.
 
-Default posture: these skills were designed for GitHub. If a `git remote` points at GitHub, propose that. If a `git remote` points at GitLab (`gitlab.com` or a self-hosted host), propose GitLab. Otherwise (or if the user prefers), offer:
+For a **new** repo, default posture: these skills were designed for GitHub. If a `git remote` points at GitHub, propose that. If a `git remote` points at GitLab (`gitlab.com` or a self-hosted host), propose GitLab. Otherwise (or if the user prefers), offer:
 
 - **GitHub**: issues live in the repo's GitHub Issues (uses the `gh` CLI)
 - **GitLab**: issues live in the repo's GitLab Issues (uses the [`glab`](https://gitlab.com/gitlab-org/cli) CLI)
@@ -47,7 +48,7 @@ Default posture: these skills were designed for GitHub. If a `git remote` points
 
 Record the choice in `docs/agents/issue-tracker.md`. The GitHub and GitLab templates carry a "PRs as a request surface" flag, defaulted **off**. Leave it off and don't raise it: a user who wants external PRs in the triage queue can flip the flag in the file later.
 
-A GitHub or GitLab tracker needs a reachable repo. When the user picks one and no `git remote` points at that host, get the repo URL from them and wire it up (`git init` if needed, `git remote add origin <url>`) before going further. Done when `gh repo view` / `glab repo view` prints the project from inside this directory; if it can't, stop and tell the user what's missing.
+A GitHub or GitLab tracker needs a reachable project with issues enabled. When the user picks one and none exists, offer to create it with the **Create** commands in the seed file, or get the URL of an existing one and wire it up (`git init` if needed, `git remote add origin <url>`). Done when `gh repo view` / `glab repo view` prints the project from inside this directory and issues are enabled; if it can't, stop and tell the user what's missing.
 
 **Section B: Issue labels.** Ask exactly one question:
 
@@ -59,14 +60,22 @@ The defaults use each tracker's native form: GitLab's scoped labels (`scope::val
 |---|---|---|---|---|
 | bug | `kind::bug` | `kind: bug` | `kind: bug` | `#d73a4a` |
 | feature | `kind::feature` | `kind: feature` | `kind: feature` | `#1d76db` |
-| task | `kind::task` | `kind: task` | `kind: task` | `#6e7781` |
+| chore | `kind::chore` | `kind: chore` | `kind: chore` | `#6e7781` |
 | needs-triage | `stage::needs-triage` | `stage: needs-triage` | `stage: needs-triage` | `#fbca04` |
 | parked | `stage::parked` | `stage: parked` | `stage: parked` | `#c5def5` |
 | needs-investigation | `stage::needs-investigation` | `stage: needs-investigation` | `stage: needs-investigation` | `#d876e3` |
 | needs-input | `stage::needs-input` | `stage: needs-input` | `stage: needs-input` | `#f9d0c4` |
 | ready | `stage::ready` | `stage: ready` | `stage: ready` | `#0e8a16` |
 
-On **yes**, use the column for the tracker. Only if the user says no, usually because the tracker already has labels for these (for example `bug`), collect the overrides so the skills apply existing labels instead of creating duplicates.
+For a **new** repo, ask the question above; on **yes**, use the column for the tracker.
+
+For an **established** repo, don't ask it bare. Present a proposal built from what exploration found, then ask the user to accept or change each part:
+
+1. **Target labels.** The default labels for the tracker, and for each one the existing label or status that plays that role today and should be replaced by it (for example `bug` → `kind::bug`, `status::triage` → `stage::needs-triage`). Keep an existing label instead only when the user chooses to; record their choice in the mapping.
+2. **Labels outside the roles.** Areas, products, priorities: list them in `AGENTS.md` as this repo's own. Labels the target labels replace, or that are unused: propose retiring them once the open issues are moved.
+3. **Open issues.** How many have no kind, no stage, or a label being replaced, and the relabel that moves them to the target labels. Show the list and run it only after the user confirms: it changes shared tracker state.
+4. **Templates.** What exists, and the bug, feature and chore templates that should replace it. Merge or keep the existing ones only when the user chooses to.
+5. **Planning the skills don't cover** (milestones, epics, projects, boards): keep as they are, and say so in `docs/agents/issue-tracker.md` so the agent leaves them alone.
 
 Then ask whether to add the tracker's issue templates (recommended: **yes**), so issues filed by hand get the same sections and labels.
 
@@ -80,6 +89,7 @@ Show the user a draft of:
 
 - The `## Agent skills` block to add to whichever of `CLAUDE.md` / `AGENTS.md` is being edited (see step 4 for selection rules)
 - The contents of `docs/agents/issue-tracker.md` and `docs/agents/domain.md`
+- For an established repo: the labels to create or retire, and the relabel of open issues
 
 Let them edit before writing.
 
@@ -121,7 +131,8 @@ Every issue gets one kind and one stage; `/write-issue` says how to choose them 
 Then set up the tracker, following the **Labels** and **Issue templates** sections of its seed file below:
 
 - **Labels**: on GitHub or GitLab, create each configured label the tracker lacks. Local files need none.
-- **Issue templates**, if the user said yes: one per kind, each holding the body of `/write-issue`'s template for that kind (`templates/bug.md`, `feature.md`, `task.md` in that skill's folder), placed where the tracker reads them.
+- **Relabel and retire**, for an established repo, exactly as the user confirmed in step 3; report what changed.
+- **Issue templates**, if the user said yes: one per kind, each holding the body of `/write-issue`'s template for that kind (`templates/bug.md`, `feature.md`, `chore.md` in that skill's folder), placed where the tracker reads them.
 
 Then write the docs files using the seed templates in this skill folder as a starting point:
 
@@ -134,4 +145,4 @@ For "other" issue trackers, write `docs/agents/issue-tracker.md` from scratch us
 
 ### 5. Done
 
-Tell the user the setup is complete and which engineering skills will now read from these files. Mention they can edit `docs/agents/*.md` directly later; re-running this skill is only necessary if they want to switch issue trackers or restart from scratch.
+Tell the user the setup is complete, what changed on the tracker, and which engineering skills will now read from these files. Mention they can edit `docs/agents/*.md` directly later; re-running this skill is only necessary if they want to switch issue trackers or restart from scratch.

@@ -57,27 +57,29 @@ Iterate until the user approves the breakdown.
 
 ### 5. Publish the tickets to the configured tracker
 
-Publish the approved tickets. **How** depends on the tracker `/set-up-repo` configured; the tickets are the same either way, only the shape of the blocking edges changes:
+Publish the approved tickets as **children of one parent**, never as loose issues: the parent is the spec issue (or `spec.md` locally). If the source is not on the tracker yet, publish the spec as the parent first. Then follow **Children and dependencies** in `docs/agents/issue-tracker.md`:
 
-- **Local files** → write one file per ticket under `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, numbered from `01` in dependency order (blockers first). Each file's "Blocked by" lists the numbers/titles it depends on. Use the per-ticket file template below: one ticket per file, never a single combined file.
-- **A real issue tracker (GitHub, Linear, …)** → publish one issue per ticket in dependency order (blockers first) so each ticket's blocking edges can reference real identifiers. Use the platform's native blocking relationship where it has one; otherwise set each ticket's "Blocked by" to the blocking issues. If the source was an existing issue, make each ticket its sub-issue (tracker doc's operation). Label each ticket with the source's kind and the `ready` stage unless instructed otherwise; the tickets are agent-grabbable by construction.
+- **GitHub** → each ticket a sub-issue of the parent, with native "blocked by" dependencies.
+- **GitLab** → each ticket a child task of the parent, with blocking links (or a `Blocked by` line on Free).
+- **Local files** → one file per ticket under `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, with `blocked-by` in its front matter. Use the per-ticket file template below: one ticket per file, never a single combined file.
+
+Publish in dependency order (blockers first), so each blocking edge can reference a real identifier. Label each ticket with the parent's kind and the `ready` stage unless instructed otherwise; the tickets are agent-grabbable by construction.
 
 Work the **frontier**: any ticket whose blockers are all done. For a purely linear chain that means top to bottom.
 
-Do NOT close or modify any parent issue.
+Do NOT close the parent issue or edit its description; only attach children to it.
 
 <local-ticket-template>
 
 ---
-kind: bug, feature or task, from the source
+kind: bug, feature or chore, from the parent
 stage: ready
+blocked-by: [the numbers of the tickets that gate this one, or empty]
 ---
 
 # <NN>: <Ticket title>
 
 **What to build:** the end-to-end behaviour this ticket makes work, from the user's perspective, not a layer-by-layer implementation list.
-
-**Blocked by:** the numbers/titles of the tickets that gate this one, or "None (can start immediately)".
 
 - [ ] Acceptance criterion 1
 - [ ] Acceptance criterion 2
@@ -85,10 +87,6 @@ stage: ready
 </local-ticket-template>
 
 <issue-template>
-
-## Parent
-
-A reference to the parent issue on the tracker (if the source was an existing issue, otherwise omit this section).
 
 ## What to build
 

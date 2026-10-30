@@ -14,6 +14,42 @@ Issues and specs for this repo live as GitLab issues. Use the [`glab`](https://g
 
 Infer the repo from `git remote -v`; `glab` does this automatically when run inside a clone.
 
+## Children and dependencies
+
+GitLab issues can't have child issues; an issue's native children are **tasks**. Big work is one **parent** issue, the spec, with child tasks as its tickets and **blocking links** between them, so the ticket graph lives in GitLab and shows under the issue's Child items. Epics stay free for roadmap work.
+
+- **Create a child**: create the task, then attach it to the parent with a quick action. `glab` has no flag for either. Create blockers first, so their numbers exist.
+
+  ```bash
+  iid=$(glab api -X POST "projects/:id/issues" -f title="..." -f description="..." -f issue_type=task -f labels="<kind>,<stage>" | jq .iid)
+  glab issue note <parent> --message "/add_child #$iid"
+  ```
+
+- **Block**: `glab api -X POST "projects/:id/issues/<child>/links" -f target_project_id=<project id> -f target_issue_iid=<blocker> -f link_type=is_blocked_by`. Blocking links need Premium; on Free, start the child's description with `Blocked by: #<n>, #<n>`. The first time in a project, check the link shows under the task's Linked items.
+- **List the children** (GraphQL only):
+
+  ```bash
+  glab api graphql -f query='query { project(fullPath: "<group>/<project>") { workItems(iids: ["<parent>"]) { nodes { widgets { ... on WorkItemWidgetHierarchy { children { nodes { iid state title assignees { nodes { username } } } } } } } } } }'
+  ```
+
+- **Open blockers of a child**: `glab api "projects/:id/issues/<child>/links" | jq '[.[] | select(.link_type == "is_blocked_by" and .state == "opened")] | length'` (0 means startable), or the open issues in its `Blocked by` line.
+- **Frontier**: the open children with no assignee and 0 open blockers.
+- **Claim**: `glab issue update <child> --assignee @me`, before any work.
+- **Finish**: each child closes through its MR (`Closes #<child>`); close the parent as done after its last child.
+
+## Explore
+
+- **Project and issues enabled**: `glab api "projects/:id"` (`issues_enabled`).
+- **Labels**: `glab api "projects/:id/labels?per_page=100"`, and the group's: `glab api "groups/<group>/labels?per_page=100"`.
+- **Open issues and their labels**: `glab issue list -O json --per-page 100` (count by label; also work items of type task: `glab api "projects/:id/issues?issue_type=task&state=opened"`).
+- **Templates**: `.gitlab/issue_templates/`, `.gitlab/merge_request_templates/`.
+- **Planning**: milestones `glab api "groups/<group>/milestones?state=active"`, epics `glab api "groups/<group>/epics?state=opened"`, boards `glab api "projects/:id/boards"`.
+
+## Create
+
+- **New project**: `glab repo create <name> --private`, then `git remote add origin <url>` if it isn't set.
+- **Issues off**: `glab api -X PUT "projects/:id" -f issues_enabled=true`.
+
 ## Labels
 
 Kind and stage are **scoped labels** (`kind::bug`, `stage::ready`; the strings are under `### Issue labels` in `AGENTS.md` or `CLAUDE.md`). GitLab keeps one label per scope, so adding a stage replaces the old one: `glab issue update <n> --label "stage::ready"`. Scoped labels need GitLab Premium; on Free, remove the old stage in the same command with `--unlabel`.
@@ -24,7 +60,7 @@ Kind and stage are **scoped labels** (`kind::bug`, `stage::ready`; the strings a
 
 ## Issue templates
 
-One Markdown file per kind in `.gitlab/issue_templates/`: `Bug.md`, `Feature.md`, `Task.md`. GitLab offers them in the issue form's template menu. Each holds the kind's template body, then quick actions that set the labels when the issue is created:
+One Markdown file per kind in `.gitlab/issue_templates/`: `Bug.md`, `Feature.md`, `Chore.md`. GitLab offers them in the issue form's template menu. Each holds the kind's template body, then quick actions that set the labels when the issue is created:
 
 ```markdown
 /label ~"kind::bug" ~"stage::needs-triage"
@@ -57,8 +93,8 @@ Run `glab issue view <number> --comments`.
 Used by `/plan-large-work`. The **map** is a single issue with **child** issues as tickets.
 
 - **Map**: a single issue labelled `wayfinder:map`, holding the Notes / Decisions-so-far / Fog body. `glab issue create --label wayfinder:map`. (On GitLab tiers with native epics, an epic may hold the map instead; a labelled issue works everywhere.)
-- **Child ticket**: an issue carrying `Part of #<map>` at the top of its description, linked to the map (`glab issue create --linked-issues <map> --link-type relates_to`), and labels `wayfinder:<type>` (`research`/`prototype`/`grilling`/`task`). Once claimed, the ticket is assigned to the driving dev.
-- **Blocking**: GitLab's **native blocking link**, the canonical, UI-visible representation. Add it with the `/blocked_by #<n>` quick action, posted as a note (`glab issue note <child> --message "/blocked_by #<blocker>"`). Native blocking links are a Premium/Ultimate feature; on the free tier (or where unavailable) fall back to a `Blocked by: #<n>, #<n>` line at the top of the description. A ticket is unblocked when every blocker is closed.
-- **Frontier query**: list the map's children with `glab api projects/:id/issues/<map>/links`, keeping open issues that carry a `wayfinder:<type>` label; drop any with an open blocker: a native `blocked_by` link to an open issue (`glab api projects/:id/issues/<child-iid>/links`), or an open issue in the `Blocked by` line, or an assignee; first in map order wins.
+- **Child ticket**: a child task of the map (see **Children and dependencies**), labelled `wayfinder:<type>` (`research`/`prototype`/`grilling`/`task`). Once claimed, the ticket is assigned to the driving dev.
+- **Blocking**: see **Block** under **Children and dependencies**. A ticket is unblocked when every blocker is closed.
+- **Frontier query**: list the map's children (see **List the children**), keep the open ones carrying a `wayfinder:<type>` label, and drop any with an open blocker or an assignee; first in map order wins.
 - **Claim**: `glab issue update <n> --assignee @me`, the session's first write.
 - **Resolve**: `glab issue note <n> --message "<answer>"`, then `glab issue close <n>`, then append a context pointer (gist + link) to the map's Decisions-so-far.

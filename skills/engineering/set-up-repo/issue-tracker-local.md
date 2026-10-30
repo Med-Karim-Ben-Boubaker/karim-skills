@@ -10,9 +10,35 @@ Issues and specs for this repo live as markdown files in `.scratch/`.
 ├── <feature-slug>/
 │   ├── spec.md                   the feature's spec
 │   └── issues/<NN>-<slug>.md     its tickets, numbered from 01, one file per ticket
-└── templates/                    bug.md, feature.md, task.md, for filing by hand
+└── templates/                    bug.md, feature.md, chore.md, for filing by hand
 ```
 - Comments and conversation history append to the bottom of the file under a `## Comments` heading
+
+## Children and dependencies
+
+Big work is a feature folder: `spec.md` is the parent, and each file in its `issues/` folder is a child ticket. Dependencies are front matter in the child:
+
+```markdown
+---
+kind: feature
+stage: ready
+blocked-by: [01, 02]
+---
+```
+
+- **Create a child**: the next numbered file in `.scratch/<feature-slug>/issues/`. Number blockers first.
+- **Frontier**: the children whose `stage:` is not `closed`, with no `assignee:` line, whose every `blocked-by` file is closed.
+- **Claim**: add `assignee: <name>` to the front matter and save, before any work.
+- **Finish**: close each child (see **Labels**); close `spec.md` the same way after its last child.
+
+## Explore
+
+- **Existing issues**: files under `.scratch/`; count them by `stage:` front matter, or by an older `Status:` line.
+- **Other backlogs**: `TODO.md`, `BACKLOG.md`, `docs/backlog*`, `TODO` comments counted with `grep -rc TODO --include=*.<ext>`. Propose moving lasting ones into `.scratch/issues/`.
+
+## Create
+
+`mkdir -p .scratch/issues .scratch/templates`, then write the three templates.
 
 ## Labels
 
@@ -31,7 +57,7 @@ stage: needs-triage
 
 ## Issue templates
 
-`.scratch/templates/bug.md`, `feature.md`, `task.md`: each is the kind's template body under front matter with its `kind:` and `stage: needs-triage`. Copy one to file an issue by hand.
+`.scratch/templates/bug.md`, `feature.md`, `chore.md`: each is the kind's template body under front matter with its `kind:` and `stage: needs-triage`. Copy one to file an issue by hand.
 
 ## When a skill says "publish to the issue tracker"
 
