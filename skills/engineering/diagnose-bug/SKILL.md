@@ -15,7 +15,7 @@ When the bug comes from an issue (stage `needs-investigation`), its reproduction
 
 - **You need something from a person** (access, a captured artifact, an answer): post the questions and move it to `needs-input`.
 - **Cause found, fix left for later**: append `## Diagnosis` (root cause, where it first goes wrong, the red command) and `## Brief` (the planned fix), and move it to `ready`.
-- **Fixed**: close it as done, linking the fix.
+- **Fixed**: close it as done, linking the fix. Remove any worktree or branch you made for the investigation.
 
 When you find a bug outside any issue and won't fix it now, file one with `write-issue`.
 
