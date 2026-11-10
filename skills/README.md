@@ -66,6 +66,6 @@ Rules of judgement the agent applies while it works, one question each. The core
 | [`take-small-verified-steps`](principle-take-small-verified-steps/SKILL.md) | What did I run, what did I see, and which checks does this change need? |
 | [`design-the-core`](principle-design-the-core/SKILL.md) | Do the types forbid wrong states, and does I/O stay at a thin edge? |
 | [`design-for-operations`](principle-design-for-operations/SKILL.md) | Will it run, crash, rerun, configure and deploy the same way everywhere? |
-| [`let-models-judge`](principle-let-models-judge/SKILL.md) | Which part needs a model's judgement, which needs a code check, and when does an eval run? |
+| [`let-models-judge`](principle-let-models-judge/SKILL.md) | Which part needs a model's judgement, which needs a code check, how is a wrong answer fixed, and when does an eval run? |
 
 Covered by other skills, so no principle: deep modules and seams (`codebase-design`), design patterns (`design-patterns`), testing behaviour through interfaces (`tdd`), the project's vocabulary and ADRs (`model-domain`), the debugging loop (`diagnose-bug`), turning recurring corrections into checks (`run-retro`). Trade-offs are named where decisions are made: in `grill`'s recommendations and in ADRs.

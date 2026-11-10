@@ -8,7 +8,7 @@ Implement the work described by the user in the spec or tickets.
 
 If the user passes a ticket reference, fetch it from the issue tracker and state its title before starting. If the reference is ambiguous, ask.
 
-Before the first change, call the Skill tool with "principle-keep-it-simple" and "principle-fix-root-causes", plus the principle the work needs: "principle-design-the-core" for types, data and where code lives; "principle-design-for-operations" for jobs, pipelines, config and deployment; "principle-let-models-judge" for prompts, agents and evals.
+Before the first change, call the Skill tool with "principle-keep-it-simple" and "principle-fix-root-causes", plus the principle the work needs: "principle-design-the-core" for types, data and where code lives; "principle-design-for-operations" for jobs, pipelines, config and deployment; "principle-let-models-judge" whenever the work touches code that calls an LLM (prompts, agents, tools, model settings, evals), because model behaviour is not fixed the way code is.
 
 Call the Skill tool with "tdd" where possible, testing at the seams the spec names or the repo's test policy defines (`### Checks` in `AGENTS.md` or `CLAUDE.md`).
 

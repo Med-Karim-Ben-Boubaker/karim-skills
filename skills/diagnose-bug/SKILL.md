@@ -7,6 +7,8 @@ description: "Diagnosis loop for hard bugs and performance regressions: build a 
 
 A discipline for hard bugs. Skip phases only when explicitly justified.
 
+**A wrong model answer** is found here but not fixed here. Once the loop shows the code gave the model the right input, call the Skill tool with "principle-let-models-judge" and work its levers (the prompt, more reasoning, another model) in place of Phase 5.
+
 When exploring the codebase, read `GLOSSARY.md` (if it exists) to get a clear mental model of the relevant modules, and check ADRs in the area you're touching.
 
 ## Issues
