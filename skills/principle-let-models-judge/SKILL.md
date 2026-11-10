@@ -29,7 +29,7 @@ Fuzzy work (reading a page, classifying a document, finding a source) goes to a 
 |---|---|---|
 | Measure | The code's behaviour | A model's behaviour on a task |
 | Call a model | Never: fakes, fixtures, recorded answers | Yes |
-| Run | Targeted on every change; full suite once before hand-back | Rarely |
+| Run | Targeted while working; full suite once, on the way into the default branch | Rarely |
 | Cost | Seconds | Minutes to hours, and real money |
 
 Run an eval only when a person changed a prompt, model, model setting or tool in a way that changes behaviour, and wants it measured. Everything else is a code test. When one runs:

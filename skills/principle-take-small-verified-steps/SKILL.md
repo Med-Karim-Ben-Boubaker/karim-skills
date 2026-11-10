@@ -1,6 +1,6 @@
 ---
 name: principle-take-small-verified-steps
-description: "Advances work in small steps, each proven on the real artifact with the narrowest check that can go red; runs the full suite once before handing back; backs every number with a measurement. Use when planning or executing multi-step work, choosing which tests to run, optimising or benchmarking, and before declaring any task done."
+description: "Advances work in small steps, each proven on the real artifact with the narrowest check that can go red; runs the full suite once, on the way into the default branch; backs every number with a measurement. Use when planning or executing multi-step work, choosing which tests to run, optimising or benchmarking, and before declaring any task done."
 ---
 
 # Small Verified Steps
@@ -19,8 +19,9 @@ The chance of a defect grows with the size of a change, and you know a behaviour
 | When | Run |
 |---|---|
 | Each red → green cycle | The one test you are working on |
-| A step is done | The tests for the code it touched (its file, module or package), plus typecheck and lint on changed files |
-| Before handing back or marking a merge request ready | The full suite and e2e, once. Rerun the full suite only when new code arrived after that run (a sync with the default branch, a fix touching shared code) |
+| The work is done and synced with its target branch | The tests for the code it touched (its file, module or package), plus typecheck and lint on changed files, once. After a later sync or fix, rerun only the tests that change touched |
+| A merge request into the default branch is ready | The full suite and e2e, once: in the merge request's pipeline where the repo has one, with only the checks the pipeline leaves out run locally; without a pipeline, locally |
+| A merge into an integration branch | Nothing more: no full suite, no e2e, no pipeline |
 | A prompt, model, model setting or tool changed and the user wants it measured | That component's evals, smallest case set first (`principle-let-models-judge`) |
 
 - A passing targeted run on unchanged code needs no second, wider run "to make sure".

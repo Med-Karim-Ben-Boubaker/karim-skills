@@ -57,4 +57,4 @@ One test at a time, each just before the code that makes it pass. Tests written 
 |---|---|---|
 | Unit | One process, memory only | Every red → green cycle |
 | Integration | This machine: a real database in a container, the file system, a local server | When a slice that touches that edge is done, and in the full suite |
-| E2E | Real services, a browser, the deployed app | Once, before the merge request is ready |
+| E2E | Real services, a browser, the deployed app | Once, before the merge request into the default branch is ready |

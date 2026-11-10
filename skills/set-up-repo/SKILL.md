@@ -141,8 +141,8 @@ Every issue gets one kind and one stage; `/write-issue` says how to choose them 
 | Typecheck | `<command>` | While working, on changed files |
 | Lint | `<command>` | While working, on changed files |
 | One test | `<command> <path>::<name>` | Every red → green cycle |
-| Full suite | `<command>` (takes about <time>) | Once, before the merge request is ready |
-| E2E tests | `<command>` | Once, before the merge request is ready |
+| Full suite | `<command>` (takes about <time>) | Once, for a merge request into the default branch: in its pipeline where there is one |
+| E2E tests | `<command>` | Once, before a merge request into the default branch is ready |
 | Evals | `<command>` | Only when a prompt, model, model setting or tool changed and the user asked |
 
 Code tests never call a model or the network: they use fakes, fixtures and recorded responses. Evals are not checks; they measure models.
