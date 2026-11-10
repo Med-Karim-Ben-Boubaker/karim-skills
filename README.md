@@ -21,8 +21,8 @@ Skills are never nested in group folders, because Codex finds skills only one le
 | Group | What |
 |---|---|
 | Engineering | Code work: issues, spec and tickets, implement, TDD, review, PRs, bug diagnosis, diagrams |
-| Productivity | Grilling, hand-off, teaching, writing for agents, codebase design, design patterns |
-| Principles (`principle-*`) | Rules of judgment the agent applies while it works, one question each |
+| Productivity | Grilling, hand-off, writing for agents, codebase design, design patterns |
+| Principles (`principle-*`) | Six rules of judgement, one question each; their core is always on through `rules/engineering-defaults.md` |
 
 A skill is either model-invoked (the agent picks it when the task matches its description) or user-only: `disable-model-invocation: true` in `SKILL.md` for Claude Code, `policy.allow_implicit_invocation: false` in `agents/openai.yaml` for Codex. Naming rules are in [`AGENTS.md`](AGENTS.md). Many skills are forked from [mattpocock/skills](https://github.com/mattpocock/skills) (MIT, see [`LICENSE-mattpocock`](LICENSE-mattpocock)); [`UPSTREAM.md`](UPSTREAM.md) maps their names.
 

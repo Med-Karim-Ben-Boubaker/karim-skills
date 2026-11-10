@@ -1,5 +1,7 @@
 # When to Mock
 
+Code tests never call a model or the network. For a client you own (an LLM, an HTTP API), record real responses once and replay them; see [Recorded responses](#recorded-responses).
+
 Mock at **system boundaries** only:
 
 - External APIs (payment, email, etc.)
@@ -57,3 +59,11 @@ The SDK approach means:
 - No conditional logic in test setup
 - Easier to see which endpoints a test exercises
 - Type safety per endpoint
+
+## Recorded responses
+
+- **Record once against the real service** with a cassette library: pytest-recording or VCR.py in Python, Polly.js or nock's recorder in JavaScript. Filter auth headers and keys out of the cassette before it's committed.
+- **Replay with recording off.** pytest-recording's default `none` mode makes a test that would reach the network fail instead of calling out.
+- **Re-record only when the prompt, model or API changed**, and review the cassette diff like code.
+
+A recorded response proves the code handles that answer. Whether the model still gives it is an eval's question (`principle-let-models-judge`).

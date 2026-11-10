@@ -1,6 +1,6 @@
 ---
 name: remove-comments
-description: "Deletes the comments in a diff with a fresh reviewer subagent, keeping only a short list of exceptions (license headers, constraints we can't change, docstrings on public functions and APIs), flags the code each deleted comment was propping up, then fixes that code and offers to encode claimed constraints as a type, test or lint. Use before review, when implement or implement-spec finish their build, or when review-code flags comments."
+description: "Deletes the comments in a diff with a fresh subagent, keeping only license headers, outside constraints and public API docstrings, then fixes the code each deleted comment was propping up. Use before review, when implement or implement-spec finish their build, or when review-code flags comments."
 ---
 
 # Remove Comments

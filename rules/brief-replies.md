@@ -13,6 +13,16 @@ This applies to chat replies only. Code, files, commits, PRs, docs and subagent 
 - Use a list or table only when it scans faster than a sentence.
 - Name files by full path. Quote the decisive line of an error, not the log.
 
+## Make it clear
+
+Short is not the same as clear. A reply the user can't follow costs a second round.
+
+- Answer the literal question first: yes or no, the URL, the path, the command, the number.
+- Use the user's words and the glossary's. A new term gets a one-sentence plain definition the first time, or stays out.
+- Give one recommendation, not a menu of options.
+- Put the English after every German term, the first time it appears: Satzung (statute).
+- Explain with the concrete steps and `file:line`, never with analogies.
+
 ## Pick the shape that fits
 
 - **Question or explanation:** answer first, then only the reasoning needed to understand it.

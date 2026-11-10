@@ -1,6 +1,6 @@
 ---
 name: design-patterns
-description: "The 22 classic design patterns (creational, structural, behavioral) as a lookup from a signal in the code to the pattern it earns, with the simplest form first: a function, a dict, a generator or a module before a class hierarchy. Use when a design or refactor keeps hitting the same shape (a growing conditional, a constructor with many options, a tree, a tangle of objects calling each other), when review-code flags a smell such as Repeated Switches, or when someone asks which pattern fits."
+description: "The 22 classic design patterns as a lookup from a signal in the code to the pattern it earns, simplest form first: a function, dict, generator or module before a class hierarchy. Use when code keeps hitting the same shape, when review-code names a pattern, or when someone asks which pattern fits."
 ---
 
 # Design Patterns

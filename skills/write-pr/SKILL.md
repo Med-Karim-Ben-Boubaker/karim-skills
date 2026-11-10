@@ -12,6 +12,7 @@ metadata:
 ## Before you write
 
 - **Read the tickets** this change finishes, with the fetch command in `docs/agents/issue-tracker.md`. Their `## Brief` acceptance criteria are what the evidence must prove; a bug's `## Diagnosis` names the command that went red.
+- **Get the evidence** from the Demo that `review-code` ran: its folder, `.sandbox/demo-<short sha>/`, holds `demo.sh`, `before/` and `after/`. When `HEAD` has moved since, rerun `demo.sh` on `HEAD` into `.sandbox/demo-<new short sha>/after/`, keep the first `before/`, and look at every new screenshot and output before you use it. When no Demo ran, call the Skill tool with `review-code` first.
 - **Title** the PR as the change, in the repo's commit format under `### Commits` in `AGENTS.md` or `CLAUDE.md`. The ticket's title says the problem; the PR's says what was done.
 - **Open it as a draft** with the first pushed commit, so the ticket shows work in progress, and mark it ready once the evidence is in. The commands are under **Pull requests** in `docs/agents/issue-tracker.md`.
 
@@ -26,12 +27,22 @@ Closes #<ticket>
 
 ## Evidence
 
+Captured on `<short sha>`.
+
 <one entry per acceptance criterion>
 
 - [x] <criterion>
   **Before:** <screenshot/output/failing test run>
   **After:** <screenshot/output/passing test run>
 - [ ] <criterion> **Unproven:** <why>
+
+<details><summary>Rerun the demo</summary>
+
+~~~sh
+<demo.sh>
+~~~
+
+</details>
 
 ## Merge Danger
 
@@ -173,19 +184,14 @@ You may use one of these, you may use several, it is unlikely you will use all o
 
 ### Evidence
 
-Prove the change works on the real thing; don't describe it. Give one entry per acceptance criterion in the tickets' `## Brief`, each with a before and an after captured the same way.
+Prove the change works on the real thing; don't describe it. Give one entry per acceptance criterion in the tickets' `## Brief`, with the before and after the Demo captured. They must be captured on the commit the PR points at; say which.
 
-| The change | Before | After |
-|---|---|---|
-| Visible (UI, page, report, chart) | Screenshot on the default branch | Screenshot of the same view, same size and data, on this branch |
-| New, with nothing before it | Screenshot or output showing it's absent: the 404, the missing button, `unknown option` | It working, plus one edge case |
-| Bug | The `## Diagnosis` command, red | The same command, green |
-| Not visible (API, CLI, data, perf) | The exact command and its output | The same command and its output |
-
-- **Screenshots are the first choice** for anything a person sees. Take them with Playwright: check out the default branch for "before", this branch for "after". Upload them as **Upload a screenshot** in `docs/agents/issue-tracker.md` says, and embed the link.
-- Trim output to the lines that carry the signal. Redact secrets.
+- **Screenshots first** for anything a person sees. Upload them as **Upload a screenshot** in `docs/agents/issue-tracker.md` says, and embed the link.
+- **Paste output exactly as the script saved it**, trimmed to the lines that carry the signal, with `…` marking each cut. Redact secrets.
+- **A test run counts only with the runner's own summary line**, showing the criterion's tests ran: zero tests run, or skipped, is no evidence.
+- **Add `demo.sh`** in the collapsed block, so a reviewer can rerun the demo.
 - "Tests pass", "should work" and a description of the code are not evidence.
-- A criterion you couldn't prove stays in the list, unchecked, marked **Unproven** with the reason.
+- A criterion you couldn't prove stays in the list, unchecked, marked **Unproven** with the reason. A criterion the Demo saw fail blocks ready until it's fixed.
 
 ### Merge Danger
 

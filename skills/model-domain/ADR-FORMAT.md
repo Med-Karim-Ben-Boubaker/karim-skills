@@ -21,6 +21,8 @@ Only include these when they add genuine value. Most ADRs won't need them.
 - **Status** frontmatter (`proposed | accepted | deprecated | superseded by ADR-NNNN`): useful when decisions are revisited
 - **Considered Options**: only when the rejected alternatives are worth remembering
 - **Consequences**: only when non-obvious downstream effects need to be called out
+- **Considered Options**, when written, name what each option buys and what it costs, against at most three driving characteristics (cost, latency, evolvability…)
+- **Revisit when**: the measurable condition that reopens the decision ("above 50 jobs/s", "unused for 30 days"), so a simple choice today doesn't become permanent
 
 ## Numbering
 

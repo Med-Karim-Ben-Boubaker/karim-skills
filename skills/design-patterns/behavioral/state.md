@@ -4,7 +4,7 @@
 
 **Earned when:** the same `if self.status == ...` cascade appears in several methods, and states have different behaviour, not just different labels.
 
-**Simplest form first:** an `Enum` plus a transition table (dict of allowed moves) when states differ only in which moves are allowed. Classes when each state has its own behaviour. See `principle-make-illegal-states-unrepresentable`.
+**Simplest form first:** an `Enum` plus a transition table (dict of allowed moves) when states differ only in which moves are allowed. Classes when each state has its own behaviour. See `principle-design-the-core`.
 
 **Roles:** context (holds the current state, delegates), state interface, concrete states (may trigger transitions).
 

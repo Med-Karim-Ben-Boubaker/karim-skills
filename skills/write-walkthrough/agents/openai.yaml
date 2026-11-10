@@ -1,0 +1,5 @@
+interface:
+  display_name: "Write Walkthrough"
+  short_description: "Steps to check finished work yourself"
+policy:
+  allow_implicit_invocation: false

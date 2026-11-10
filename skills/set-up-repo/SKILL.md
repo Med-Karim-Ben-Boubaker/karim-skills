@@ -1,6 +1,6 @@
 ---
 name: set-up-repo
-description: "Configure a new or existing repo for the engineering skills: explore its GitLab, GitHub or local issues, labels and templates, propose how to organise them into kinds and stages, then set up the tracker, labels, issue templates and domain doc layout once the user agrees. Run once before first use of the other engineering skills, or again to reorganise."
+description: "Configure a repo for the engineering skills: issue tracker, labels and templates, checks and test policy, domain docs, and the run recipe and its sandbox. Run once before first use, or again to reorganise."
 disable-model-invocation: true
 ---
 
@@ -11,6 +11,7 @@ Scaffold the per-repo configuration that the engineering skills assume:
 - **Issue tracker**: where issues live (GitHub by default; local markdown is also supported out of the box)
 - **Issue labels and templates**: the label strings for the three kinds and five stages every issue carries (see `/write-issue`), and the tracker's issue templates
 - **Domain docs**: where `GLOSSARY.md` and ADRs live, and the consumer rules for reading them
+- **Run recipe**: how any agent starts the app, uses it the way a person would and captures what it shows, writing only to a **sandbox**, so the Demo in `/review-code` can prove a change works
 
 This is a prompt-driven skill, not a deterministic script. Explore, present what you found, confirm with the user, then write.
 
@@ -28,7 +29,8 @@ Look at the current repo to understand its starting state. Read whatever exists;
 - `.scratch/`: a sign that a local-markdown issue tracker convention is already in use
 - **Commit rules**: a commit convention in `AGENTS.md`/`CLAUDE.md`, `CONTRIBUTING.md`, a commitlint config or a commit-msg hook, and the shape of the last 30 titles (`git log --format=%s -30`).
 - **The tracker itself.** Once the remote tells you GitLab or GitHub (or `.scratch/` tells you local), run the **Explore** commands in that tracker's seed file: its labels (project and group), open issues and how they are labelled, issue templates, milestones, epics or projects. Count; don't read every issue. Note whether issues are enabled at all. This decides whether the repo is **new** (no tracker or no issues yet) or **established** (work already tracked).
-- **Checks**: the commands that typecheck, lint, and run the unit and e2e tests, from `AGENTS.md`/`CLAUDE.md`, `package.json` scripts, a `Makefile`, `justfile` or `pyproject.toml`, and the CI config (`.gitlab-ci.yml`, `.github/workflows/`). Note any the repo lacks.
+- **Checks**: the commands that typecheck, lint, run one test, run the full suite and the e2e tests, and run any eval or benchmark that calls a model, from `AGENTS.md`/`CLAUDE.md`, `package.json` scripts, a `Makefile`, `justfile` or `pyproject.toml`, and the CI config (`.gitlab-ci.yml`, `.github/workflows/`). Time the full suite once, with the runner's per-test timing (`pytest --durations=10` or its equivalent). Note any check the repo lacks, the slowest tests and why each is slow (`/tdd`'s FIRST), and whether any unit test calls a model or the network.
+- **Running it**: how a person starts and uses the app (README, `Makefile`, `package.json`, `docker-compose.yml`, `Procfile`, `.env.example`), what it needs (an env file, a database, a bucket, a GPU, a login), and every place it writes (folders, buckets, databases, trackers, outgoing messages), with the env var that sets each, if any. Note any run skill already in `.claude/skills/run-*/`.
 - Monorepo signals: a `pnpm-workspace.yaml`, a `workspaces` field in `package.json`, or a populated `packages/*` with its own `src/`. These are present only in a genuinely large multi-package repo; their absence means single-context, which is almost every repo.
 
 ### 2. Present findings and ask
@@ -39,7 +41,7 @@ Lead each section with the recommended answer so the user can accept it in a wor
 
 **Section A: Issue tracker.**
 
-> Explainer: The "issue tracker" is where issues live for this repo. Skills like `write-tickets`, `triage`, and `write-spec` read from and write to it. They need to know whether to call `gh issue create`, write a markdown file under `.scratch/`, or follow some other workflow you describe. Pick the place you actually track work for this repo.
+> Explainer: The "issue tracker" is where issues live for this repo. Skills like `write-issue`, `write-spec` and `implement-spec` read from and write to it. They need to know whether to call `gh issue create`, write a markdown file under `.scratch/`, or follow some other workflow you describe. Pick the place you actually track work for this repo.
 
 For a **new** repo, default posture: these skills were designed for GitHub. If a `git remote` points at GitHub, propose that. If a `git remote` points at GitLab (`gitlab.com` or a self-hosted host), propose GitLab. Otherwise (or if the user prefers), offer:
 
@@ -48,7 +50,7 @@ For a **new** repo, default posture: these skills were designed for GitHub. If a
 - **Local markdown**: issues live as files under `.scratch/<feature>/` in this repo (good for solo projects or repos without a remote)
 - **Other** (Jira, Linear, etc.): ask the user to describe the workflow in one paragraph; the skill will record it as freeform prose
 
-Record the choice in `docs/agents/issue-tracker.md`. The GitHub and GitLab templates carry a "PRs as a request surface" flag, defaulted **off**. Leave it off and don't raise it: a user who wants external PRs in the triage queue can flip the flag in the file later.
+Record the choice in `docs/agents/issue-tracker.md`.
 
 A GitHub or GitLab tracker needs a reachable project with issues enabled. When the user picks one and none exists, offer to create it with the **Create** commands in the seed file, or get the URL of an existing one and wire it up (`git init` if needed, `git remote add origin <url>`). Done when `gh repo view` / `glab repo view` prints the project from inside this directory and issues are enabled; if it can't, stop and tell the user what's missing.
 
@@ -85,12 +87,19 @@ Then ask whether to add the tracker's issue templates (recommended: **yes**), so
 
 Offer **multi-context** (a root `GLOSSARY-MAP.md` pointing to per-context `GLOSSARY.md` files) only when exploration found monorepo signals. Then confirm which layout they want.
 
+**Section D: Run recipe.** Propose the sandbox, then the recipe.
+
+> Explainer: Tests check the code. The run recipe lets an agent use the software the way you would (open the page, run the command on a real input, run the pipeline on one small slice) and show you the screenshot or output. The sandbox is where those runs write: a local folder, a scratch bucket prefix, a dev database, never the real location. In Claude Code, `/run` and `/verify` follow the recipe too.
+
+Propose a sandbox value for each place the app writes: the gitignored `.sandbox/<run>/` for files, `s3://<dev-bucket>/sandbox/<run>/` for object storage, a dev or throwaway database, where `<run>` is the branch and short commit. A place no env var can redirect can't be sandboxed: list it as a **Config in code** finding (`principle-design-for-operations`), offer to file an issue, and mark it **off limits** in the recipe until it's fixed.
+
 ### 3. Confirm and edit
 
 Show the user a draft of:
 
 - The `## Agent skills` block to add to whichever of `CLAUDE.md` / `AGENTS.md` is being edited (see step 4 for selection rules)
 - The contents of `docs/agents/issue-tracker.md` and `docs/agents/domain.md`
+- The run recipe, with its sandbox and off-limits lists
 - For an established repo: the labels to create or retire, and the relabel of open issues
 
 Let them edit before writing.
@@ -127,18 +136,28 @@ Every issue gets one kind and one stage; `/write-issue` says how to choose them 
 
 ### Checks
 
-| Check | Command |
-|---|---|
-| Typecheck | `<command>` |
-| Lint | `<command>` |
-| Unit tests | `<command>` |
-| E2E tests | `<command>` |
+| Check | Command | When |
+|---|---|---|
+| Typecheck | `<command>` | While working, on changed files |
+| Lint | `<command>` | While working, on changed files |
+| One test | `<command> <path>::<name>` | Every red → green cycle |
+| Full suite | `<command>` (takes about <time>) | Once, before the merge request is ready |
+| E2E tests | `<command>` | Once, before the merge request is ready |
+| Evals | `<command>` | Only when a prompt, model, model setting or tool changed and the user asked |
 
-[drop a row the repo has no command for, and say so; `/implement` runs all of them before a merge request is ready]
+Code tests never call a model or the network: they use fakes, fixtures and recorded responses. Evals are not checks; they measure models.
+
+Tests are FIRST (`/tdd`): a unit test runs in under 100 ms. Tests that need a real database, network or browser are marked `<marker>`, so a quick run can leave them out (`<command to deselect them>`).
+
+[drop a row the repo has no command for, and say so]
 
 ### Commits
 
 [the repo's commit rules, or a pointer to where they live; when the repo has none, propose a format from its recent titles and confirm it with the user]. `/implement` follows these.
+
+### Run
+
+`.claude/skills/run-<app>/SKILL.md` starts, uses and stops the app, writing only to the sandbox it names. Follow it to show a change working.
 
 ### Domain docs
 
@@ -160,6 +179,8 @@ Then write the docs files using the seed templates in this skill folder as a sta
 
 For "other" issue trackers, write `docs/agents/issue-tracker.md` from scratch using the user's description.
 
+Then write the run recipe to `.claude/skills/run-<app>/SKILL.md` from [run-recipe.md](./run-recipe.md), one per app the repo starts, and add `.sandbox/` to `.gitignore`. Prove it: from a fresh shell in a new worktree, follow only the recipe to start the app, use it once, capture one screenshot or output, and stop it. It's done when that works and nothing was written outside the sandbox; fix the recipe until it holds.
+
 ### 5. Done
 
-Tell the user the setup is complete, what changed on the tracker, and which engineering skills will now read from these files. Mention they can edit `docs/agents/*.md` directly later; re-running this skill is only necessary if they want to switch issue trackers or restart from scratch.
+Tell the user the setup is complete, what changed on the tracker, which engineering skills will now read from these files, and where the sandbox is, so they can open what the agents' runs produce. Mention they can edit `docs/agents/*.md` directly later; re-running this skill is only necessary if they want to switch issue trackers or restart from scratch.

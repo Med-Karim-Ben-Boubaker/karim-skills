@@ -81,16 +81,6 @@ One Markdown file per kind in `.gitlab/issue_templates/`: `Bug.md`, `Feature.md`
 - **Auto-close**: always write `Closes`, never `Fixes`, `Resolves` or `Implements`. GitLab closes every `Closes` ticket when the MR merges into the **default branch**, if the project setting *Auto-close referenced issues on default branch* is on (`glab api "projects/:id" | jq .autoclose_referenced_issues`). Merging into another branch, or closing the MR unmerged, closes nothing. Commits say `Refs #<n>`, so nothing closes early.
 - **After the merge**: check each ticket with `glab issue view <n> -F json | jq .state`. Close any still `opened` as done with a note linking the MR (child tasks may not auto-close); close the parent after its last child.
 
-## Merge requests as a triage surface
-
-**MRs as a request surface: no.** _(Set to `yes` if this repo treats external merge requests as feature requests; `/triage` reads this flag.)_
-
-When set to `yes`, MRs run through the same labels and states as issues, using the `glab mr` equivalents:
-
-- **Read an MR**: `glab mr view <number> --comments` and `glab mr diff <number>` for the diff.
-- **List external MRs for triage**: `glab mr list -O json`, then keep only MRs whose author is not a project member/owner (a contributor's MR, not a maintainer's in-flight work).
-- **Comment / label / close**: `glab mr note`, `glab mr update --label`/`--unlabel`, `glab mr close`.
-
 Unlike GitHub, GitLab numbers issues and MRs separately, so `#42` is unambiguous once you know which surface the maintainer means.
 
 ## When a skill says "publish to the issue tracker"

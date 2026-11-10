@@ -1,6 +1,6 @@
 ---
 name: tdd
-description: "Test-driven development in vertical slices: one failing test through a public interface, the minimum code to pass, refactor, repeat. Use when the user wants to build features or fix bugs test-first, mentions red-green-refactor, or wants integration tests, and when writing tests that must survive refactoring. For pacing and proving multi-step work in general, use principle-take-small-verified-steps."
+description: "Test-driven development in vertical slices: one failing test through a public interface, the minimum code to pass, repeat, with FIRST tests (fast, isolated, repeatable, self-validating, timely). Use when building features or fixing bugs test-first (red-green-refactor), writing or reviewing any test, or when tests are slow or flaky. For pacing multi-step work, use principle-take-small-verified-steps."
 ---
 
 # Test-Driven Development
@@ -15,13 +15,31 @@ Tests verify behavior through public interfaces, not implementation details. Cod
 
 See [tests.md](tests.md) for examples and [mocking.md](mocking.md) for mocking guidelines.
 
+## FIRST
+
+Every test is **FIRST**. A slow or flaky test taxes every cycle that runs it, so a test that breaks a letter is a defect in the test: fix it in the same cycle, before the next test.
+
+| Letter | The test | It holds when |
+|---|---|---|
+| **Fast** | Runs in memory: no sleep, real clock, network, database, subprocess, server, browser or model, and the smallest input that shows the behaviour | The runner's own timing shows it under 100 ms, setup included |
+| **Isolated** | Arranges its own state, acts once, asserts one logical outcome; no other test's state or output reaches it | It passes alone and in its module's run, in any order |
+| **Repeatable** | Fixes everything that varies: the clock, the random seed, the timezone, every remote answer | Every run, on any machine and offline, gives the same result |
+| **Self-validating** | Decides pass or fail itself, against an expected value from outside the code | It goes red when the behaviour breaks, with no person reading its output |
+| **Timely** | Is written just before the code that makes it pass | You saw it red first |
+
+Some lists read the T as **Thorough**: at each agreed seam, cover what can really happen there (the typical case, the boundaries, illegal input, the failure path). That is thorough at the seams, never every branch; large inputs and load belong in a performance test, run apart from the loop.
+
+A test that needs the real thing (a database, the network, a browser) is an integration or e2e test: mark it the way the repo's `### Checks` says, so quick runs can leave it out, and keep the logic it covers testable below the I/O. [first.md](first.md) lists the usual ways a test breaks each letter, and the fix for each.
+
 ## Seams: where tests go
 
 A **seam** is the public boundary you test at: the interface where you observe behavior without reaching inside. Tests live at seams, never against internals.
 
-**Test only at pre-agreed seams.** Before writing any test, write down the seams under test and confirm them with the user. No test is written at an unconfirmed seam. You can't test everything, so agreeing the seams up front is how testing effort lands on the critical paths and complex logic instead of every edge case.
+**Test only at agreed seams.** Before writing any test, write down the seams under test. Take them from the spec or the ticket, or from the test policy the repo defines (`### Checks` in `AGENTS.md` or `CLAUDE.md`, and `CODING_STANDARDS.md`); ask the user only when none of these names them. You can't test everything, so agreeing the seams up front is how testing effort lands on the critical paths and complex logic instead of every edge case.
 
-Ask: "What's the public interface, and which seams should we test?" Give each proposed seam a one-line note on what it catches and what it misses.
+When you do ask: "What's the public interface, and which seams should we test?" Give each proposed seam a one-line note on what it catches and what it misses.
+
+**Code tests never call a model**, the network or a GPU: use fakes, fixtures and recorded answers. A model's behaviour is measured by evals, which are not part of this loop (`principle-let-models-judge`).
 
 When the shape of that interface is itself in question (how deep the module is, where the seam belongs, what the interface should expose), call the Skill tool with "codebase-design" for the vocabulary. It is the shared source of the module, interface, depth, seam, adapter, leverage and locality terms, and it is a reference to consult, not a session to run.
 
@@ -35,4 +53,5 @@ When the shape of that interface is itself in question (how deep the module is, 
 
 - **Red before green.** Write the failing test first, then only enough code to pass it. Don't anticipate future tests or add speculative features.
 - **One slice at a time.** One seam, one test, one minimal implementation per cycle.
+- **Run the narrowest test, and read its time.** Each cycle runs the one test you are working on; when the command takes more than a few seconds, find out why before the next cycle ([first.md](first.md)). When a slice is done, run the tests for the code it touched, in random order where the runner supports it. The full suite runs once, when the work is done (`principle-take-small-verified-steps`).
 - **Refactoring is not part of the loop.** It belongs to the review stage (see the `review-code` skill), not the red → green implementation cycle.

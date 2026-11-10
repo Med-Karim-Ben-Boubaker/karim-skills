@@ -1,6 +1,6 @@
 ---
 name: model-domain
-description: "Builds and sharpens a project's domain model while designing: challenges terms, invents edge cases, and writes GLOSSARY.md entries and ADRs as decisions settle. Use when naming or discussing domain concepts, resolving ambiguous terminology, writing or editing a GLOSSARY.md, or recording or editing an ADR. For encoding the domain in types, use principle-make-illegal-states-unrepresentable."
+description: "Builds and sharpens a project's domain model while designing: challenges terms, invents edge cases, and writes GLOSSARY.md entries and ADRs as decisions settle. Use when naming or discussing domain concepts, resolving ambiguous terminology, writing or editing a GLOSSARY.md, or recording or editing an ADR. For encoding the domain in types, use principle-design-the-core."
 ---
 
 # Domain Modeling

@@ -1,6 +1,6 @@
 {
   "name": "karim-skills",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Engineering and productivity skills, plus my principles.",
   "author": {
     "name": "Med-Karim-Ben-Boubaker"
@@ -10,13 +10,9 @@
   "skills": [
     "./skills/pick-skill",
     "./skills/diagnose-bug",
-    "./skills/grill-with-docs",
-    "./skills/triage",
-    "./skills/improve-codebase-architecture",
     "./skills/set-up-repo",
     "./skills/tdd",
     "./skills/write-spec",
-    "./skills/write-tickets",
     "./skills/write-issue",
     "./skills/plan-large-work",
     "./skills/implement",
@@ -27,27 +23,22 @@
     "./skills/remove-comments",
     "./skills/review-code",
     "./skills/write-pr",
+    "./skills/write-walkthrough",
     "./skills/run-retro",
     "./skills/write-wizard",
     "./skills/diagram-code",
-    "./skills/grill-me",
     "./skills/grill",
     "./skills/hand-off",
-    "./skills/teach",
     "./skills/write-questionnaire",
     "./skills/wait-what",
     "./skills/write-for-agents",
     "./skills/codebase-design",
     "./skills/design-patterns",
-    "./skills/principle-point-dependencies-inward",
-    "./skills/principle-design-for-crashes",
     "./skills/principle-fix-root-causes",
     "./skills/principle-keep-it-simple",
-    "./skills/principle-make-illegal-states-unrepresentable",
-    "./skills/principle-measure-before-optimizing",
-    "./skills/principle-name-the-trade-off",
-    "./skills/principle-write-obvious-code",
     "./skills/principle-take-small-verified-steps",
-    "./skills/principle-program-strategically"
+    "./skills/principle-design-the-core",
+    "./skills/principle-design-for-operations",
+    "./skills/principle-let-models-judge"
   ]
 }

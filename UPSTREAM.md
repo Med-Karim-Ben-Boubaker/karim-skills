@@ -12,12 +12,14 @@ Skills forked from [mattpocock/skills](https://github.com/mattpocock/skills) (at
 | `write-pr` | `pr` |
 | `run-retro` | `retro` |
 | `write-spec` | `to-spec` |
-| `write-tickets` | `to-tickets` |
+| `write-issue` → `SPLIT.md` | `to-tickets` |
 | `plan-large-work` | `wayfinder` |
 | `write-wizard` | `wizard` |
 | `grill` | `grilling` |
 | `hand-off` | `handoff` |
 | `write-questionnaire` | `to-questionnaire` |
 | `write-for-agents` | `writing-for-agents` |
+
+Not kept: `grill-me` and `grill-with-docs` (folded into `grill`), `triage`, `teach` and `improve-codebase-architecture` (removed: none was used in any session since being added).
 
 They are MIT-licensed by Matt Pocock: see [`LICENSE-mattpocock`](LICENSE-mattpocock).

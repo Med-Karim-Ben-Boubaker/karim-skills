@@ -75,3 +75,33 @@ test("calculateTotal sums line items", () => {
   expect(calculateTotal([{ price: 10 }, { price: 5 }])).toBe(15);
 });
 ```
+
+## FIRST
+
+**Slow**: the test waits through the real backoff.
+
+```python
+# BAD: sleeps 1 s, 2 s and 4 s on every run
+def test_fetch_gives_up_after_three_retries():
+    with pytest.raises(FetchError):
+        fetch_rates(day, http=FailingHttp())
+
+# GOOD: the wait is passed in, so the test runs in milliseconds and checks the backoff too
+def test_fetch_gives_up_after_three_retries():
+    waits = []
+    with pytest.raises(FetchError):
+        fetch_rates(day, http=FailingHttp(), sleep=waits.append)
+    assert waits == [1, 2, 4]
+```
+
+**Not repeatable**: the test reads the real clock, and recomputes its expected value the way the code does.
+
+```python
+# BAD: depends on the day it runs
+def test_report_covers_yesterday():
+    assert build_daily_report().day == date.today() - timedelta(days=1)
+
+# GOOD: the clock is passed in, and the expected value is a literal
+def test_report_covers_yesterday():
+    assert build_daily_report(today=date(2026, 3, 2)).day == date(2026, 3, 1)
+```

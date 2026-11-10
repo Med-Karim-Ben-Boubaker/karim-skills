@@ -12,9 +12,9 @@ The issue tracker (`docs/agents/issue-tracker.md`) and the repo's issue labels (
 
 1. Explore the repo to understand the current state of the codebase, if you haven't already. Use the project's domain glossary vocabulary throughout the spec, and respect any ADRs in the area you're touching.
 
-2. Sketch out the seams at which you're going to test the feature. Existing seams should be preferred to new ones. Use the highest seam possible. If new seams are needed, propose them at the highest point you can. The fewer seams across the codebase, the better - the ideal number is one.
+2. Sketch out the seams at which you're going to test the feature. Use the test policy the repo already defines (`### Checks` in `AGENTS.md` or `CLAUDE.md`, and `CODING_STANDARDS.md`): its seams, fakes and fixtures. Existing seams should be preferred to new ones. Use the highest seam possible. If new seams are needed, propose them at the highest point you can. The fewer seams across the codebase, the better - the ideal number is one. Ask the user about seams only when the repo defines none.
 
-Check with the user that these seams match their expectations.
+   Code tests never call a model. Plan an eval only when the spec changes a prompt, model, model setting or tool, and say so in **Testing Decisions** (`principle-let-models-judge`).
 
 3. Write the spec using the template below, then publish it to the project issue tracker. Label it with its kind (`feature`, or `bug` for a diagnosed bug) and the `ready` stage; it needs no triage. If the work started from an existing issue, link it from the spec and close it as a duplicate of the spec, so one open issue carries the work.
 
@@ -63,6 +63,7 @@ A list of testing decisions that were made. Include:
 - A description of what makes a good test (only test external behavior, not implementation details)
 - Which modules will be tested
 - Prior art for the tests (i.e. similar types of tests in the codebase)
+- Whether any eval runs at all: only if the spec changes a prompt, model, model setting or tool, with the smallest case set that answers the question
 
 ## Out of Scope
 

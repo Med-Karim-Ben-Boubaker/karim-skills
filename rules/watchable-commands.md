@@ -15,3 +15,12 @@ When a terminal command is long-running (builds, full test suites, installs, mig
 5. **Report the outcome** with the exit status, the relevant lines, and the log path again.
 
 Short commands (a `git status`, a single test file, a quick grep) run normally: no log file, no tail command.
+
+## Background agents and long runs
+
+When subagents or long runs (evals, pipelines, deployments) will take more than a few minutes, make them watchable too:
+
+1. **Give each one a time budget** when you start it.
+2. **Keep one progress file** in the scratchpad and append one line per state change: started, finished, failed, or past its budget, with what is left. Hand the user `tail -f` on it before you wait.
+3. **Report each finish in one line** as it happens: what finished, what it found, what is still running.
+4. **Stop an agent that runs past its budget**, check what it left behind (its worktree, its partial output), and say so.

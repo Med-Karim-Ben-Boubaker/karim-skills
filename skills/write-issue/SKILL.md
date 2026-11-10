@@ -1,6 +1,6 @@
 ---
 name: write-issue
-description: "Files and moves issues on the repo's tracker (GitLab, GitHub or local files): picks the kind (bug, feature, chore) and the stage (needs-triage, parked, needs-investigation, needs-input, ready), titles it, writes the kind's template, and appends what each later stage needs, with evidence that fits the problem. Use when filing, relabelling, moving or closing an issue, or when a bug, idea or chore should be recorded instead of done now. For sorting a backlog, use triage; for a full spec, write-spec; for splitting big work into child tickets, write-tickets."
+description: "Files and moves issues on the repo's tracker (GitLab, GitHub or local files): one kind (bug, feature, chore) and one stage each, a title, the kind's template, and what each later stage needs. Use when filing, relabelling, moving or closing an issue, when work should be recorded instead of done now, or to split big work into child tickets."
 ---
 
 # Write Issue
@@ -65,10 +65,10 @@ Each later stage **appends** sections to the description and never rewrites earl
 | `ready`, chore | `## Brief` |
 | closed | A comment with the reason, then close it as `docs/agents/issue-tracker.md` says |
 
-`## Brief` is the contract the builder works from: the desired behaviour, acceptance criteria as checkboxes, and what is out of scope. Describe behaviour and interfaces, not file paths, which go stale.
+`## Brief` is the contract the builder works from: the desired behaviour, acceptance criteria as checkboxes, and what is out of scope. Write each criterion as something a person can see by running the software (a screen, a command's output, the rows a run writes), so the Demo in `/review-code` can prove it. Describe behaviour and interfaces, not file paths, which go stale.
 
 Change the stage label in the same step as the text, so the two always agree.
 
 ## Split into children
 
-When a `ready` issue is too big for one change, keep it as the **parent** and split the work into child tickets with `/write-tickets`: native children of the parent (GitHub sub-issues, GitLab child tasks, files in the feature's `issues/` folder) with blocking links between them, never loose issues. Each child gets the parent's kind and `ready`. The parent stays open until its last child closes. `/implement-spec` then works the open, unblocked children in parallel.
+When a `ready` issue is too big for one change, keep it as the **parent** and split the work into child tickets as [SPLIT.md](SPLIT.md) says: native children of the parent (GitHub sub-issues, GitLab child tasks, files in the feature's `issues/` folder) with blocking links between them, never loose issues. Each child gets the parent's kind and `ready`. The parent stays open until its last child closes. `/implement-spec` then works the open, unblocked children in parallel.

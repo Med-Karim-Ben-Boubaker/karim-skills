@@ -80,16 +80,6 @@ File issues only into the user's own repo. Never file into the repo these skills
 - **Auto-close**: always write `Closes`, never `Fixes` or `Resolves`. GitHub closes every `Closes` ticket when the PR merges into the **default branch**. Merging into another branch, or closing the PR unmerged, closes nothing; neither does closing the last sub-issue close its parent. Commits say `Refs #<n>`, so nothing closes early.
 - **After the merge**: check each ticket with `gh issue view <n> --json state`. Close any still `OPEN` as done with a comment linking the PR; close the parent after its last child.
 
-## Pull requests as a triage surface
-
-**PRs as a request surface: no.** _(Set to `yes` if this repo treats external PRs as feature requests; `/triage` reads this flag.)_
-
-When set to `yes`, PRs run through the same labels and states as issues, using the `gh pr` equivalents:
-
-- **Read a PR**: `gh pr view <number>`, then `gh pr view <number> --comments` (off a TTY, `--comments` prints only the comments, not the body), and `gh pr diff <number>` for the diff.
-- **List external PRs for triage**: `gh api --paginate 'repos/{owner}/{repo}/pulls?state=open' --jq '.[] | select(.author_association | IN("OWNER","MEMBER","COLLABORATOR") | not) | {number, title, author: .user.login, author_association, labels: [.labels[].name]}'`.
-- **Comment / label / close**: `gh pr comment`, `gh pr edit --add-label`/`--remove-label`, `gh pr close`.
-
 GitHub shares one number space across issues and PRs, so a bare `#42` may be either: resolve with `gh pr view 42` and fall back to `gh issue view 42`.
 
 ## When a skill says "publish to the issue tracker"
