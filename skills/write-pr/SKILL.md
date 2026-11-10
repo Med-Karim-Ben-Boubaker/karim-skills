@@ -12,7 +12,7 @@ metadata:
 ## Before you write
 
 - **Read the tickets** this change finishes, with the fetch command in `docs/agents/issue-tracker.md`. Their `## Brief` acceptance criteria are what the evidence must prove; a bug's `## Diagnosis` names the command that went red.
-- **Get the evidence** from the Demo that `review-code` ran: its folder, `.sandbox/demo-<short sha>/`, holds `demo.sh`, `before/` and `after/`. When `HEAD` has moved since, rerun `demo.sh` on `HEAD` into `.sandbox/demo-<new short sha>/after/`, keep the first `before/`, and look at every new screenshot and output before you use it. When no Demo ran, call the Skill tool with `review-code` first.
+- **Get the evidence** from the Demo that `review-code` ran: its folder, `.sandbox/demo-<short sha>/`, holds `demo.sh`, `before/` and `after/`. When `HEAD` has moved since, rerun `demo.sh` on `HEAD` into `.sandbox/demo-<new short sha>/after/`, keep the first `before/`, and look at every new screenshot and output before you use it. When no Demo ran, call the Skill tool with `review-code` first. A ticket PR inside an `implement-spec` run is the exception: that run's one Demo comes at the end, so the ticket PR shows its author's own run of the software.
 - **Title** the PR as the change, in the repo's commit format under `### Commits` in `AGENTS.md` or `CLAUDE.md`. The ticket's title says the problem; the PR's says what was done.
 - **Open it as a draft** with the first pushed commit, so the ticket shows work in progress, and mark it ready once the evidence is in. The commands are under **Pull requests** in `docs/agents/issue-tracker.md`.
 
@@ -207,6 +207,6 @@ A person reads this section to see the change working: make the proof loud and t
 
 Describe whether it's a one-way or two-way door. You can walk back through two-way doors, but not one-way doors. A PR that is cheap to roll back is lower risk. Changes that involve destructive actions or hard-to-reverse decisions are one-way doors.
 
-A one-way door needs a human reviewer's approval before merge; say so and don't auto-merge.
+Every merge waits for the user's approval; name a one-way door plainly, so that approval is given knowing it.
 
 The blast radius is the potential impact or scope of the changes introduced by this PR. Consider all possibilities. Examples are layout shift, breakages for consumers, mobile responsiveness, etc.

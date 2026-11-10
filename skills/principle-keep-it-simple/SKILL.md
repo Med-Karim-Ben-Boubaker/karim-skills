@@ -24,7 +24,7 @@ What survives gets **the simplest thing that could possibly work** that still me
 - **Reuse before you write:** existing code, then the standard library, then an installed dependency, then new code. Dependencies are features too.
 - **Rule of Three.** Abstract on the third repetition, not the first. A design pattern earns its place by solving a problem the code has today; otherwise it is **Speculative Generality**.
 - **Specialise only for a different mechanism.** A new branch, type or component per case needs a genuinely different way of parsing, modelling or processing, not just a different name.
-- **Subtract before you add,** and finish with a **delete pass**: reread the diff, remove every line the task doesn't need, and report the line count before and after.
+- **Subtract before you add,** and finish with a **delete pass**: reread the diff and remove every line the task doesn't need.
 
 ## Keep what stays obvious
 
@@ -42,7 +42,7 @@ What survives gets **the simplest thing that could possibly work** that still me
 - **Redesign, then deliver.** Ask: if this requirement had existed on day one, what would the code look like? Move there in small verified steps. Often the right shape is smaller than the current one.
 - **One path.** When you replace an internal API, migrate every caller and delete the old one in the same change. Callers you control need no shims, aliases, flags or deprecation periods.
 - **Expand, migrate, contract** across a deploy boundary (public APIs, stored data, wire formats): add the new form, move readers and writers, then remove the old form. The removal is part of the task.
-- **Boy Scout Rule, scoped.** Leave the code you touch cleaner than you found it, and only that code.
+- **Boy Scout Rule, scoped.** Tidy the lines the task already changes; anything further goes under **Noticed, not done**.
 
 ## What stays
 

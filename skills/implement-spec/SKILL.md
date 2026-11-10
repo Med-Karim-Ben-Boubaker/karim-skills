@@ -33,7 +33,7 @@ Communication to and from subagents should be sparse. Communicate primarily thro
    - calls the Skill tool with `principle-keep-it-simple`, `principle-fix-root-causes` and any principle the ticket's work needs (as the `implement` skill lists them), then with `tdd` to build the ticket;
    - commits as the **Commit** section of the `implement` skill says, referencing its ticket;
    - opens a PR from its branch into the integration branch after its first push, with `Refs #<ticket>` in its body;
-   - before reporting done, syncs with the integration branch as **Sync before ready** in the `implement` skill says, and writes the PR's **Evidence** as the `write-pr` skill says: the command it ran and its real output, or a screenshot
+   - before reporting done, syncs with the integration branch as **Sync before ready** in the `implement` skill says, and writes the PR's **Evidence** in the `write-pr` format from its own run of the software: the command and its real output, or a screenshot (the run's one Demo comes in step 7)
 
 5. Once an **implementer subagent** completes, check on the tracker that its PR has no conflicts, mark it ready, give the user its link, and start one background watcher for it, as **Watch it while it waits** in the `implement` skill says. The tracker is the only coordination between tickets: no subagent is told about another's work. Other tickets keep running meanwhile.
    - **`conflict`**: send a fresh implementer subagent into that worktree to sync it, unasked, then watch again.

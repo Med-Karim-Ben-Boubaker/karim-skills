@@ -24,7 +24,7 @@ Big work is one **parent** issue, the spec, with **sub-issues** as its tickets a
 - **Open blockers of a child**: `gh api repos/{owner}/{repo}/issues/<child> --jq .issue_dependencies_summary.blocked_by` (open blockers only; 0 means startable).
 - **Frontier**: the open children with no assignee and 0 open blockers.
 - **Claim**: `gh issue edit <child> --add-assignee @me`, before any work.
-- **Finish**: each child closes through the PR that merges it into the default branch (see **Pull requests**); close the parent as done after its last child.
+- **Finish**: a child closes when its PR merges: through its `Closes` line into the default branch, by hand with a comment after a merge into an integration branch (see **Pull requests**). Close the parent as done after its last child.
 
 ## Explore
 

@@ -35,7 +35,7 @@ GitLab issues can't have child issues; an issue's native children are **tasks**.
 - **Open blockers of a child**: `glab api "projects/:id/issues/<child>/links" | jq '[.[] | select(.link_type == "is_blocked_by" and .state == "opened")] | length'` (0 means startable), or the open issues in its `Blocked by` line.
 - **Frontier**: the open children with no assignee and 0 open blockers.
 - **Claim**: `glab issue update <child> --assignee @me`, before any work.
-- **Finish**: each child closes through the MR that merges it into the default branch (see **Merge requests**); close the parent as done after its last child.
+- **Finish**: a child closes when its MR merges: through its `Closes` line into the default branch, by hand with a note after a merge into an integration branch (see **Merge requests**). Close the parent as done after its last child.
 
 ## Explore
 

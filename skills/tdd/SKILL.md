@@ -54,4 +54,4 @@ When the shape of that interface is itself in question (how deep the module is, 
 - **Red before green.** Write the failing test first, then only enough code to pass it. Don't anticipate future tests or add speculative features.
 - **One slice at a time.** One seam, one test, one minimal implementation per cycle.
 - **Run the narrowest test, and read its time.** Each cycle runs the one test you are working on; when the command takes more than a few seconds, find out why before the next cycle ([first.md](first.md)). What runs after the loop is under **Which checks to run** in `principle-take-small-verified-steps`.
-- **Refactoring is not part of the loop.** It belongs to the review stage (see the `review-code` skill), not the red → green implementation cycle.
+- **Refactoring stays outside the loop.** A preparatory refactor comes before it, in its own commit; cleanup comes after it, from the `review-code` findings.
