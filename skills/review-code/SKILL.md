@@ -141,6 +141,8 @@ Leave out the diff, the commit messages and anything the author wrote about the 
 >
 > 4. Look at every file the script saved: open each screenshot, read each output, and compare it with what you wrote in step 1.
 >
+> Running tests is not using the software: `demo.sh` never runs a test, and a criterion that only a test could show is **Unproven**.
+>
 > Write only to the sandbox the recipe names, and skip whatever it lists as off limits. A component that calls a model makes one or two live calls, enough to see it work; measuring it is an eval's job.
 >
 > Report each criterion as **Proven** (what before and after show, with file paths), **Failed** (expected against seen, with file paths) or **Unproven** (why: it needs a person, production data or an off-limits output), then the command that reruns `demo.sh`. Under 400 words.

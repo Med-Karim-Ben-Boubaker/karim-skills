@@ -32,7 +32,7 @@ Communication to and from subagents should be sparse. Communicate primarily thro
    - runs only the tests for what it changed, never the full suite: the run does that once, in step 8;
    - commits as the **Commit** section of the `implement` skill says, referencing its ticket;
    - opens a PR from its branch into the integration branch after its first push, with `Refs #<ticket>` in its body;
-   - before reporting done, merges the integration branch tip into its own branch, resolves the conflicts, pushes, and writes the tests it ran, with the runner's summary lines, into the PR
+   - before reporting done, merges the integration branch tip into its own branch, resolves the conflicts, pushes, and writes into the PR what a person sees with the ticket working: the command it ran and its real output, or a screenshot, as **Evidence** in the `write-pr` skill says, never test output
 
 5. Once an **implementer subagent** completes, check on the tracker that its PR has no conflicts, mark it ready, give the user its link, and watch it as **Watch it while it waits** in the `implement` skill says, with one background watcher per PR. The tracker is the only coordination between tickets: no agent is told about another's work. Other tickets keep running meanwhile.
    - **`conflict`**: send a fresh implementer subagent into that worktree to resolve it as **Resolve a conflict unasked** in the `implement` skill says, then watch again. The user never has to point a conflict out.

@@ -27,14 +27,24 @@ Closes #<ticket>
 
 ## Evidence
 
-Captured on `<short sha>`.
+`<short sha>` against `<fixed point's short sha>` · <offline or live> demo
 
 <one entry per acceptance criterion>
 
-- [x] <criterion>
-  **Before:** <screenshot/output/failing test run>
-  **After:** <screenshot/output/passing test run>
-- [ ] <criterion> **Unproven:** <why>
+**1. <criterion, as a person sees it>**
+`<command that was run>`
+~~~diff
+- <output before>
++ <output after>
+~~~
+
+**2. <criterion a person sees on screen>**
+
+| Before | After |
+|---|---|
+| ![before](<link>) | ![after](<link>) |
+
+**3. <criterion>** Unproven: <why>
 
 <details><summary>Rerun the demo</summary>
 
@@ -184,14 +194,16 @@ You may use one of these, you may use several, it is unlikely you will use all o
 
 ### Evidence
 
-Prove the change works on the real thing; don't describe it. Give one entry per acceptance criterion in the tickets' `## Brief`, with the before and after the Demo captured. They must be captured on the commit the PR points at; say which.
+A person reads this section to see the change working: make the proof loud and the text short. Give one entry per acceptance criterion in the tickets' `## Brief`: the criterion in bold, as a person sees it, then the command that was run and one thing the Demo captured. Capture on the commit the PR points at; the first line names it, the commit it is compared against, and whether the demo ran offline or live.
 
-- **Screenshots first** for anything a person sees. Upload them as **Upload a screenshot** in `docs/agents/issue-tracker.md` says, and embed the link.
-- **Paste output exactly as the script saved it**, trimmed to the lines that carry the signal, with `…` marking each cut. Redact secrets.
-- **A test run counts only with the runner's own summary line**, showing the criterion's tests ran: zero tests run, or skipped, is no evidence.
-- **Add `demo.sh`** in the collapsed block, so a reviewer can rerun the demo.
-- "Tests pass", "should work" and a description of the code are not evidence.
-- A criterion you couldn't prove stays in the list, unchecked, marked **Unproven** with the reason. A criterion the Demo saw fail blocks ready until it's fixed.
+- **Proof is a demo run**: the real command with its real output, or a screenshot. A test is not proof. Leave out test names, runner summaries and "tests pass": the PR says nothing about tests.
+- **Text output: before and after in one `diff` block**, so the change reads in red and green. Something new shows only the after.
+- **Anything a person sees on screen: screenshots**, before and after side by side in a table. Upload them as **Upload a screenshot** in `docs/agents/issue-tracker.md` says, and embed the links. A visible change without a screenshot is Unproven.
+- **Paste output exactly as the script saved it**, trimmed to the lines that prove the criterion, eight at most, with `…` marking each cut. Redact secrets.
+- **No prose under an entry**, beyond one caption line where the output needs it. "Should work", a description of the code, and how the demo is built are not evidence.
+- **Don't repeat the Summary.** When the Summary's diff is already a criterion's real before and after, the entry is the criterion and "shown in the Summary".
+- **`demo.sh` alone** goes in the collapsed block, so a reviewer can rerun the demo.
+- A criterion the Demo could not show stays in the list, marked **Unproven** with the reason, also when a test covers it. A criterion the Demo saw fail blocks ready until it's fixed.
 
 ### Merge Danger
 
