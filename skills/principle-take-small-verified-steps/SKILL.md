@@ -19,8 +19,8 @@ The chance of a defect grows with the size of a change, and you know a behaviour
 | When | Run |
 |---|---|
 | Each red → green cycle | The one test you are working on |
-| The work is done and synced with its target branch | The tests for the code it touched (its file, module or package), plus typecheck and lint on changed files, once. After a later sync or fix, rerun only the tests that change touched |
-| A merge request into the default branch is ready | The full suite and e2e, once: in the merge request's pipeline where the repo has one, with only the checks the pipeline leaves out run locally; without a pipeline, locally |
+| The work is done and synced with its target branch | The tests for the code it touched (its file, module or package), in random order where the runner supports it, plus typecheck and lint on changed files, once. After a later sync or fix, rerun only the tests that change touched |
+| A merge request into the default branch is ready | The full suite and e2e, once: in the merge request's pipeline where the repo has one, locally otherwise |
 | A merge into an integration branch | Nothing more: no full suite, no e2e, no pipeline |
 | A prompt, model, model setting or tool changed and the user wants it measured | That component's evals, smallest case set first (`principle-let-models-judge`) |
 
@@ -44,7 +44,7 @@ State what was run and what was observed. Quote output as the command printed it
 ```
 Done: CSV export skips empty rows.
 Proof: test_export_skips_empty_rows failed before the fix (3 rows != 2) and passes after;
-`app export --in sample.csv` writes 2 rows. Full suite once: 412 passed in 1m10s.
+`app export --in sample.csv` writes 2 rows. Touched tests: 14 passed in 0.8s.
 ```
 
 ## When it bends

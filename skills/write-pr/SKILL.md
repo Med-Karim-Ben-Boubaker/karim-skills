@@ -194,16 +194,14 @@ You may use one of these, you may use several, it is unlikely you will use all o
 
 ### Evidence
 
-A person reads this section to see the change working: make the proof loud and the text short. Give one entry per acceptance criterion in the tickets' `## Brief`: the criterion in bold, as a person sees it, then the command that was run and one thing the Demo captured. Capture on the commit the PR points at; the first line names it, the commit it is compared against, and whether the demo ran offline or live.
+A person reads this section to see the change working: make the proof loud and the text short. Give one entry per acceptance criterion in the tickets' `## Brief`: the criterion in bold, as a person sees it, then the command that was run and one thing the Demo captured on the commit the PR points at. The first line names that commit, the commit it is compared against, and whether the demo ran offline or live.
 
-- **Proof is a demo run**: the real command with its real output, or a screenshot. A test is not proof. Leave out test names, runner summaries and "tests pass": the PR says nothing about tests.
-- **Text output: before and after in one `diff` block**, so the change reads in red and green. Something new shows only the after.
-- **Anything a person sees on screen: screenshots**, before and after side by side in a table. Upload them as **Upload a screenshot** in `docs/agents/issue-tracker.md` says, and embed the links. A visible change without a screenshot is Unproven.
-- **Paste output exactly as the script saved it**, trimmed to the lines that prove the criterion, eight at most, with `…` marking each cut. Redact secrets.
-- **No prose under an entry**, beyond one caption line where the output needs it. "Should work", a description of the code, and how the demo is built are not evidence.
-- **Don't repeat the Summary.** When the Summary's diff is already a criterion's real before and after, the entry is the criterion and "shown in the Summary".
+- **Proof is a demo run**: the real command with its real output, or a screenshot. Tests stay out of the PR: a criterion only a test covers is **Unproven**.
+- **Text output**: before and after in one `diff` block, as the script saved it, cut to the lines that prove the criterion (about eight, `…` marking each cut, secrets redacted). Something new shows only the after.
+- **Anything on screen**: before and after screenshots side by side, uploaded as **Upload a screenshot** in `docs/agents/issue-tracker.md` says. Without a screenshot it is **Unproven**.
+- **The entry is the proof**: at most one caption line under it. A criterion the Summary's diff already proves reads "shown in the Summary".
+- **Unproven and Failed**: a criterion the Demo could not show stays in the list, marked **Unproven** with the reason. One the Demo saw fail blocks ready until it's fixed.
 - **`demo.sh` alone** goes in the collapsed block, so a reviewer can rerun the demo.
-- A criterion the Demo could not show stays in the list, marked **Unproven** with the reason, also when a test covers it. A criterion the Demo saw fail blocks ready until it's fixed.
 
 ### Merge Danger
 
