@@ -14,16 +14,18 @@ Call the Skill tool with "tdd" where possible, testing at the seams the spec nam
 
 Test what changed, as `principle-take-small-verified-steps` says: the one test each red → green cycle, the tests of what a step touched when it's done, typecheck and lint on changed files, and the full suite once, at the end. Evals are not checks: run one only when the work changed a prompt, model, model setting or tool and the user asked for a measurement. The commands are under `### Checks`.
 
-Once done, call the Skill tool with "remove-comments" on the work, then with "review-code" to review it; its Demo runs the software against the ticket's acceptance criteria. A criterion the Demo saw fail is a bug in the work: fix it, then rerun the Demo's `demo.sh` until its output shows the criterion holding. When the review's findings are fixed, sync with the default branch (see **Commit**), then call the Skill tool with "write-pr" to write the merge request's body and evidence, and mark it ready.
+Once done, call the Skill tool with "remove-comments" on the work, then with "review-code" to review it; its Demo runs the software against the ticket's acceptance criteria. A criterion the Demo saw fail is a bug in the work: fix it, then rerun the Demo's `demo.sh` until its output shows the criterion holding. When the review's findings are fixed, sync with the target branch (see **Commit**), then call the Skill tool with "write-pr" to write the merge request's body and evidence, and mark it ready. Then wait for the user's approval before any merge.
 
 ## Commit
 
-- **Branch first.** Before the first change, branch off the default branch (named after the ticket, for example `123-export-streaming`). Never commit to the default branch.
+- **Branch first.** Before the first change, branch off the **target branch**: the integration branch the work belongs to, or without one the default branch. Name the branch after the ticket, for example `123-export-streaming`. Never commit to the default branch or to an integration branch.
 - **Follow the repo's commit rules** under `### Commits` in `AGENTS.md` or `CLAUDE.md`: message format, types, scopes. If there are none, write a short imperative title and a body that says why.
 - **One commit per verified step**, with refactors and behaviour changes in separate commits.
 - **Reference the ticket** in each commit (`Refs #123`), never `Closes`: the merge request closes it.
-- **Open the merge request as a draft** after the first push, with only the `Closes #123` line, so the ticket shows work in progress. Its body is written once the work is verified (see above).
-- **Sync before ready.** Before marking the merge request ready, merge the latest default branch into the work branch, resolve the conflicts, and run every check under `### Checks` once, full suite and e2e included. Fix a failure with targeted reruns of the failing tests, then run the full suite one last time. If the default branch moves before the merge, sync and run the full suite again.
+- **Open the merge request as a draft** into the target branch after the first push, with only the `Closes #123` line, so the ticket shows work in progress. Its body is written once the work is verified (see above).
+- **Sync before ready.** Before marking the merge request ready, merge the latest target branch into the work branch, resolve the conflicts, and run every check under `### Checks` once, full suite and e2e included. Fix a failure with targeted reruns of the failing tests, then run the full suite one last time. If the target branch moves before the merge, sync and run the full suite again.
+- **No conflicts at ready.** After the sync, push and check that the tracker reports the merge request free of conflicts. One with conflicts is never marked ready and never handed to the user. When the target branch moves while it waits and the tracker reports conflicts, sync again.
+- **Merge on the user's approval only.** A ready merge request waits. Merge it only once the user approved that merge request: an approval on the tracker, or a clear yes in the session that names it. An approval covers the one merge request it names, never the next. This holds for every merge into an integration branch and into the default branch.
 - **Never skip hooks** (`--no-verify`). When a hook rejects a commit, fix what it found.
 
 ## Finish
