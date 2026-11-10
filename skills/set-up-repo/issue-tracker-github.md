@@ -67,6 +67,8 @@ File issues only into the user's own repo. Never file into the repo these skills
 
 - **Open**: `gh pr create --draft --title "..." --body "..." --base <branch>`, after the first push. The body starts with one `Closes #<ticket>` line per ticket (GitHub needs the keyword before each number); `/write-pr` writes the rest.
 - **Ready**: `gh pr ready <pr>` once the evidence is in.
+- **Conflicts**: `gh pr view <pr> --json mergeable --jq .mergeable` answers `MERGEABLE`, `CONFLICTING` or `UNKNOWN` (GitHub is still working it out: ask again).
+- **Merge**: `gh pr merge <pr> --squash --delete-branch`, only on the user's approval of that PR. Never merge locally or push to the base branch.
 - **Upload a screenshot**: GitHub has no API for PR attachments, so keep images on an orphan `pr-assets` branch, in a folder per PR branch, and remove the worktree after:
 
   ```bash
