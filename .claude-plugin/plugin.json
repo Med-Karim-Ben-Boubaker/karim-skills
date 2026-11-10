@@ -1,6 +1,6 @@
 {
   "name": "karim-skills",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Engineering and productivity skills, plus my principles.",
   "author": {
     "name": "Med-Karim-Ben-Boubaker"
@@ -25,7 +25,6 @@
     "./skills/write-pr",
     "./skills/write-walkthrough",
     "./skills/run-retro",
-    "./skills/write-wizard",
     "./skills/diagram-code",
     "./skills/grill",
     "./skills/hand-off",

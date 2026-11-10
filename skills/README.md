@@ -15,11 +15,10 @@ Reachable only when you type them (Claude Code: `disable-model-invocation: true`
 - **[write-spec](./write-spec/SKILL.md)**: Turn the current conversation into a spec and publish it to the issue tracker.
 - **[implement](./implement/SKILL.md)**: Build the work described by a spec or set of tickets, driving `/tdd` at the agreed seams and closing out with `/review-code` before committing.
 - **[implement-spec](./implement-spec/SKILL.md)**: Implement a whole spec on one integration branch. Works the child tickets as a task graph, running implementer subagents across the ready frontier, then closes out with `/review-code`.
-- **[write-walkthrough](./write-walkthrough/SKILL.md)**: Write the steps for you to check finished work yourself: setup from a fresh terminal with sample data agreed with you, copyable commands and UI clicks with what each should show, edge cases and cleanup, every step run by the agent first.
+- **[write-walkthrough](./write-walkthrough/SKILL.md)**: Guide you through running a demo yourself that shows a fix or a new feature working: a few numbered steps in the chat, each a command to copy or a click to make, with what you should see.
 - **[plan-large-work](./plan-large-work/SKILL.md)**: Plan a huge chunk of work (more than one agent session can hold) as a shared map of decision tickets on the issue tracker, resolved one at a time until the way to the destination is clear.
 - **[diagram-code](./diagram-code/SKILL.md)**: Turn code into technical diagrams (architecture, data flow, sequence, state, ER, and more) as a self-contained HTML page in Eraser's style, every box linked back to its source line.
 - **[run-retro](./run-retro/SKILL.md)**: Suggest improvements to the coding agent's environment (navigation, automated checks, coding standards, steering files, tooling) after a session, most severe first.
-- **[write-wizard](./write-wizard/SKILL.md)**: Generate an interactive bash wizard for steps only a human can perform: provisioning infrastructure, credentials or CI secrets, an unfamiliar dashboard, a one-off cutover.
 
 ### Model-invoked
 

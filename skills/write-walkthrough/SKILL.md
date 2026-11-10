@@ -1,67 +1,25 @@
 ---
 name: write-walkthrough
-description: "Write the steps for you to check finished work yourself: setup with agreed sample data, copyable commands, UI clicks and what each should show, edge cases and cleanup, every step run by the agent first."
+description: "Guide you through running a demo yourself that shows a fix or a new feature working: a few numbered steps in the chat, each a command to copy or a click to make, with what you should see."
 disable-model-invocation: true
 ---
 
-# Write Walkthrough
+# Walkthrough
 
-A **walkthrough** is what the user follows to see with their own eyes that the work does what its acceptance criteria say: copyable commands, UI actions, and what each one should show. It reproduces results the way a person uses the software, through the app's CLI, its pages and its API; the test suite stays out of it.
+A **walkthrough** is a short numbered guide, given in the chat, that the user follows to see with their own hands that a bug is fixed or a new feature works, in the software as it runs now: a command to copy or a click to make, then what they should see.
 
-## 1. Gather
+**What to demo.** The fix or feature the user names, whether or not an agent built it; when they name nothing, the work just finished, against its acceptance criteria. For a fix, the steps are the ones that used to show the bug. For a feature, they are a person using it, through the software's own CLI, pages or API. Reuse the commands and inputs of `.sandbox/demo-<short sha>/demo.sh` where `review-code` ran a Demo.
 
-- **The work**: the branch, the commit (`git rev-parse --short HEAD`), and the folder it is checked out in (`git worktree list`).
-- **The criteria**: the `## Brief` acceptance criteria of the tickets the work finishes (fetch them as `docs/agents/issue-tracker.md` says), or the spec. Without either, ask the user what the work should do.
-- **The run recipe**, under `### Run` in `AGENTS.md` or `CLAUDE.md`: how to start the app, the sandbox, and what is off limits.
-- **The Demo**, if `review-code` ran one on this commit: `.sandbox/demo-<short sha>/` holds `demo.sh` and the screenshots and outputs it captured. Reuse its commands, inputs and screenshots.
+**Look it up instead of asking.** How to start the app and where runs may write is under `### Run` in `AGENTS.md` or `CLAUDE.md`. Inputs come from the Demo, a sample already in the repo, or a few made-up lines in a heredoc. Ask only for what only the user has: a login, their own file.
 
-## 2. Agree on the sample data
+**Write the guide in the chat**, short enough to fit one screen:
 
-**Sample data** is what must exist before a step can run: an input file, rows in a database, an object in a bucket, a user with records to show, a request body. List what each criterion's step and edge case needs; when none needs anything, go on to step 3.
+1. One line saying what the demo shows and the folder to run it from.
+2. A few numbered steps, in the order the user does them. Each step is one thing to do, then **See:** with the output line or what the screen shows.
+   - A command step is one copyable block calling the app's real entry point.
+   - A UI step names the URL, each element by its visible label, and the text to type: "Click **Export** in the top bar".
+3. When the guide started something that keeps running, a last step with the command that stops it.
 
-Each input comes from one source:
+The guide is the steps alone: it is a chat reply, never a saved file, and the user asks for more (an edge case, the reason behind a step) when they want it.
 
-- **Reuse**: a sample file already in the repo, or an input the Demo's `demo.sh` made, when it covers the criterion.
-- **Generate**: data you make for this walkthrough.
-- **From the user**: what only they have: a real document, licensed or production data, their login.
-
-Fill the **Sample data** table in [template.md](template.md) with a recommended source for each input: reuse what covers the criterion, generate the rest, and ask the user only for what you can't make. Show it to the user and wait for their answer. Done when every input has a source the user agreed to.
-
-Generated data:
-
-- has the real input's shape: the file type, columns, value types and encoding the app reads in use, taken from a real example or the code that parses it;
-- is small, each record there for one criterion or edge case;
-- is made up: invented names, `example.com` addresses, placeholder keys, so no real person's data or secret ends up in it;
-- is created by a Setup command, a heredoc for text and an inline script with a fixed seed for anything else, so the walkthrough alone recreates it;
-- lives in the sandbox: files in `.sandbox/walkthrough/input/`, records and objects where the recipe's sandbox says, each named with a `walkthrough-` prefix so cleanup deletes exactly those. Create records through the app's own entry point (its CLI, API or admin command) when it has one.
-
-The user's files are copied into `.sandbox/walkthrough/input/`. The walkthrough names them by path and leaves their contents out, since it may go into a merge request.
-
-## 3. Write
-
-Fill [template.md](template.md). Write each **Expect:** line from the criterion before you run anything: it says what should happen, never what the code happens to do.
-
-- **Setup** starts from a fresh terminal: `cd` into the folder the work is checked out in, check the commit, load the env file from the main checkout, point every output at the sandbox, install, then create the sample data.
-- **One step per acceptance criterion**, named after it, ending in **Expect:** the exact output line, what the screen shows, or the Demo's screenshot to compare with, and the sample record it comes from. When the Demo captured a before, add what the same step showed before the change.
-  - A command step is a block the user can copy, calling the app's real entry points.
-  - A UI step starts the app in the background of the same shell, logging to the sandbox, then gives numbered actions naming the URL, each element by its visible label, and the text to type: "Click **Export** in the top bar".
-  - A pipeline step runs on the sample data, then compares the output with the default branch's output on the same data.
-- **Edge cases**: at least one per criterion where input can go wrong (empty, too large, illegal, missing), each with its own sample record, and what should happen instead of a crash.
-- **Cleanup** stops what the walkthrough started, deletes the `walkthrough-` records and objects, and empties its sandbox folder.
-
-Every command writes only to the sandbox. A step the recipe puts off limits stays out, and the walkthrough says why.
-
-## 4. Run it yourself
-
-Follow the walkthrough exactly as written, on the same commit:
-
-- Run the command blocks in order in one fresh shell, so `cd` and `export` carry over as they will for the user.
-- Do the UI steps in a browser you can drive (Playwright, Claude in Chrome), with the walkthrough's own server running, using the labels as written.
-
-Fix every step whose command fails or whose wording misleads, and run it again. When a step fails on the sample data, compare the data with the real input's shape: a mismatch is the walkthrough's to fix, and data that matches but still fails is a bug in the work. A step only a person can do (their login, a device, production data) stays in, marked **Not run by me** with the reason. When a step shows the work itself is wrong, stop and report it as a bug: the walkthrough says what the criteria promise, and the code has to meet it.
-
-Done when every step has run and shown what its **Expect:** line says, or is marked **Not run by me**.
-
-## 5. Hand it over
-
-Save it to `.sandbox/walkthrough-<short sha>.md`, print it in full, and give the file's full path. When a merge request is open for the branch, offer to add it to the description under **How to verify**, collapsed.
+**Run each command once before you give it**, in order in one shell, writing only to the sandbox. A command taken from a `demo.sh` that ran on this commit counts as run. Mark a step you could not run (their login, a device) as not run. When a step shows the software itself is wrong, report that as a bug.

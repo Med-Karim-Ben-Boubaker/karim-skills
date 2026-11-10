@@ -1,5 +1,5 @@
 interface:
   display_name: "Write Walkthrough"
-  short_description: "Steps to check finished work yourself"
+  short_description: "Steps to run a demo yourself"
 policy:
   allow_implicit_invocation: false

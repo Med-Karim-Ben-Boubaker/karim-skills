@@ -14,7 +14,6 @@ Skills forked from [mattpocock/skills](https://github.com/mattpocock/skills) (at
 | `write-spec` | `to-spec` |
 | `write-issue` → `SPLIT.md` | `to-tickets` |
 | `plan-large-work` | `wayfinder` |
-| `write-wizard` | `wizard` |
 | `grill` | `grilling` |
 | `hand-off` | `handoff` |
 | `write-questionnaire` | `to-questionnaire` |
