@@ -45,3 +45,7 @@ npx playwright screenshot --viewport-size=1280,800 "<url>" "$OUT/<page>.png"
 ## Stop
 
 <!-- How to stop it, and how to empty the sandbox. -->
+
+## Deployed
+
+<!-- Optional: delete this section when the app runs only locally. Which dev environment an agent may deploy a branch to, the commands that build, deploy and reach it, what a person must start first, and what stays off limits (production, always). `prove-change` comes here only for a criterion that exists only deployed. -->

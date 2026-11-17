@@ -65,7 +65,7 @@ Each later stage **appends** sections to the description and never rewrites earl
 | `ready`, chore | `## Brief` |
 | closed | A comment with the reason, then close it as `docs/agents/issue-tracker.md` says |
 
-`## Brief` is the contract the builder works from: the desired behaviour, acceptance criteria as checkboxes, and what is out of scope. Write each criterion as something a person can see by running the software (a screen, a command's output, the rows a run writes), so the Demo in `/review-code` can prove it. Describe behaviour and interfaces, not file paths, which go stale.
+`## Brief` is the contract the builder works from: the desired behaviour, acceptance criteria as checkboxes, and what is out of scope. Write each criterion as something a person can see by running the software (a screen, a command's output, the rows a run writes), so `/prove-change` can prove it. Describe behaviour and interfaces, not file paths, which go stale.
 
 Change the stage label in the same step as the text, so the two always agree.
 

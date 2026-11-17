@@ -1,0 +1,3 @@
+interface:
+  display_name: "Prove Change"
+  short_description: "Run the software and capture proof per criterion"
