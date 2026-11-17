@@ -141,7 +141,7 @@ Every issue gets one kind and one stage; `/write-issue` says how to choose them 
 | Typecheck | `<command>` | While working, on changed files |
 | Lint | `<command>` | While working, on changed files |
 | One test | `<command> <path>::<name>` | Every red → green cycle |
-| Full suite | `<command>` (takes about <time>) | Once, for a merge request into the default branch: in its pipeline where there is one |
+| Full suite | `<command>` (takes about <time>) | Once, locally, with lint and typecheck, before a merge request into the default branch is opened; open it only when they pass |
 | E2E tests | `<command>` | Once, before a merge request into the default branch is ready |
 | Evals | `<command>` | Only when a prompt, model, model setting or tool changed and the user asked |
 

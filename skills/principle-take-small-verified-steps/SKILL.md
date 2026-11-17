@@ -1,6 +1,6 @@
 ---
 name: principle-take-small-verified-steps
-description: "Advances work in small steps, each proven on the real artifact with the narrowest check that can go red; runs the full suite once, on the way into the default branch; backs every number with a measurement. Use when planning or executing multi-step work, choosing which tests to run, optimising or benchmarking, and before declaring any task done."
+description: "Advances work in small steps, each proven on the real artifact with the narrowest check that can go red; runs the full suite once, locally, before a merge request into the default branch; backs every number with a measurement. Use when planning or executing multi-step work, choosing which tests to run, optimising or benchmarking, and before declaring any task done."
 ---
 
 # Small Verified Steps
@@ -20,7 +20,7 @@ The chance of a defect grows with the size of a change, and you know a behaviour
 |---|---|
 | Each red → green cycle | The one test you are working on |
 | The work is done and synced with its target branch | The tests for the code it touched (its file, module or package), in random order where the runner supports it, plus typecheck and lint on changed files, once. After a later sync or fix, rerun only the tests that change touched |
-| A merge request into the default branch is ready | The full suite and e2e, once: in the merge request's pipeline where the repo has one, locally otherwise |
+| Before a merge request into the default branch is opened | The checks its pipeline runs (the full suite, lint, typecheck), never evals, once, locally; open it only when they pass |
 | A merge into a feature branch | Nothing more: no full suite, no e2e, no pipeline |
 | A prompt, model, model setting or tool changed and the user wants it measured | That component's evals, smallest case set first (`principle-let-models-judge`) |
 

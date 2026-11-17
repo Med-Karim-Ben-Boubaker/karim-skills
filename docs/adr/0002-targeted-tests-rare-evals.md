@@ -8,4 +8,6 @@ Agents ran the full test suite 622 times in 18 days (about 12 hours of waiting i
 
 Since 2026-11-10 the full suite runs only on the way into the default branch, in the merge request's pipeline where the repo has one. Work merged into an integration branch runs the tests of what it changed, once, and its merge requests start no pipeline: a pipeline on every merge queued parallel agents behind CI, and the branches that waited drifted into conflicts. Each merge request still carries its evidence and waits for the user's approval.
 
+Since 2026-11-17 the checks a merge request's pipeline runs (the full suite, lint, typecheck) also run once locally before a merge request into the default branch is opened, and it is opened only when they pass: an agent opened one on targeted tests alone, and the user wants the pipeline to confirm a green run, not to find the first red one. Evals stay out: they serve hill-climbing and development.
+
 **Revisit when:** a defect reaches the default branch that only a full-suite run during the work would have caught, or a repo's full suite runs in under 30 seconds.
