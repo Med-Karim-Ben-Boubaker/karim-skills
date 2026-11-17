@@ -61,7 +61,7 @@ stage: needs-triage
 
 ## Pull requests
 
-None: work merges locally. After the merge, close each ticket it finished as done, with a comment naming the merge commit. Keep screenshots for the evidence in `.scratch/<feature-slug>/evidence/` and link them from the comment.
+None: work merges locally. After the merge, close each ticket it finished as done, with a comment naming the merge commit. Keep the proofs' screenshots in `.scratch/<feature-slug>/proof/` and link them from the comment.
 
 ## When a skill says "publish to the issue tracker"
 

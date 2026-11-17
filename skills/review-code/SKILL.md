@@ -1,17 +1,16 @@
 ---
 name: review-code
-description: "Reviews the changes since a fixed point (commit, branch, tag, merge-base) in three parallel sub-agents: Standards (coding standards and principle checks), Spec (what the issue asked for) and Demo (a fresh agent runs the app against the acceptance criteria and captures evidence). Use when reviewing a branch, a PR or work in progress, or asked to 'review since X'."
+description: "Reviews the changes since a fixed point (commit, branch, tag, merge-base) in two parallel sub-agents: Standards (coding standards and principle checks) and Spec (what the issue asked for). Use when reviewing a branch, a PR or work in progress, or asked to 'review since X'."
 ---
 
-Three-axis review of the change between `HEAD` and a fixed point the user supplies:
+Two-axis review of the change between `HEAD` and a fixed point the user supplies:
 
 - **Standards**: does the code conform to this repo's documented coding standards?
 - **Spec**: does the code faithfully implement the originating issue / spec?
-- **Demo**: used the way a person would use it, does the software do what the acceptance criteria say?
 
-All three run as **parallel sub-agents** so they don't pollute each other's context, then this skill aggregates their findings. Start every sub-agent with a fresh context window.
+Both run as **parallel sub-agents** so they don't pollute each other's context, then this skill aggregates their findings. Start every sub-agent with a fresh context window.
 
-The issue tracker and the run recipe should have been provided to you (`### Issue tracker` and `### Run` in `AGENTS.md` or `CLAUDE.md`). If not, tell the user to run `/set-up-repo`.
+The issue tracker should have been provided to you (`### Issue tracker` in `AGENTS.md` or `CLAUDE.md`). If not, tell the user to run `/set-up-repo`.
 
 ## Process
 
@@ -21,7 +20,7 @@ Whatever the user said is the fixed point (a commit SHA, branch name, tag, `main
 
 Capture the diff command once: `git diff <fixed-point>...HEAD` (three-dot, so the comparison is against the merge-base). Also note the list of commits via `git log <fixed-point>..HEAD --oneline`.
 
-Before going further, confirm the fixed point resolves (`git rev-parse <fixed-point>`) and the diff is non-empty. A bad ref or empty diff should fail here, not inside three parallel sub-agents. Keep both commit SHAs, the fixed point's and `HEAD`'s: the Demo runs on each.
+Before going further, confirm the fixed point resolves (`git rev-parse <fixed-point>`) and the diff is non-empty. A bad ref or empty diff should fail here, not inside two parallel sub-agents.
 
 ### 2. Identify the spec source
 
@@ -30,9 +29,7 @@ Look for the originating spec, in this order:
 1. Issue references in the commit messages (`#123`, `Closes #45`, GitLab `!67`, etc.), fetched via the workflow in the tracker doc.
 2. A path the user passed as an argument.
 3. A spec file under `docs/`, `specs/`, or `.scratch/` matching the branch name or feature.
-4. If nothing is found, ask the user where the spec is. If they say there isn't one, the **Spec** and **Demo** sub-agents skip and report "no spec available".
-
-Copy the acceptance criteria verbatim for the Demo: the `## Brief` checkboxes (each child of a parent issue has its own), plus a bug's steps to reproduce.
+4. If nothing is found, ask the user where the spec is. If they say there isn't one, the **Spec** sub-agent skips and report "no spec available".
 
 ### 3. Identify the standards sources
 
@@ -94,15 +91,9 @@ Each check reads *signal* → *fix*; match it against the diff. The skill named 
 - **Message Chains**: long `a.b().c().d()` navigation the caller shouldn't depend on. → hide the walk behind one method.
 - **Refused Bequest**: a subclass that ignores or overrides most of what it inherits. → drop the inheritance, use composition.
 
-### 4. Find the run recipe
+### 4. Spawn the two sub-agents in parallel
 
-`### Run` in `AGENTS.md` or `CLAUDE.md` names it, usually `.claude/skills/run-<app>/SKILL.md`. It says how to start, use and stop the app, and names the **sandbox**: the folder, bucket prefix or database every run writes to instead of the real location. Evidence goes to the local `.sandbox/` folder; when `git check-ignore -q .sandbox/` fails, add `.sandbox/` to `.git/info/exclude`.
-
-Without a recipe, the Demo works out the launch from the README and build files, runs nothing that writes to shared state (a bucket, a database, a tracker, an outgoing message), and marks what that leaves out **Unproven**. Tell the user `/set-up-repo` records a recipe.
-
-### 5. Spawn the three sub-agents in parallel
-
-Issue all three sub-agent calls together, in the foreground, and aggregate the reports they return.
+Issue both sub-agent calls together, in the foreground, and aggregate the reports they return.
 
 **Standards sub-agent prompt** should include:
 
@@ -116,51 +107,18 @@ Issue all three sub-agent calls together, in the foreground, and aggregate the r
 - The path or fetched contents of the spec.
 - The brief: "Report: (a) requirements the spec asked for that are missing or partial; (b) behaviour in the diff that wasn't asked for (scope creep); (c) requirements that look implemented but where the implementation looks wrong. Quote the spec line for each finding. Under 400 words."
 
-**Demo sub-agent prompt** carries only:
+If the spec is missing, skip the Spec sub-agent and note this in the final report.
 
-- The acceptance criteria and steps to reproduce from step 2, verbatim.
-- The run recipe's path from step 4.
-- The two SHAs from step 1, and its evidence folder, `<evidence>`: `.sandbox/demo-<short HEAD sha>/`.
-- The brief below, pasted in full.
+### 5. Aggregate
 
-Leave out the diff, the commit messages and anything the author wrote about the work: a checker told what to expect tends to see it.
+Present the two reports under `## Standards` and `## Spec` headings, verbatim or lightly cleaned. Do **not** merge or rerank findings, because the axes are deliberately separate (see _Why two axes_).
 
-> Check that the software does what these acceptance criteria say by using it the way a person would, as the run recipe says. Work from the outside: the criteria, the recipe and what the running software shows you, never its code. For each criterion:
->
-> 1. Write down what a person should see when it holds.
-> 2. Script the steps that show it in `<evidence>/demo.sh <checkout> <out>`: start the app from `<checkout>`, drive it, save every screenshot and output to `<out>`, stop it. The script writes the evidence; every evidence file comes from it, untouched by hand. Command output goes through `tee`, screenshots come from the recipe's capture commands, and a Playwright script drives any UI.
-> 3. Run it on `HEAD` into `<evidence>/after/`, and on the fixed point into `<evidence>/before/`, from a worktree outside the repo (`git worktree add "$(mktemp -d)" <fixed-point sha>`, removed when you finish). Each side shows:
->
->    | The change | Before | After |
->    |---|---|---|
->    | Visible (UI, page, report, chart) | Screenshot | The same view, same size and data |
->    | New, with nothing before it | It's absent: the 404, the missing button, `unknown option` | It working, plus one edge case |
->    | Bug | The steps to reproduce, showing the bug | The same steps, showing it fixed |
->    | Data or pipeline output | The run on one small input | The same input, plus a `diff` of the two saved outputs |
->    | Not visible (API, CLI, performance) | The command and its output | The same command and its output |
->
-> 4. Look at every file the script saved: open each screenshot, read each output, and compare it with what you wrote in step 1.
->
-> Running tests is not using the software: `demo.sh` never runs a test, and a criterion that only a test could show is **Unproven**.
->
-> Write only to the sandbox the recipe names, and skip whatever it lists as off limits. A component that calls a model makes one or two live calls, enough to see it work; measuring it is an eval's job.
->
-> Report each criterion as **Proven** (what before and after show, with file paths), **Failed** (expected against seen, with file paths) or **Unproven** (why: it needs a person, production data or an off-limits output), then the command that reruns `demo.sh`. Under 400 words.
+End with a one-line summary: total findings per axis and the worst issue _within each axis_ (if any). Don't pick a single winner across axes: that's the reranking the separation exists to prevent.
 
-If the spec is missing, skip the Spec and Demo sub-agents and note this in the final report.
-
-### 6. Aggregate
-
-Present the three reports under `## Standards`, `## Spec` and `## Demo` headings, verbatim or lightly cleaned. Do **not** merge or rerank findings, because the axes are deliberately separate (see _Why three axes_).
-
-End with a one-line summary: total findings per axis (for the Demo, the criteria Proven, Failed and Unproven), the worst issue _within each axis_ (if any), and the Demo's evidence folder by full path so the user can open it. Don't pick a single winner across axes: that's the reranking the separation exists to prevent.
-
-## Why three axes
+## Why two axes
 
 A change can pass one axis and fail another:
 
 - Code that follows every standard but implements the wrong thing → **Standards pass, Spec fail.**
 - Code that does exactly what the issue asked but breaks the project's conventions → **Spec pass, Standards fail.**
-- Code that reads right on both but breaks when run (a missing env var, a wrong path, a page that never renders) → **Standards and Spec pass, Demo fail.** The Demo's checker never sees the code, so it can't share the author's assumptions.
-
-Reporting them separately stops one axis from masking another.
+Reporting them separately stops one axis from masking another. Whether the software works when run is not a review axis: `prove-change` runs it.

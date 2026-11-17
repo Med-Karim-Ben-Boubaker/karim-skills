@@ -11,7 +11,7 @@ Scaffold the per-repo configuration that the engineering skills assume:
 - **Issue tracker**: where issues live (GitHub by default; local markdown is also supported out of the box)
 - **Issue labels and templates**: the label strings for the three kinds and five stages every issue carries (see `/write-issue`), and the tracker's issue templates
 - **Domain docs**: where `GLOSSARY.md` and ADRs live, and the consumer rules for reading them
-- **Run recipe**: how any agent starts the app, uses it the way a person would and captures what it shows, writing only to a **sandbox**, so the Demo in `/review-code` can prove a change works
+- **Run recipe**: how any agent starts the app, uses it the way a person would and captures what it shows, writing only to a **sandbox**, so `/prove-change` can prove a change works
 
 This is a prompt-driven skill, not a deterministic script. Explore, present what you found, confirm with the user, then write.
 
