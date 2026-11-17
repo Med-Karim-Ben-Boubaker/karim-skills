@@ -15,7 +15,7 @@ The spec says which path it takes (`write-spec`, **Implementation Decisions**):
 - **Straight to the default branch** (the default): each child merges into the default branch on its own and leaves it working.
 - **Feature branch**, only when the children are correct only together: `feature/<spec>-<slug>` from the default branch, in its own worktree at `../<repo>-<spec>`. Children branch from it and merge into it; it merges once into the default branch.
 
-A spec that names no path goes straight to the default branch.
+A spec that names no path goes straight to the default branch. A feature branch is never nested, and the default branch is merged into it daily.
 
 ## Spec states
 
@@ -26,12 +26,12 @@ Open → Running → (feature branch only: Integrating → Waiting) → Closed
 | State | Do | Leave when |
 |---|---|---|
 | **Open** | Read the spec, list its children and their blocking edges: a **task graph**. For a feature branch, create it and its worktree, push it, and open a draft merge request into the default branch with only `Closes #<spec>` once it has a commit | The graph is known and, for a feature branch, its worktree exists |
-| **Running** | Work the **frontier**: the open children with no assignee and no open blocker. For each, a fresh worker runs the `implement` ticket states from Ready to Waiting, in its own worktree, on the row the path decides. Give the user each merge request's link as it reaches Waiting. When one merges, close its ticket (into a feature branch, by hand with a note naming the branch, since no keyword closes it there), pull it into the feature branch's worktree, and re-read the frontier | Every child is closed |
+| **Running** | Work the **frontier**: the open children with no assignee and no open blocker. For each, a fresh worker runs the `implement` ticket states from Ready to Waiting, in its own worktree, on the row the path decides, and reports its merge request. From there you own it: give the user its link, watch it, and merge it on the user's approval. At its merge, close its ticket (into a feature branch, by hand with a note naming the branch, since no keyword closes it there), delete its branch, remove its worktree with the tool that created it, pull the merge into the feature branch's worktree, and re-read the frontier | Every child is closed |
 | **Integrating** | On the feature branch: `remove-comments` on its diff, `review-code` against the default branch, fixes in one fresh worker. Sync with the default branch; the full suite and e2e run here, once. `write-pr` writes the body with every child's proofs; mark it ready | The merge request is ready and free of conflicts |
 | **Waiting** | Watch it as the `implement` skill says. Offer `/prove-change` on the merged whole, once, in one line | The user approves it, and it merges with a merge commit |
-| **Closed** | Check the parent and every child are closed; close any still open. Remove each worktree and branch you created, the feature branch's last. Report what you closed and removed, and tell the user `/write-walkthrough` gives them steps to check the work themselves | `git worktree list` and `git branch` show nothing of the spec's |
+| **Closed** | Check the parent and every child are closed; close any still open. Remove what is left of yours: the feature branch and its worktree. Report what you closed and removed, and tell the user `/write-walkthrough` gives them steps to check the work themselves | `git worktree list` and `git branch` show nothing of the spec's |
 
-**Stopping early**: unassign each claimed child that did not merge and comment where it stands, so the next run can pick it up.
+**Stopping early**: unassign each claimed child that did not merge and comment where it stands; its worktree and branch stay for the next run.
 
 ## Workers
 

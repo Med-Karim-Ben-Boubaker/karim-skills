@@ -1,6 +1,6 @@
 ---
 name: run-<app>
-description: "Starts, uses and stops <app> on this machine, writing only to its sandbox. Use to run the app, show a change working, or capture a screenshot or output as evidence."
+description: "Starts, uses and stops <app> on this machine, writing only to its sandbox. Use to run the app, show a change working, or capture a screenshot or output as proof."
 ---
 
 # Run <app>

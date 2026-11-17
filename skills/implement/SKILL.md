@@ -37,8 +37,8 @@ Ready → Claimed → Building ⇄ Reviewing → Proving → Waiting → Merged 
 | State | Do | Leave when |
 |---|---|---|
 | **Ready** | Fetch the ticket, state its title, read its `## Brief`, and pick its row above | Guard 1 holds and the row is known |
-| **Claimed** | Assign the ticket to yourself. Create or enter the worktree from the row's base, on the row's branch. Push, then open a draft merge request into the row's target with only the `Closes #<issue>` line (`Refs #<issue>` into a feature branch) | Guard 2 holds and `git merge-base HEAD <base>` is the base's tip |
-| **Building** | Load the principles (below), then `tdd`: one red → green cycle at a time, one commit per verified step | Every criterion is built and the tests of what changed pass |
+| **Claimed** | Assign the ticket to yourself. Create or enter the worktree from the row's base, on the row's branch | Guard 2 holds and `git merge-base HEAD <base>` is the base's tip |
+| **Building** | Load the principles (below), then `tdd`: one red → green cycle at a time, one commit per verified step. After the first push, open a draft merge request into the row's target with only the `Closes #<issue>` line (`Refs #<issue>` into a feature branch) | Every criterion is built and the tests of what changed pass |
 | **Reviewing** | `remove-comments` on the work, then `review-code` against the base | Every finding is fixed or answered; a fix goes back to Building |
 | **Proving** | Sync with the target (below), then `prove-change` on every criterion of the `## Brief` | Each criterion is Proven or Unproven with its reason; a Failed one goes back to Building |
 | **Waiting** | `write-pr` writes the body from the proofs; mark the merge request ready; watch it (below) | The user approves it |

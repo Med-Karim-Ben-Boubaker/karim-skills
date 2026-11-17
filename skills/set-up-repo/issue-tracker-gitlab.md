@@ -71,7 +71,7 @@ One Markdown file per kind in `.gitlab/issue_templates/`: `Bug.md`, `Feature.md`
 ## Merge requests
 
 - **Open**: `glab mr create --draft --title "..." --description "..." --target-branch <branch> --remove-source-branch --yes`, after the first push. The description starts with `Closes #<ticket>` lines (`Closes #12, #13` works); `/write-pr` writes the rest.
-- **Ready**: `glab mr update <mr> --ready` once the evidence is in.
+- **Ready**: `glab mr update <mr> --ready` once the proofs are in.
 - **Conflicts**: `glab api "projects/:id/merge_requests/<mr>" | jq -r .detailed_merge_status` answers `mergeable`, `conflict`, or `unchecked` or `checking` (GitLab is still working it out: ask again).
 - **Merge**: `glab mr merge <mr> --squash --remove-source-branch --yes` for a ticket; a feature or hotfix branch into the default branch keeps its commits: `glab mr merge <mr> --remove-source-branch --yes`. Only on the user's approval of that MR. Never merge locally or push to the target branch.
 - **Upload a screenshot**: `glab api` can't send files, so use the API directly; the response's `markdown` field is the embed:

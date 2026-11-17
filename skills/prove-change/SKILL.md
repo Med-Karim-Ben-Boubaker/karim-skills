@@ -11,7 +11,7 @@ A **proof** is one acceptance criterion shown holding by running the software th
 
 - **The criteria**: the `## Brief` checkboxes of the ticket (each child of a spec has its own), plus a bug's steps to reproduce from its `## Diagnosis`. Fetch the ticket with the command in `docs/agents/issue-tracker.md`.
 - **The run recipe**: `### Run` in `AGENTS.md` or `CLAUDE.md` names it, usually `.claude/skills/run-<app>/SKILL.md`. It says how to start, use and stop the app, the **sandbox** every run writes to, and what is off limits. Without one, work the launch out from the README and build files, write nothing to shared state (a bucket, a database, a tracker, an outgoing message), and tell the user `/set-up-repo` records a recipe.
-- **The commit**: `HEAD`'s short sha. Evidence goes to `.sandbox/proof-<sha>/`; when `git check-ignore -q .sandbox/` fails, add `.sandbox/` to `.git/info/exclude`.
+- **The commit**: `HEAD`'s short sha. Captures go to the capture folder the recipe names, or `.sandbox/proof-<sha>/` without one; when `git check-ignore -q .sandbox/` fails, add `.sandbox/` to `.git/info/exclude`.
 
 ## Steps
 

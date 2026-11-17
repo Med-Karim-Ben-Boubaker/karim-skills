@@ -12,7 +12,7 @@ metadata:
 ## Before you write
 
 - **Read the tickets** this change finishes, with the fetch command in `docs/agents/issue-tracker.md`. Their `## Brief` acceptance criteria are what the proofs must show; a bug's `## Diagnosis` names the command that went red.
-- **Get the proofs** from `prove-change`: one entry per criterion with its mark, the command that was run and the captured file under `.sandbox/proof-<short sha>/`. When `HEAD` has moved since, rerun the proofs the new commits touched. When none ran, call the Skill tool with `prove-change` first.
+- **Get the proofs** from `prove-change`: one entry per criterion with its mark, the command that was run and the captured file. When `HEAD` has moved since, rerun the proofs the new commits touched. When none ran, call the Skill tool with `prove-change` first. A feature branch's merge request into the default branch copies each child's `## Proof` from its merged merge request instead, and reruns nothing.
 - **Title** the PR as the change, in the repo's commit format under `### Commits` in `AGENTS.md` or `CLAUDE.md`. The ticket's title says the problem; the PR's says what was done.
 - **Open it as a draft** with the first pushed commit, so the ticket shows work in progress, and mark it ready once the proofs are in. The commands are under **Pull requests** in `docs/agents/issue-tracker.md`.
 
