@@ -1,5 +1,5 @@
 interface:
   display_name: "Implement Spec"
-  short_description: "Implement a spec and its child tickets on one integration branch"
+  short_description: "Implement a spec and its child tickets on one feature branch"
 policy:
   allow_implicit_invocation: false

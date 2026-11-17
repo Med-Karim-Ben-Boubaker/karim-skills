@@ -51,6 +51,7 @@ A list of implementation decisions that were made. This can include:
 - Schema changes
 - API contracts
 - Specific interactions
+- The path to the default branch: each ticket on its own (the default), or one feature branch because the tickets are correct only together, and why
 
 Do NOT include specific file paths or code snippets. They may end up being outdated very quickly.
 

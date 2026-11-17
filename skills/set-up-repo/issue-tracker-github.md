@@ -24,7 +24,7 @@ Big work is one **parent** issue, the spec, with **sub-issues** as its tickets a
 - **Open blockers of a child**: `gh api repos/{owner}/{repo}/issues/<child> --jq .issue_dependencies_summary.blocked_by` (open blockers only; 0 means startable).
 - **Frontier**: the open children with no assignee and 0 open blockers.
 - **Claim**: `gh issue edit <child> --add-assignee @me`, before any work.
-- **Finish**: a child closes when its PR merges: through its `Closes` line into the default branch, by hand with a comment after a merge into an integration branch (see **Pull requests**). Close the parent as done after its last child.
+- **Finish**: a child closes when its PR merges: through its `Closes` line into the default branch, by hand with a comment after a merge into a feature branch (see **Pull requests**). Close the parent as done after its last child.
 
 ## Explore
 
@@ -68,7 +68,7 @@ File issues only into the user's own repo. Never file into the repo these skills
 - **Open**: `gh pr create --draft --title "..." --body "..." --base <branch>`, after the first push. The body starts with one `Closes #<ticket>` line per ticket (GitHub needs the keyword before each number); `/write-pr` writes the rest.
 - **Ready**: `gh pr ready <pr>` once the evidence is in.
 - **Conflicts**: `gh pr view <pr> --json mergeable --jq .mergeable` answers `MERGEABLE`, `CONFLICTING` or `UNKNOWN` (GitHub is still working it out: ask again).
-- **Merge**: `gh pr merge <pr> --squash --delete-branch`, only on the user's approval of that PR. Never merge locally or push to the base branch.
+- **Merge**: `gh pr merge <pr> --squash --delete-branch` for a ticket; a feature or hotfix branch into the default branch keeps its commits: `gh pr merge <pr> --merge --delete-branch`. Only on the user's approval of that PR. Never merge locally or push to the base branch.
 - **Upload a screenshot**: GitHub has no API for PR attachments, so keep images on an orphan `pr-assets` branch, in a folder per PR branch, and remove the worktree after:
 
   ```bash

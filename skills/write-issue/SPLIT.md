@@ -25,7 +25,9 @@ If you have not explored the codebase yet, do so. Ticket titles and descriptions
 
 Give each ticket its **blocking edges**: the other tickets that must complete before it can start. A ticket with no blockers can start immediately.
 
-**Wide refactors are the exception to vertical slicing.** A **wide refactor** is one mechanical change (rename a column, retype a shared symbol) whose **blast radius** fans across the whole codebase, so no vertical slice can land green. Sequence it as **expand–contract**: first expand, adding the new form beside the old so nothing breaks; then migrate the call sites in batches sized by blast radius (per package, per directory), each batch its own ticket blocked by the expand; finally contract, deleting the old form in a ticket blocked by every batch. When even the batches can't stay green alone, let them share an integration branch that all block a final integrate-and-verify ticket.
+**Choose the path to the default branch.** By default each ticket merges into the default branch on its own and leaves it working: new code lands unused or behind a setting that is off, and the last ticket wires it in. Only when the tickets are correct only together does the parent get a **feature branch**, `feature/<parent>-<slug>`, that every ticket merges into and that merges once into the default branch. Say which path, and for a feature branch why, in the parent's description.
+
+**Wide refactors are the exception to vertical slicing.** A **wide refactor** is one mechanical change (rename a column, retype a shared symbol) whose **blast radius** fans across the whole codebase, so no vertical slice can land green. Sequence it as **expand–contract**: first expand, adding the new form beside the old so nothing breaks; then migrate the call sites in batches sized by blast radius (per package, per directory), each batch its own ticket blocked by the expand; finally contract, deleting the old form in a ticket blocked by every batch. When even the batches can't stay green alone, let them share a feature branch that all block a final integrate-and-verify ticket.
 
 ## 3. Show the breakdown once
 

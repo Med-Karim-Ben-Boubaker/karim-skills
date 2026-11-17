@@ -18,7 +18,7 @@ Short commands (a `git status`, a single test file, a quick grep) run normally: 
 
 ## Background agents and long runs
 
-When subagents or long runs (evals, pipelines, deployments) will take more than a few minutes, make them watchable too:
+When subagents or long runs (evals, pipelines, deployments) will take more than a few minutes, make them watchable too. Where the environment runs the agents itself and tells you when each one finishes or stops, its own rules replace steps 1, 2 and 4 (the `workers` rule): don't poll, and don't stop an agent because it is slow or silent.
 
 1. **Give each one a time budget** when you start it.
 2. **Keep one progress file** in the scratchpad and append one line per state change: started, finished, failed, or past its budget, with what is left. Hand the user `tail -f` on it before you wait.
