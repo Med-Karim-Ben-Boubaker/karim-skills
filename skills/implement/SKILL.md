@@ -20,7 +20,16 @@ Once done, call the Skill tool with "remove-comments" on the work, then with "re
 
 A **merge request** here is a GitHub pull request or a GitLab merge request; each tracker's commands are under **Pull requests** or **Merge requests** in `docs/agents/issue-tracker.md`. A repo whose tracker has neither merges locally, on the same approval.
 
-- **Branch first.** Before the first change, branch off the **target branch**: the integration branch the work belongs to, or without one the default branch. Name the branch after the ticket, for example `123-export-streaming`. Never commit to the default branch or to an integration branch.
+- **Branch first.** Before the first change, branch off the **target branch**: the feature branch the work belongs to, or without one the default branch. Branches follow **GitFlow-lite** (GitFlow's feature and hotfix branches, no `develop` or `release/*`: a tag is a release) with **Conventional Branch** names, lowercase, unless the repo's own docs name them otherwise:
+
+  | Branch | Name | From | Into | Merge |
+  |---|---|---|---|---|
+  | A ticket that stands alone (the default) | `<kind>/<issue>-<slug>` | default branch | default branch | squash |
+  | A spec's **feature branch** | `feature/<spec>-<slug>` | default branch | default branch | merge commit |
+  | A child of that spec | `<kind>/<issue>-<slug>` | its feature branch | its feature branch | squash |
+  | A hotfix | `hotfix/<issue>-<slug>` | the release tag prod runs | default branch, after the fix is tagged | merge commit |
+
+  `<kind>` is the ticket's kind: `feature`, `bugfix` or `chore`, as in `chore/123-export-streaming`. Never commit to the default branch or to a feature branch.
 - **Follow the repo's commit rules** under `### Commits` in `AGENTS.md` or `CLAUDE.md`: message format, types, scopes. If there are none, write a short imperative title and a body that says why.
 - **One commit per verified step**, with refactors and behaviour changes in separate commits.
 - **Reference the ticket** in each commit (`Refs #123`), never `Closes`: the merge request closes it.
@@ -35,5 +44,5 @@ A **merge request** here is a GitHub pull request or a GitLab merge request; eac
 Leave nothing open behind you:
 
 - **Tickets.** Each ticket this work finished is closed, by its merge request (`Closes #123`) or, without one, as done with a comment linking the commits. After the merge, check each one's state on the tracker and close any the merge left open, as **After the merge** in `docs/agents/issue-tracker.md` says. When it was the last open child of its parent, close the parent too. A ticket you claimed and did not finish: unassign it and comment where it stands.
-- **Branches and worktrees.** After the merge, delete the ticket branch, local and remote, and remove any worktree you created (`git worktree remove <path>`). `git worktree list` shows none of yours.
+- **Branches and worktrees.** After the merge, delete the ticket branch, local and remote, and remove any worktree you created yourself, with the tool you created it with (`git worktree remove <path>` for one from `git worktree add`). A worktree you were given, as a worker, stays for its owner (the `workers` rule).
 - **Report** what you closed and removed, and each acceptance criterion as Proven, Failed or Unproven with its evidence: the merge request, or without one, the full path of each screenshot and output. End by telling the user that `/write-walkthrough` gives them steps to check the work themselves.

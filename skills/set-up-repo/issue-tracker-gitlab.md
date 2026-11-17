@@ -35,7 +35,7 @@ GitLab issues can't have child issues; an issue's native children are **tasks**.
 - **Open blockers of a child**: `glab api "projects/:id/issues/<child>/links" | jq '[.[] | select(.link_type == "is_blocked_by" and .state == "opened")] | length'` (0 means startable), or the open issues in its `Blocked by` line.
 - **Frontier**: the open children with no assignee and 0 open blockers.
 - **Claim**: `glab issue update <child> --assignee @me`, before any work.
-- **Finish**: a child closes when its MR merges: through its `Closes` line into the default branch, by hand with a note after a merge into an integration branch (see **Merge requests**). Close the parent as done after its last child.
+- **Finish**: a child closes when its MR merges: through its `Closes` line into the default branch, by hand with a note after a merge into a feature branch (see **Merge requests**). Close the parent as done after its last child.
 
 ## Explore
 
@@ -73,7 +73,7 @@ One Markdown file per kind in `.gitlab/issue_templates/`: `Bug.md`, `Feature.md`
 - **Open**: `glab mr create --draft --title "..." --description "..." --target-branch <branch> --remove-source-branch --yes`, after the first push. The description starts with `Closes #<ticket>` lines (`Closes #12, #13` works); `/write-pr` writes the rest.
 - **Ready**: `glab mr update <mr> --ready` once the evidence is in.
 - **Conflicts**: `glab api "projects/:id/merge_requests/<mr>" | jq -r .detailed_merge_status` answers `mergeable`, `conflict`, or `unchecked` or `checking` (GitLab is still working it out: ask again).
-- **Merge**: `glab mr merge <mr> --squash --remove-source-branch --yes`, only on the user's approval of that MR. Never merge locally or push to the target branch.
+- **Merge**: `glab mr merge <mr> --squash --remove-source-branch --yes` for a ticket; a feature or hotfix branch into the default branch keeps its commits: `glab mr merge <mr> --remove-source-branch --yes`. Only on the user's approval of that MR. Never merge locally or push to the target branch.
 - **Upload a screenshot**: `glab api` can't send files, so use the API directly; the response's `markdown` field is the embed:
 
   ```bash

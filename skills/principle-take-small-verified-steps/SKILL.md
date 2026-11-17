@@ -21,7 +21,7 @@ The chance of a defect grows with the size of a change, and you know a behaviour
 | Each red → green cycle | The one test you are working on |
 | The work is done and synced with its target branch | The tests for the code it touched (its file, module or package), in random order where the runner supports it, plus typecheck and lint on changed files, once. After a later sync or fix, rerun only the tests that change touched |
 | A merge request into the default branch is ready | The full suite and e2e, once: in the merge request's pipeline where the repo has one, locally otherwise |
-| A merge into an integration branch | Nothing more: no full suite, no e2e, no pipeline |
+| A merge into a feature branch | Nothing more: no full suite, no e2e, no pipeline |
 | A prompt, model, model setting or tool changed and the user wants it measured | That component's evals, smallest case set first (`principle-let-models-judge`) |
 
 - A passing targeted run on unchanged code needs no second, wider run "to make sure".
