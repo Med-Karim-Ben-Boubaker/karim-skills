@@ -27,9 +27,9 @@ Every test is **FIRST**. A slow or flaky test taxes every cycle that runs it, so
 | **Self-validating** | Decides pass or fail itself, against an expected value from outside the code | It goes red when the behaviour breaks, with no person reading its output |
 | **Timely** | Is written just before the code that makes it pass | You saw it red first |
 
-Some lists read the T as **Thorough**: at each agreed seam, cover what can really happen there (the typical case, the boundaries, illegal input, the failure path). That is thorough at the seams, never every branch; large inputs and load belong in a performance test, run apart from the loop.
+Some lists read the T as **Thorough**: at each agreed seam, cover what can really happen there (the typical case, the boundaries, illegal input, the failure path). That is thorough at the seams, never every branch; large inputs and load belong in a performance test, run apart from the loop. Pick the cases with **equivalence partitioning** and **boundary value analysis**; reach for a **decision table** when conditions combine, **state transition testing** for anything with states, **pairwise testing** when combinations explode, and **error guessing** from the bugs this code has had.
 
-A test that needs the real thing (a database, the network, a browser) is an integration or e2e test: mark it the way the repo's `### Checks` says, so quick runs can leave it out, and keep the logic it covers testable below the I/O. [first.md](first.md) lists the usual ways a test breaks each letter, and the fix for each.
+A test that needs the real thing (a database, the network, a browser) is an integration or e2e test (see **Test pyramid**): mark it the way the repo's `### Checks` says, so quick runs can leave it out, and keep the logic it covers testable below the I/O. [first.md](first.md) lists the usual ways a test breaks each letter, and the fix for each.
 
 ## Seams: where tests go
 
@@ -42,6 +42,19 @@ When you do ask: "What's the public interface, and which seams should we test?" 
 **Code tests never call a model**, the network or a GPU: use fakes, fixtures and recorded answers. A model's behaviour is measured by evals, which are not part of this loop (`principle-let-models-judge`).
 
 When the shape of that interface is itself in question (how deep the module is, where the seam belongs, what the interface should expose), call the Skill tool with "codebase-design" for the vocabulary. It is the shared source of the module, interface, depth, seam, adapter, leverage and locality terms, and it is a reference to consult, not a session to run.
+
+## Test pyramid
+
+Many small tests at the base, fewer as scope grows: the **test pyramid** (Cohn). A **deep module** keeps the base wide, since most of its behaviour is reachable at its small interface, in memory.
+
+| Size | Uses | Runs |
+|---|---|---|
+| Unit | One process, memory only | Every red → green cycle |
+| Integration | This machine: a real database in a container, the file system, a local server | When a slice that touches that edge is done, and in the full suite |
+| E2E | Real services, a browser, the deployed app | Once, before the merge request into the default branch is ready |
+
+- Test each behaviour once, at the smallest size that reaches it. The same check repeated at every size is the **cupcake**; mostly large tests is the **ice cream cone**.
+- A larger test proves the **wiring**, not the features: the **walking skeleton** comes first, then unit tests fill it in (`principle-take-small-verified-steps`).
 
 ## Anti-patterns
 

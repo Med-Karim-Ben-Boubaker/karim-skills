@@ -5,7 +5,7 @@ Code tests never call a model or the network. For a client you own (an LLM, an H
 Mock at **system boundaries** only:
 
 - External APIs (payment, email, etc.)
-- Databases (sometimes - prefer test DB)
+- Databases: an in-memory fake of the port; the real one only in a marked integration test
 - Time/randomness
 - File system (sometimes)
 
@@ -65,5 +65,7 @@ The SDK approach means:
 - **Record once against the real service** with a cassette library: pytest-recording or VCR.py in Python, Polly.js or nock's recorder in JavaScript. Filter auth headers and keys out of the cassette before it's committed.
 - **Replay with recording off.** pytest-recording's default `none` mode makes a test that would reach the network fail instead of calling out.
 - **Re-record only when the prompt, model or API changed**, and review the cassette diff like code.
+
+A recording goes stale when the provider changes. Between services you own, a **consumer-driven contract test** (Pact) catches that drift: the consumer asserts only the fields it uses, and the provider runs every consumer's contract.
 
 A recorded response proves the code handles that answer. Whether the model still gives it is an eval's question (`principle-let-models-judge`).
