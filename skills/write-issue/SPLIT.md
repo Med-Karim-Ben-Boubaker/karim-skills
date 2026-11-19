@@ -57,6 +57,8 @@ blocked-by: [the numbers of the tickets that gate this one, or empty]
 
 The end-to-end behaviour this ticket makes work, from the user's perspective, not a layer-by-layer implementation list.
 
+Makes true: the spec's stories and scenarios this ticket delivers.
+
 - [ ] Acceptance criterion 1, as something a person can see by running the software
 - [ ] Acceptance criterion 2
 
@@ -67,6 +69,8 @@ The end-to-end behaviour this ticket makes work, from the user's perspective, no
 ## Brief
 
 The end-to-end behaviour this ticket makes work, from the user's perspective, not layer-by-layer implementation.
+
+Makes true: the spec's stories and scenarios this ticket delivers.
 
 - [ ] Criterion 1, as something a person can see by running the software
 - [ ] Criterion 2
