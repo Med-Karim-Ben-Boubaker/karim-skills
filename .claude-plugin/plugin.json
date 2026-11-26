@@ -21,6 +21,7 @@
     "./skills/research",
     "./skills/model-domain",
     "./skills/remove-comments",
+    "./skills/break-change",
     "./skills/review-code",
     "./skills/prove-change",
     "./skills/write-pr",
@@ -39,6 +40,7 @@
     "./skills/principle-take-small-verified-steps",
     "./skills/principle-design-the-core",
     "./skills/principle-design-for-operations",
-    "./skills/principle-let-models-judge"
+    "./skills/principle-let-models-judge",
+    "./skills/principle-test-what-breaks"
   ]
 }

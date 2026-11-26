@@ -13,7 +13,7 @@ Reachable only when you type them (Claude Code: `disable-model-invocation: true`
 - **[pick-skill](./pick-skill/SKILL.md)**: Ask which skill or flow fits your situation. A router over the user-invoked skills in this repo.
 - **[set-up-repo](./set-up-repo/SKILL.md)**: Configure this repo for the engineering skills (issue tracker, issue labels, checks and test policy, domain doc layout, run recipe and sandbox). Run once per repo.
 - **[write-spec](./write-spec/SKILL.md)**: Turn the current conversation into a spec and publish it to the issue tracker.
-- **[implement](./implement/SKILL.md)**: Build one ticket in its own worktree, through the ticket states: `/tdd`, `/review-code`, `/prove-change`, then a merge request that waits for your approval.
+- **[implement](./implement/SKILL.md)**: Build one ticket in its own worktree, through the ticket states: `/tdd`, `/break-change`, `/review-code`, `/prove-change`, then a merge request that waits for your approval.
 - **[implement-spec](./implement-spec/SKILL.md)**: Implement a whole spec, each child ticket in its own worker and worktree, straight to the default branch or through one feature branch.
 - **[write-walkthrough](./write-walkthrough/SKILL.md)**: Guide you through running the software yourself to see a fix or a new feature working: a few numbered steps in the chat, each a command to copy or a click to make, with what you should see.
 - **[plan-large-work](./plan-large-work/SKILL.md)**: Plan a huge chunk of work (more than one agent session can hold) as a shared map of decision tickets on the issue tracker, resolved one at a time until the way to the destination is clear.
@@ -28,6 +28,7 @@ Model- or user-reachable (rich trigger phrasing so the model can reach for them)
 - **[diagnose-bug](./diagnose-bug/SKILL.md)**: Disciplined diagnosis loop for hard bugs and performance regressions: build a feedback loop that goes red on this bug → minimise → hypothesise → instrument → fix → regression-test.
 - **[research](./research/SKILL.md)**: Investigate a question against high-trust primary sources and capture the findings as a cited Markdown file in the repo, run as a background agent.
 - **[tdd](./tdd/SKILL.md)**: Test-driven development with a red-green-refactor loop. Builds features or fixes bugs one vertical slice at a time, running the narrowest test each cycle, with FIRST tests (fast, isolated, repeatable, self-validating, timely).
+- **[break-change](./break-change/SKILL.md)**: QA pass that tries to make finished work fail: worst-case, generated and oversized input and injected faults at each agreed seam, every break kept as a failing test. Runs before review.
 - **[model-domain](./model-domain/SKILL.md)**: Actively build and sharpen a project's domain model by challenging terms, stress-testing with scenarios, and updating `GLOSSARY.md` and ADRs inline.
 - **[review-code](./review-code/SKILL.md)**: Two-axis review of the change since a fixed point: **Standards** (the repo's coding standards, plus a baseline of checks drawn from the principles) and **Spec** (does it faithfully implement the originating issue/spec?), run as parallel sub-agents.
 - **[prove-change](./prove-change/SKILL.md)**: Prove a change works by running the software as it is meant to run, locally or on a dev environment, and capturing the output or a screenshot for each acceptance criterion: Proven, Failed or Unproven.
@@ -58,7 +59,7 @@ Model- or user-reachable (rich trigger phrasing so the model can reach for them)
 
 ## Principles
 
-Rules of judgement the agent applies while it works, one question each. The core of all six is always loaded through [`rules/engineering-defaults.md`](../rules/engineering-defaults.md); `/implement` and `/implement-spec` load the full principles before building, and `/review-code` checks a diff against them. You can also run one by name (`/principle-keep-it-simple`).
+Rules of judgement the agent applies while it works, one question each. The core of each is always loaded through [`rules/engineering-defaults.md`](../rules/engineering-defaults.md); `/implement` and `/implement-spec` load the full principles before building, and `/review-code` checks a diff against them. You can also run one by name (`/principle-keep-it-simple`).
 
 | Principle | The question it answers |
 |---|---|
@@ -67,6 +68,7 @@ Rules of judgement the agent applies while it works, one question each. The core
 | [`take-small-verified-steps`](principle-take-small-verified-steps/SKILL.md) | What did I run, what did I see, and which checks does this change need? |
 | [`design-the-core`](principle-design-the-core/SKILL.md) | Do the types forbid wrong states, and does I/O stay at a thin edge? |
 | [`design-for-operations`](principle-design-for-operations/SKILL.md) | Will it run, crash, rerun, configure and deploy the same way everywhere? |
+| [`test-what-breaks`](principle-test-what-breaks/SKILL.md) | What breaks it (limits, bad input, faults), which stage catches each, and which check keeps catching it? |
 | [`let-models-judge`](principle-let-models-judge/SKILL.md) | Which part needs a model's judgement, which needs a code check, how is a wrong answer fixed, and when does an eval run? |
 
-Covered by other skills, so no principle: deep modules and seams (`codebase-design`), design patterns (`design-patterns`), testing behaviour through interfaces (`tdd`), the project's vocabulary and ADRs (`model-domain`), the debugging loop (`diagnose-bug`), turning recurring corrections into checks (`run-retro`). Trade-offs are named where decisions are made: in `grill`'s recommendations and in ADRs.
+Covered by other skills, so no principle: deep modules and seams (`codebase-design`), design patterns (`design-patterns`), writing tests through interfaces (`tdd`), attacking finished work (`break-change`), the project's vocabulary and ADRs (`model-domain`), the debugging loop (`diagnose-bug`), turning recurring corrections into checks (`run-retro`). Trade-offs are named where decisions are made: in `grill`'s recommendations and in ADRs.

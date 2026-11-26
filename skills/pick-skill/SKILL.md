@@ -27,7 +27,7 @@ The route most work travels. You have an idea and want it built.
      - **`/implement-spec`** for the whole spec in one run. It reads the tickets as a **task graph**, runs implementer workers across the ready **frontier** in parallel, and lands each child straight on the default branch, or on one **feature branch** when the spec says its children are correct only together. Reach for it when you'd rather orchestrate the build than drive each ticket yourself.
    - **No** → **`/write-issue`** one ticket, then **`/implement`** it right here, in the same context window. `/implement` always starts from a ticket and always builds in a worktree of its own.
 
-   Either way, each ticket moves through the same **ticket states** (Ready → Claimed → Building ⇄ Reviewing → Proving → Waiting → Merged → Done): built by driving **`/tdd`** (one red-green slice at a time), reviewed with **`/remove-comments`** (delete comments and fix the code they covered for) and **`/review-code`** (Standards and Spec), then proven with **`/prove-change`**, which runs the software as it is meant to run and captures the output or a screenshot for each acceptance criterion. Reach for **`/tdd`** on its own to build a concrete behaviour test-first, **`/review-code`** on its own to review a branch or PR against a fixed point, and **`/prove-change`** on its own to see any change work.
+   Either way, each ticket moves through the same **ticket states** (Ready → Claimed → Building ⇄ Reviewing → Proving → Waiting → Merged → Done): built by driving **`/tdd`** (one red-green slice at a time), attacked with **`/break-change`** (a QA pass that tries to make the work fail and keeps every break as a failing test), reviewed with **`/remove-comments`** (delete comments and fix the code they covered for) and **`/review-code`** (Standards and Spec), then proven with **`/prove-change`**, which runs the software as it is meant to run and captures the output or a screenshot for each acceptance criterion. Reach for **`/tdd`** on its own to build a concrete behaviour test-first, **`/review-code`** on its own to review a branch or PR against a fixed point, and **`/prove-change`** on its own to see any change work.
 
    When the work goes up as a pull request, **`/write-pr`** shapes the body: the smallest visual that shows the change, the proof of each acceptance criterion, and a one-way or two-way door call. It's model-invoked, so the agent reaches for it whenever it writes a PR.
 
@@ -85,7 +85,7 @@ Off the main flow entirely.
 
 ## Principles and rules
 
-You don't call the principles in the normal flow. `rules/engineering-defaults.md` keeps their core in every session, `/implement` and `/implement-spec` load the full principles before building, and `/review-code` checks the diff against them. Call one by name (`/principle-keep-it-simple`, `/principle-let-models-judge`…) to apply it to a plan or a design discussion; `skills/README.md` lists all six.
+You don't call the principles in the normal flow. `rules/engineering-defaults.md` keeps their core in every session, `/implement` and `/implement-spec` load the full principles before building, and `/review-code` checks the diff against them. Call one by name (`/principle-keep-it-simple`, `/principle-let-models-judge`…) to apply it to a plan or a design discussion; `skills/README.md` lists them all.
 
 ## Precondition
 

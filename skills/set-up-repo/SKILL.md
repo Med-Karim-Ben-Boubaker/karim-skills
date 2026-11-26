@@ -29,7 +29,7 @@ Look at the current repo to understand its starting state. Read whatever exists;
 - `.scratch/`: a sign that a local-markdown issue tracker convention is already in use
 - **Commit rules**: a commit convention in `AGENTS.md`/`CLAUDE.md`, `CONTRIBUTING.md`, a commitlint config or a commit-msg hook, and the shape of the last 30 titles (`git log --format=%s -30`).
 - **The tracker itself.** Once the remote tells you GitLab or GitHub (or `.scratch/` tells you local), run the **Explore** commands in that tracker's seed file: its labels (project and group), open issues and how they are labelled, issue templates, milestones, epics or projects. Count; don't read every issue. Note whether issues are enabled at all. This decides whether the repo is **new** (no tracker or no issues yet) or **established** (work already tracked).
-- **Checks**: the commands that typecheck, lint, run one test, run the full suite and the e2e tests, and run any eval or benchmark that calls a model, from `AGENTS.md`/`CLAUDE.md`, `package.json` scripts, a `Makefile`, `justfile` or `pyproject.toml`, and the CI config (`.gitlab-ci.yml`, `.github/workflows/`). Time the full suite once, with the runner's per-test timing (`pytest --durations=10` or its equivalent). Note any check the repo lacks, the slowest tests and why each is slow (`/tdd`'s FIRST), and whether any unit test calls a model or the network.
+- **Checks**: the commands that typecheck, lint, run one test, run the full suite and the e2e tests, and run any eval or benchmark that calls a model, from `AGENTS.md`/`CLAUDE.md`, `package.json` scripts, a `Makefile`, `justfile` or `pyproject.toml`, and the CI config (`.gitlab-ci.yml`, `.github/workflows/`). Time the full suite once, with the runner's per-test timing (`pytest --durations=10` or its equivalent). Note any check the repo lacks, any check that runs only by hand with no CI trigger (`principle-test-what-breaks`, **Loops**), the slowest tests and why each is slow (`/tdd`'s FIRST), and whether any unit test calls a model or the network.
 - **Running it**: how a person starts and uses the app (README, `Makefile`, `package.json`, `docker-compose.yml`, `Procfile`, `.env.example`), what it needs (an env file, a database, a bucket, a GPU, a login), and every place it writes (folders, buckets, databases, trackers, outgoing messages), with the env var that sets each, if any. Note any run skill already in `.claude/skills/run-*/`.
 - Monorepo signals: a `pnpm-workspace.yaml`, a `workspaces` field in `package.json`, or a populated `packages/*` with its own `src/`. These are present only in a genuinely large multi-package repo; their absence means single-context, which is almost every repo.
 
@@ -143,6 +143,8 @@ Every issue gets one kind and one stage; `/write-issue` says how to choose them 
 | One test | `<command> <path>::<name>` | Every red → green cycle |
 | Full suite | `<command>` (takes about <time>) | Once, locally, with lint and typecheck, before a merge request into the default branch is opened; open it only when they pass |
 | E2E tests | `<command>` | Once, before a merge request into the default branch is ready |
+| Scale test | `<command>` | Before the first real run of a new stage, and before a release that changes its limits |
+| Smoke test | `<command>` | After each deploy |
 | Evals | `<command>` | Only when a prompt, model, model setting or tool changed and the user asked |
 
 Code tests never call a model or the network: they use fakes, fixtures and recorded responses. Evals are not checks; they measure models.

@@ -27,7 +27,12 @@ Every test is **FIRST**. A slow or flaky test taxes every cycle that runs it, so
 | **Self-validating** | Decides pass or fail itself, against an expected value from outside the code | It goes red when the behaviour breaks, with no person reading its output |
 | **Timely** | Is written just before the code that makes it pass | You saw it red first |
 
-Some lists read the T as **Thorough**: at each agreed seam, cover what can really happen there (the typical case, the boundaries, illegal input, the failure path). That is thorough at the seams, never every branch; large inputs and load belong in a performance test, run apart from the loop. Pick the cases with **equivalence partitioning** and **boundary value analysis**; reach for a **decision table** when conditions combine, **state transition testing** for anything with states, **pairwise testing** when combinations explode, and **error guessing** from the bugs this code has had.
+Some lists read the T as **Thorough**: at each agreed seam, cover what can really happen there, never every branch. Pick the cases in two passes:
+
+1. **Functional cases**: the input the seam expects and the output it should give, the user flow. Split the input space with **equivalence partitioning**; reach for a **decision table** when conditions combine, **state transition testing** for anything with states, and **pairwise testing** when combinations explode.
+2. **Robustness cases**: the input it could get anyway, and the faults around it: the **boundary values** of each limit, illegal input (wrong type, missing field, empty, too large), each dependency refusing or hanging, and **error guessing** from the bugs this code has had. Each asserts the outcome the spec states for it.
+
+Which limits, faults and costs a change has, and the tests each one needs, come from `principle-test-what-breaks`; load it whenever the code takes outside data or calls an external service. Full-size inputs and load run apart from the loop.
 
 A test that needs the real thing (a database, the network, a browser) is an integration or e2e test (see **Test pyramid**): mark it the way the repo's `### Checks` says, so quick runs can leave it out, and keep the logic it covers testable below the I/O. [first.md](first.md) lists the usual ways a test breaks each letter, and the fix for each.
 

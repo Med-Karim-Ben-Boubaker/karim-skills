@@ -60,12 +60,26 @@ Do NOT include specific file paths or code snippets. They may end up being outda
 
 Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it within the relevant decision and note briefly that it came from a prototype. Trim to the decision-rich parts, not a working demo, just the important bits.
 
+## Limits and Failure Modes
+
+What breaks, named before building (`principle-test-what-breaks`, **Spec**):
+
+- **Operating envelope**: each limit with its number (input size, external caps, resource caps, time caps against the longest step), and the back-of-the-envelope estimate behind the concurrency
+- **Worst real inputs**: the largest, strangest and most broken samples, and where they come from
+- **Bad input**: the stated outcome for each kind (refused, scaled, quarantined, degraded)
+- **Dependencies**: what the system does when each one refuses, hangs, answers garbage or slows down
+- **Timing risks**: races and lag, and the design's answer to each
+- **Abuser stories**, when the change takes outside input or touches auth, money or secrets
+
+Take the numbers from the code, config, provider docs and the data itself. Write "none" under a heading that doesn't apply, with the reason; a limit you could not find is an open question in **Further Notes**, never "none".
+
 ## Testing Decisions
 
 A list of testing decisions that were made. Include:
 
 - A description of what makes a good test (only test external behavior, not implementation details)
 - Which modules will be tested
+- The robustness cases each limit and failure mode above gets, and whether a scale test runs before the first real run
 - Prior art for the tests (i.e. similar types of tests in the codebase)
 - Whether any eval runs at all: only if the spec changes a prompt, model, model setting or tool, with the smallest case set that answers the question
 

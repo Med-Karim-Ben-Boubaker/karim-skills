@@ -82,6 +82,11 @@ Each check reads *signal* → *fix*; match it against the diff. The skill named 
 - **Order-dependent or flaky test**: state shared between tests, or a reliance on run order, `now()`, randomness or timing. → each test arranges its own state; inject the clock and the seed.
 - **Test that can't fail**: tautological, asserts nothing, or mocks the thing under test. → rewrite against the public interface.
 
+**Test what breaks** (`principle-test-what-breaks`)
+- **Unnamed limit**: an external or resource cap (bytes, tokens, pixels, workers, TTL) as a bare literal, or met only when the call is refused. → a named constant, checked at the edge, with a boundary test.
+- **Happy path only**: code that takes outside data or calls a service, tested on expected input only. → robustness cases, each at the outcome the spec states.
+- **Per-item cost**: a remote call, file open or large allocation inside a loop over input items, with no test counting it. → batch it, and count the calls through a fake.
+
 **Small verified steps** (`principle-take-small-verified-steps`)
 - **Unproven claim**: a number or a "works" with no command and output behind it. → measure or drop.
 - **Mixed commit**: a refactor and a behaviour change in one commit. → split.

@@ -59,6 +59,8 @@ The end-to-end behaviour this ticket makes work, from the user's perspective, no
 
 Makes true: the spec's stories and scenarios this ticket delivers.
 
+Must survive: the spec's limits and failure modes this ticket touches, each with its stated outcome, or "none".
+
 - [ ] Acceptance criterion 1, as something a person can see by running the software
 - [ ] Acceptance criterion 2
 
@@ -71,6 +73,8 @@ Makes true: the spec's stories and scenarios this ticket delivers.
 The end-to-end behaviour this ticket makes work, from the user's perspective, not layer-by-layer implementation.
 
 Makes true: the spec's stories and scenarios this ticket delivers.
+
+Must survive: the spec's limits and failure modes this ticket touches, each with its stated outcome, or "none".
 
 - [ ] Criterion 1, as something a person can see by running the software
 - [ ] Criterion 2

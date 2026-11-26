@@ -1,0 +1,3 @@
+interface:
+  display_name: "Break Change"
+  short_description: "QA pass that tries to make work fail"

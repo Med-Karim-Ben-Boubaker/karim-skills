@@ -28,6 +28,8 @@ Format a round like so:
 
 Word each question so "yes" accepts your recommended answer. No tables, no background paragraphs: give detail when the user asks for it.
 
+When the plan takes outside data, runs at scale or calls an external service, its limits and failure modes are branches of the tree (`principle-test-what-breaks`, **Spec**): look up the numbers, and ask what a bad input or a failing dependency should lead to.
+
 Ask only about taste, priorities and trade-offs. Implementation details you decide yourself: list them at the end of the round under **Decided without asking**, one line each, so the user can overrule any of them.
 
 Each round the user answers reshapes the tree: settled decisions push the frontier outward and unblock questions that depended on them. Recompute the frontier and ask the next round. A question whose answer depends on another question still open in this round belongs to a later round.

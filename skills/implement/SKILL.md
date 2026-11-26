@@ -39,7 +39,7 @@ Ready → Claimed → Building ⇄ Reviewing → Proving → Waiting → Merged 
 | **Ready** | Fetch the ticket, state its title, read its `## Brief`, and pick its row above | Guard 1 holds and the row is known |
 | **Claimed** | Assign the ticket to yourself. Create or enter the worktree from the row's base, on the row's branch | Guard 2 holds and `git merge-base HEAD <base>` is the base's tip |
 | **Building** | Load the principles (below), then `tdd`: one red → green cycle at a time, one commit per verified step. After the first push, open a draft merge request into the row's target with only the `Closes #<issue>` line (`Refs #<issue>` into a feature branch) | Every criterion is built and the tests of what changed pass |
-| **Reviewing** | `remove-comments` on the work, then `review-code` against the base | Every finding is fixed or answered; a fix goes back to Building |
+| **Reviewing** | `break-change` in a fresh subagent on the diff since the base (it attacks the work without your assumptions; its tests are requested work: commit the ones that held, and take each break, with its red test, back to Building), then `remove-comments` on the work, then `review-code` against the base | Every break and finding is fixed or answered; a fix goes back to Building |
 | **Proving** | Sync with the target (below), then `prove-change` on every criterion of the `## Brief` | Each criterion is Proven or Unproven with its reason; a Failed one goes back to Building |
 | **Waiting** | `write-pr` writes the body from the proofs; mark the merge request ready; watch it (below) | The user approves it |
 | **Merged** | Merge through the tracker (below); close the ticket as **After the merge** in `docs/agents/issue-tracker.md` says, and the parent after its last child | The ticket is closed on the tracker |
@@ -51,7 +51,7 @@ Ready → Claimed → Building ⇄ Reviewing → Proving → Waiting → Merged 
 
 ## Reference
 
-**Principles.** Before the first change, call the Skill tool with `principle-keep-it-simple` and `principle-fix-root-causes`, plus what the work needs: `principle-design-the-core` for types, data and where code lives; `principle-design-for-operations` for jobs, pipelines, config and deployment; `principle-let-models-judge` whenever the work touches code that calls an LLM.
+**Principles.** Before the first change, call the Skill tool with `principle-keep-it-simple`, `principle-fix-root-causes` and `principle-test-what-breaks`, plus what the work needs: `principle-design-the-core` for types, data and where code lives; `principle-design-for-operations` for jobs, pipelines, config and deployment; `principle-let-models-judge` whenever the work touches code that calls an LLM.
 
 **Checks**, as `principle-take-small-verified-steps` says, with the commands under `### Checks` in `AGENTS.md` or `CLAUDE.md`: the one test each red → green cycle; the tests of what changed, with typecheck and lint on changed files, once the work is synced; the checks its pipeline runs (the full suite, lint, typecheck), never evals, once, locally, before a merge request into the default branch is opened. Evals run only when the work changed a prompt, model, model setting or tool and the user asked for a measurement.
 

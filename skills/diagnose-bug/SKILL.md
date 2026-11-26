@@ -148,3 +148,4 @@ Required before declaring done:
 - [ ] All `[DEBUG-...]` instrumentation removed (`grep` the prefix)
 - [ ] Throwaway prototypes deleted (or moved to a clearly-marked debug location)
 - [ ] The hypothesis that turned out correct is stated in the commit / PR message, so the next debugger learns
+- [ ] For a bug a real run found, the issue names its category and the stage that should have caught it (`principle-test-what-breaks`, **Learn**)
